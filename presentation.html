@@ -1,0 +1,4625 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Spotify — Face the Music</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            html,
+            body {
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                font-family: "Outfit", sans-serif;
+            }
+
+            :root {
+                --green: #1db954;
+                --green-bright: #1ed760;
+                --green-dark: #158a3d;
+                --red: #e91429;
+                --amber: #f59e0b;
+                /* Light theme (content slides) */
+                --light-bg: #f4f3ef;
+                --light-surface: #ffffff;
+                --light-text: #1a1a1a;
+                --light-muted: #6b6b6b;
+                --light-faint: #a0a0a0;
+                --light-border: rgba(0, 0, 0, 0.08);
+                /* Dark theme (dividers) */
+                --dark-bg: #0e0e0e;
+                --dark-surface: #1a1a1a;
+                --dark-text: #ffffff;
+                --dark-muted: #888;
+                --dark-faint: #555;
+                --dark-border: rgba(255, 255, 255, 0.08);
+            }
+
+            /* Subtle paper texture */
+            body::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                z-index: 9998;
+                pointer-events: none;
+                opacity: 0.025;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            }
+
+            .deck {
+                width: 100%;
+                height: 100%;
+                position: relative;
+            }
+
+            /* ═══ SLIDES ═══ */
+            .s {
+                position: absolute;
+                inset: 0;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.5s ease;
+                overflow: hidden;
+            }
+            .s.on {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            /* Light slide (default) */
+            .s {
+                background: var(--light-bg);
+                color: var(--light-text);
+            }
+            /* Dark slide (dividers, title, conclusion) */
+            .s.dark {
+                background: var(--dark-bg);
+                color: var(--dark-text);
+            }
+
+            /* Bg elements float ABOVE slide backgrounds, BELOW slide content */
+            .bg-layer {
+                position: fixed;
+                z-index: 10;
+                pointer-events: none;
+            }
+            /* Slide content floats above everything */
+            .slide-content {
+                position: relative;
+                z-index: 200;
+            }
+
+            /* Staggered entrances */
+            .s.on .a1 {
+                animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+            }
+            .s.on .a2 {
+                animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+            }
+            .s.on .a3 {
+                animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+            }
+            .s.on .a4 {
+                animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
+            }
+            .s.on .a5 {
+                animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.36s both;
+            }
+            .s.on .a6 {
+                animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.44s both;
+            }
+            @keyframes slideUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(24px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* ═══════════════════════════════════════════════
+   PHYSICAL MEDIA — ENHANCED
+   ═══════════════════════════════════════════════ */
+
+            /* VINYL */
+            .vinyl-container {
+                position: fixed;
+                right: -80px;
+                bottom: -80px;
+                width: 520px;
+                height: 520px;
+                opacity: 0;
+                z-index: 10;
+                pointer-events: none;
+                transform: translateX(160px) rotate(-30deg);
+                transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .vinyl-container.active,
+            .vinyl-container.steady {
+                opacity: 1;
+                transform: translateX(0) rotate(0);
+            }
+            .vinyl-container.active .vinyl-disc,
+            .vinyl-container.steady .vinyl-disc {
+                animation: spin 5s linear infinite;
+            }
+            .vinyl-container.active .tonearm,
+            .vinyl-container.steady .tonearm {
+                transform: rotate(26deg);
+            }
+            .vinyl-container.exit-to-tape {
+                animation: vinylFadeOut 0.8s ease-out forwards;
+            }
+            @keyframes spin {
+                from {
+                    transform: rotate(0);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+            @keyframes armDrop {
+                from {
+                    transform: rotate(0);
+                }
+                to {
+                    transform: rotate(26deg);
+                }
+            }
+            @keyframes vinylFadeOut {
+                0% {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateX(40px) scale(0.95);
+                }
+            }
+
+            .vinyl-disc {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                position: relative;
+                background:
+                    radial-gradient(circle, #080808 13%, transparent 13.5%),
+                    radial-gradient(
+                        circle,
+                        rgba(0, 0, 0, 0.15) 14%,
+                        transparent 14.5%
+                    ),
+                    repeating-radial-gradient(
+                        circle at center,
+                        transparent 0,
+                        transparent 1.5px,
+                        rgba(0, 0, 0, 0.06) 2px,
+                        transparent 2.5px
+                    ),
+                    conic-gradient(
+                        from 0deg,
+                        rgba(0, 0, 0, 0.04),
+                        rgba(0, 0, 0, 0.01),
+                        rgba(0, 0, 0, 0.06),
+                        rgba(0, 0, 0, 0.01),
+                        rgba(0, 0, 0, 0.04),
+                        rgba(0, 0, 0, 0.02)
+                    ),
+                    radial-gradient(
+                        circle,
+                        #2a2a2a,
+                        #1a1a1a 35%,
+                        #111 60%,
+                        #0a0a0a
+                    );
+                box-shadow:
+                    0 30px 80px rgba(0, 0, 0, 0.25),
+                    0 0 0 2px rgba(0, 0, 0, 0.1),
+                    inset 0 0 50px rgba(0, 0, 0, 0.4);
+            }
+            .vinyl-label {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 130px;
+                height: 130px;
+                margin: -65px 0 0 -65px;
+                border-radius: 50%;
+                background: linear-gradient(
+                    135deg,
+                    var(--green),
+                    var(--green-dark)
+                );
+                box-shadow:
+                    inset 0 2px 6px rgba(255, 255, 255, 0.25),
+                    0 0 40px rgba(29, 185, 84, 0.15);
+                z-index: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+            }
+            .vinyl-label::after {
+                content: "";
+                position: absolute;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: #080808;
+                box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1);
+            }
+            .vinyl-label span {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 8px;
+                letter-spacing: 3px;
+                color: rgba(0, 0, 0, 0.7);
+                margin-bottom: 18px;
+                font-weight: 600;
+            }
+            .vinyl-glow {
+                position: absolute;
+                inset: -60px;
+                border-radius: 50%;
+                background: radial-gradient(
+                    circle,
+                    rgba(29, 185, 84, 0.06),
+                    transparent 55%
+                );
+                pointer-events: none;
+                animation: glowPulse 5s ease-in-out infinite alternate;
+            }
+            .vinyl-groove-light {
+                position: absolute;
+                inset: 20px;
+                border-radius: 50%;
+                background: conic-gradient(
+                    from 30deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.03) 8%,
+                    transparent 16%
+                );
+                animation: spin 5s linear infinite;
+                opacity: 0.5;
+            }
+            .tonearm {
+                position: absolute;
+                top: 40px;
+                right: 130px;
+                width: 160px;
+                height: 5px;
+                background: linear-gradient(90deg, #555, #888, #555);
+                border-radius: 3px;
+                transform-origin: right center;
+                transform: rotate(0);
+                z-index: 2;
+            }
+            .tonearm::before {
+                content: "";
+                position: absolute;
+                right: -12px;
+                top: -11px;
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #333, #222);
+                border: 2px solid #444;
+            }
+            .tonearm::after {
+                content: "";
+                position: absolute;
+                left: -6px;
+                top: -3px;
+                width: 18px;
+                height: 12px;
+                background: #666;
+                border-radius: 2px;
+            }
+            @keyframes glowPulse {
+                from {
+                    opacity: 0.5;
+                    transform: scale(0.97);
+                }
+                to {
+                    opacity: 0.8;
+                    transform: scale(1.03);
+                }
+            }
+
+            /* CASSETTE */
+            .cassette-container {
+                position: fixed;
+                right: 50px;
+                bottom: 50px;
+                width: 380px;
+                height: 240px;
+                opacity: 0;
+                z-index: 10;
+                pointer-events: none;
+                transform: translateY(-300px) rotate(-8deg);
+            }
+            .cassette-container.enter-from-vinyl {
+                animation: cassetteDropIn 1s cubic-bezier(0.34, 1.56, 0.64, 1)
+                    forwards;
+            }
+            .cassette-container.active,
+            .cassette-container.steady {
+                opacity: 1;
+                transform: translateY(0) rotate(0);
+            }
+            /* Reels spin whenever cassette is visible */
+            .cassette-container.enter-from-vinyl .reel,
+            .cassette-container.active .reel,
+            .cassette-container.steady .reel {
+                animation: spin 2.5s linear infinite;
+            }
+            .cassette-container.enter-from-vinyl .reel:nth-child(2),
+            .cassette-container.active .reel:nth-child(2),
+            .cassette-container.steady .reel:nth-child(2) {
+                animation-direction: reverse;
+            }
+            .cassette-container.exit-unravel {
+                animation: cassetteExit 1.5s ease-in forwards;
+            }
+            @keyframes cassetteDropIn {
+                0% {
+                    opacity: 0;
+                    transform: translateY(-300px) rotate(-12deg);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateY(0) rotate(0);
+                }
+            }
+            @keyframes cassetteExit {
+                0% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+                100% {
+                    transform: scale(0.3) rotate(-15deg);
+                    opacity: 0;
+                    filter: blur(8px);
+                }
+            }
+            .cassette-body {
+                width: 100%;
+                height: 100%;
+                border-radius: 10px;
+                position: relative;
+                background: linear-gradient(180deg, #303030, #1e1e1e);
+                border: 2px solid #3a3a3a;
+                box-shadow:
+                    0 20px 60px rgba(0, 0, 0, 0.2),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 70px;
+            }
+            .cassette-body::before {
+                content: "SPOTIFY · FACE THE MUSIC";
+                position: absolute;
+                top: 14px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-family: "JetBrains Mono", monospace;
+                font-size: 7px;
+                letter-spacing: 4px;
+                color: var(--green);
+            }
+            .cassette-window {
+                position: absolute;
+                top: 40px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 180px;
+                height: 60px;
+                background: rgba(0, 0, 0, 0.5);
+                border: 1px solid #333;
+                border-radius: 5px;
+            }
+            .reel {
+                width: 70px;
+                height: 70px;
+                border-radius: 50%;
+                border: 3px solid var(--green);
+                position: relative;
+                z-index: 20;
+                opacity: 0.8;
+            }
+            .reel::before {
+                content: "";
+                position: absolute;
+                inset: 22%;
+                border-radius: 50%;
+                border: 2px solid var(--green);
+                opacity: 0.4;
+            }
+            .reel::after {
+                content: "";
+                position: absolute;
+                inset: 36%;
+                border-radius: 50%;
+                background: var(--green);
+                opacity: 0.2;
+            }
+
+            /* CD PLAYER */
+            .cd-container {
+                position: fixed;
+                right: 30px;
+                bottom: 30px;
+                width: 220px;
+                height: 260px;
+                opacity: 0;
+                z-index: 10;
+                pointer-events: none;
+            }
+            .cd-container.enter-from-tape {
+                animation: cdPlayerSlideIn 1.2s cubic-bezier(0.16, 1, 0.3, 1)
+                    forwards;
+            }
+            .cd-container.active,
+            .cd-container.steady {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .cd-container.exit-shatter {
+                animation: cdPlayerOut 1s ease-out forwards;
+            }
+            @keyframes cdPlayerSlideIn {
+                0% {
+                    opacity: 0;
+                    transform: translateY(80px) scale(0.9);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+            @keyframes cdPlayerOut {
+                0% {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(80px) scale(0.9);
+                    opacity: 0;
+                }
+            }
+            /* Player body */
+            .cd-player-body {
+                width: 100%;
+                height: 100%;
+                border-radius: 16px;
+                position: relative;
+                background: linear-gradient(180deg, #2e2e2e, #1c1c1c, #161616);
+                border: 1px solid rgba(255, 255, 255, 0.06);
+                box-shadow:
+                    0 20px 60px rgba(0, 0, 0, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            }
+            /* Window cutout */
+            .cd-window {
+                position: absolute;
+                top: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 180px;
+                height: 180px;
+                border-radius: 50%;
+                overflow: hidden;
+                background: #0a0a0a;
+                border: 2px solid rgba(255, 255, 255, 0.04);
+                box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.6);
+            }
+            /* Disc inside window */
+            .cd-container.enter-from-tape .cd-disc,
+            .cd-container.active .cd-disc,
+            .cd-container.steady .cd-disc {
+                animation: spin 8s linear infinite;
+            }
+            .cd-disc {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                background:
+                    radial-gradient(circle, #0a0a0a 14%, transparent 14.5%),
+                    radial-gradient(
+                        circle,
+                        rgba(255, 255, 255, 0.08) 15%,
+                        transparent 15.5%
+                    ),
+                    conic-gradient(
+                        from 0deg,
+                        rgba(29, 185, 84, 0.12),
+                        rgba(180, 220, 200, 0.08),
+                        rgba(29, 185, 84, 0.16),
+                        rgba(200, 255, 230, 0.06),
+                        rgba(29, 185, 84, 0.12)
+                    ),
+                    radial-gradient(
+                        circle,
+                        #d8d8d8,
+                        #c0c0c0 30%,
+                        #a8a8a8 60%,
+                        #909090
+                    );
+            }
+            .cd-label {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 130px;
+                margin: -65px 0 0 -45px;
+                z-index: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+            }
+            /*.cd-label::after {
+                content: "";
+                position: absolute;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: #080808;
+                box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1);
+            }*/
+            .cd-label span {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 16px;
+                letter-spacing: 3px;
+                color: var(--green);
+                margin-bottom: 18px;
+                font-weight: 600;
+            }
+            .cd-shimmer {
+                position: absolute;
+                inset: 0;
+                border-radius: 50%;
+                background: linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.25),
+                    transparent 35%,
+                    transparent 65%,
+                    rgba(255, 255, 255, 0.12)
+                );
+                animation: cdShimmer 5s ease-in-out infinite alternate;
+            }
+            @keyframes cdShimmer {
+                from {
+                    transform: rotate(0);
+                }
+                to {
+                    transform: rotate(15deg);
+                }
+            }
+            /* Player details */
+            .cd-player-label {
+                position: absolute;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-family: "JetBrains Mono", monospace;
+                font-size: 7px;
+                letter-spacing: 4px;
+                color: rgba(29, 185, 84, 0.4);
+                text-transform: uppercase;
+            }
+            .cd-player-dot {
+                position: absolute;
+                bottom: 42px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: var(--green);
+                box-shadow: 0 0 8px rgba(29, 185, 84, 0.4);
+                animation: dotPulse 2s ease-in-out infinite;
+            }
+            .cd-player-slot {
+                position: absolute;
+                top: 16px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 240px;
+                height: 3px;
+                border-radius: 2px;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(0, 0, 0, 0.3),
+                    transparent
+                );
+            }
+
+            /* iPOD / MP3 PLAYER */
+            .ipod-container {
+                position: fixed;
+                right: 50px;
+                bottom: 40px;
+                width: 200px;
+                height: 340px;
+                opacity: 0;
+                z-index: 10;
+                pointer-events: none;
+            }
+            .ipod-container.enter-from-cd {
+                animation: ipodSlideIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+            .ipod-container.active,
+            .ipod-container.steady {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .ipod-container.exit-to-eq {
+                animation: ipodFadeOut 0.8s ease-out forwards;
+            }
+            @keyframes ipodSlideIn {
+                0% {
+                    opacity: 0;
+                    transform: translateY(60px) scale(0.92);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+            @keyframes ipodFadeOut {
+                0% {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: scale(0.9) translateY(30px);
+                }
+            }
+            .ipod-body {
+                width: 100%;
+                height: 100%;
+                border-radius: 20px;
+                position: relative;
+                background: linear-gradient(180deg, #f5f5f5, #e8e8e8, #d8d8d8);
+                border: 1px solid rgba(0, 0, 0, 0.08);
+                box-shadow:
+                    0 25px 60px rgba(0, 0, 0, 0.18),
+                    0 2px 8px rgba(0, 0, 0, 0.08),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+                    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 18px 20px 22px;
+            }
+            /* Screen */
+            .ipod-screen {
+                width: 100%;
+                height: 120px;
+                border-radius: 6px;
+                background: #1a1a1a;
+                border: 2px solid #2a2a2a;
+                box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+                position: relative;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
+            .ipod-screen-header {
+                background: linear-gradient(
+                    180deg,
+                    rgba(29, 185, 84, 0.25),
+                    rgba(29, 185, 84, 0.12)
+                );
+                padding: 4px 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .ipod-screen-header span {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 6px;
+                color: var(--green);
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+            }
+            .ipod-screen-body {
+                flex: 1;
+                padding: 6px 8px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .ipod-song-title {
+                font-family: "Outfit", sans-serif;
+                font-size: 9px;
+                font-weight: 600;
+                color: #fff;
+                margin-bottom: 2px;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+            .ipod-song-title span {
+                display: inline-block;
+                animation: ipodScroll 8s linear infinite;
+            }
+            @keyframes ipodScroll {
+                0%,
+                20% {
+                    transform: translateX(0);
+                }
+                80%,
+                100% {
+                    transform: translateX(-60%);
+                }
+            }
+            .ipod-song-artist {
+                font-family: "Outfit", sans-serif;
+                font-size: 7px;
+                color: rgba(255, 255, 255, 0.5);
+            }
+            .ipod-progress {
+                margin-top: 6px;
+                height: 2px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 1px;
+                overflow: hidden;
+            }
+            .ipod-progress-fill {
+                height: 100%;
+                width: 38%;
+                background: var(--green);
+                border-radius: 1px;
+                animation: ipodProgress 12s linear infinite;
+            }
+            @keyframes ipodProgress {
+                from {
+                    width: 0%;
+                }
+                to {
+                    width: 100%;
+                }
+            }
+            .ipod-time {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 2px;
+            }
+            .ipod-time span {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 5px;
+                color: rgba(255, 255, 255, 0.3);
+            }
+            /* Click Wheel */
+            .ipod-wheel {
+                margin-top: 16px;
+                width: 130px;
+                height: 130px;
+                border-radius: 50%;
+                background: linear-gradient(180deg, #d0d0d0, #b8b8b8);
+                box-shadow:
+                    0 2px 6px rgba(0, 0, 0, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                    inset 0 -1px 3px rgba(0, 0, 0, 0.08);
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .ipod-wheel-center {
+                width: 46px;
+                height: 46px;
+                border-radius: 50%;
+                background: linear-gradient(180deg, #e8e8e8, #d4d4d4);
+                box-shadow:
+                    0 1px 4px rgba(0, 0, 0, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            }
+            .ipod-wheel-label {
+                position: absolute;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 6px;
+                color: rgba(0, 0, 0, 0.3);
+                letter-spacing: 1px;
+                text-transform: uppercase;
+            }
+            .ipod-wheel-label.top {
+                top: 10px;
+            }
+            .ipod-wheel-label.bottom {
+                bottom: 10px;
+            }
+            .ipod-wheel-label.left {
+                left: 8px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            .ipod-wheel-label.right {
+                right: 8px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            /* Glow effect */
+            .ipod-glow {
+                position: absolute;
+                inset: -40px;
+                border-radius: 40px;
+                background: radial-gradient(
+                    circle,
+                    rgba(29, 185, 84, 0.05),
+                    transparent 60%
+                );
+                pointer-events: none;
+                animation: glowPulse 5s ease-in-out infinite alternate;
+            }
+
+            /* EQ BARS */
+            .eq-container {
+                position: fixed;
+                right: 40px;
+                bottom: 40px;
+                display: flex;
+                gap: 7px;
+                align-items: flex-end;
+                height: 320px;
+                opacity: 0;
+                z-index: 10;
+                pointer-events: none;
+            }
+            .eq-container.enter-from-cd {
+                animation: eqFadeIn 0.8s ease forwards;
+            }
+            .eq-container.enter-from-cd .eq-bar {
+                animation: eqPulse var(--speed) ease-in-out var(--delay)
+                    infinite alternate;
+            }
+            .eq-container.enter-from-ipod {
+                animation: eqFadeIn 0.8s ease forwards;
+            }
+            .eq-container.enter-from-ipod .eq-bar {
+                animation: eqPulse var(--speed) ease-in-out var(--delay)
+                    infinite alternate;
+            }
+            .eq-container.active,
+            .eq-container.steady {
+                opacity: 1;
+            }
+            .eq-container.active .eq-bar,
+            .eq-container.steady .eq-bar {
+                animation: eqPulse var(--speed) ease-in-out var(--delay)
+                    infinite alternate;
+            }
+            .eq-container.exit {
+                animation: eqFade 0.8s ease-out forwards;
+            }
+            @keyframes eqFadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+            @keyframes eqGrow {
+                from {
+                    height: 0;
+                }
+                to {
+                    height: var(--height);
+                }
+            }
+            @keyframes eqPulse {
+                0% {
+                    height: var(--h1);
+                }
+                50% {
+                    height: var(--h2);
+                }
+                100% {
+                    height: var(--h3);
+                }
+            }
+            @keyframes eqFade {
+                to {
+                    opacity: 0;
+                    transform: translateY(40px);
+                }
+            }
+            /* Light-mode EQ bars */
+            .eq-bar {
+                width: 14px;
+                border-radius: 7px 7px 3px 3px;
+                background: linear-gradient(
+                    to top,
+                    var(--green),
+                    rgba(29, 185, 84, 0.3)
+                );
+                height: var(--height, 50px);
+                box-shadow: 0 0 16px rgba(29, 185, 84, 0.15);
+            }
+
+            /* SOUNDWAVE */
+            .soundwave-bg {
+                position: fixed;
+                inset: 0;
+                opacity: 0;
+                overflow: hidden;
+                z-index: 10;
+                pointer-events: none;
+            }
+            .soundwave-bg.active,
+            .soundwave-bg.steady {
+                opacity: 1;
+                animation: fadeIn 0.8s ease;
+            }
+            .soundwave-bg.exit {
+                animation: fadeOut 0.8s ease forwards;
+            }
+            .soundwave {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 200%;
+                height: 160px;
+                background: repeating-linear-gradient(
+                    90deg,
+                    transparent 0,
+                    transparent 28px,
+                    rgba(29, 185, 84, 0.03) 28px,
+                    rgba(29, 185, 84, 0.03) 30px
+                );
+                animation: waveScroll 16s linear infinite;
+            }
+            .soundwave:nth-child(2) {
+                height: 120px;
+                opacity: 0.5;
+                animation-duration: 22s;
+                animation-direction: reverse;
+            }
+            .soundwave:nth-child(3) {
+                height: 80px;
+                opacity: 0.25;
+                animation-duration: 11s;
+            }
+            @keyframes waveScroll {
+                from {
+                    transform: translateX(0);
+                }
+                to {
+                    transform: translateX(-50%);
+                }
+            }
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+            @keyframes fadeOut {
+                from {
+                    opacity: 1;
+                }
+                to {
+                    opacity: 0;
+                }
+            }
+
+            /* MUSIC NOTES */
+            .music-notes {
+                position: fixed;
+                inset: 0;
+                pointer-events: none;
+                opacity: 0;
+                transition: opacity 1s;
+                z-index: 10;
+            }
+            .music-notes.active {
+                opacity: 1;
+            }
+            .note {
+                position: absolute;
+                font-size: 24px;
+                color: var(--green);
+                opacity: 0;
+                animation: noteFloat var(--dur) ease-in-out infinite
+                    var(--delay);
+            }
+            @keyframes noteFloat {
+                0% {
+                    opacity: 0;
+                    transform: translateY(80px) rotate(0);
+                }
+                20% {
+                    opacity: 0.4;
+                }
+                80% {
+                    opacity: 0.2;
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY(-250px) rotate(360deg);
+                }
+            }
+
+            /* Dark-specific overrides for divider slides */
+            .s.dark .eq-bar {
+                box-shadow: 0 0 20px rgba(29, 185, 84, 0.25);
+            }
+            .s.dark .vinyl-disc {
+                box-shadow:
+                    0 30px 80px rgba(0, 0, 0, 0.5),
+                    0 0 0 2px rgba(255, 255, 255, 0.03),
+                    inset 0 0 50px rgba(0, 0, 0, 0.4);
+            }
+
+            /* ═══ PROGRESS BAR ═══ */
+            #progress {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 3px;
+                background: var(--green);
+                z-index: 200;
+                transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                box-shadow: 0 0 8px var(--green);
+            }
+
+            /* ═══ COUNTER ═══ */
+            #counter {
+                position: fixed;
+                bottom: 20px;
+                right: 28px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                z-index: 200;
+                letter-spacing: 2px;
+                transition: color 0.5s;
+            }
+
+            /* ═══ SECTION INDICATOR ═══ */
+            #era {
+                display: none !important;
+            }
+            #era .dot {
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                animation: dotPulse 2s ease-in-out infinite;
+            }
+            @keyframes dotPulse {
+                0%,
+                100% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+                50% {
+                    transform: scale(1.3);
+                    opacity: 0.6;
+                }
+            }
+            /* Section colors */
+            #era.s1 {
+                background: rgba(29, 185, 84, 0.08);
+                color: var(--green);
+                border: 1px solid rgba(29, 185, 84, 0.2);
+            }
+            #era.s1 .dot {
+                background: var(--green);
+            }
+            #era.s2 {
+                background: rgba(233, 20, 41, 0.08);
+                color: var(--red);
+                border: 1px solid rgba(233, 20, 41, 0.2);
+            }
+            #era.s2 .dot {
+                background: var(--red);
+            }
+            #era.s3 {
+                background: rgba(29, 185, 84, 0.1);
+                color: var(--green-bright);
+                border: 1px solid rgba(29, 185, 84, 0.3);
+            }
+            #era.s3 .dot {
+                background: var(--green-bright);
+            }
+            #era.s4 {
+                background: rgba(0, 0, 0, 0.05);
+                color: var(--light-muted);
+                border: 1px solid var(--light-border);
+            }
+            #era.s4 .dot {
+                background: var(--light-muted);
+            }
+            /* Dark slide overrides */
+            .dark-active #era.s1 {
+                background: rgba(29, 185, 84, 0.12);
+                border-color: rgba(29, 185, 84, 0.3);
+            }
+            .dark-active #era.s2 {
+                background: rgba(233, 20, 41, 0.12);
+                border-color: rgba(233, 20, 41, 0.3);
+            }
+
+            /* ═══ SPEAKER NOTES ═══ */
+            #notes {
+                position: fixed;
+                bottom: 70px;
+                left: 50%;
+                transform: translateX(-50%);
+                max-width: 700px;
+                width: 92%;
+                background: rgba(255, 255, 255, 0.95);
+                border: 1px solid var(--light-border);
+                border-radius: 12px;
+                padding: 16px 20px;
+                font-size: 13px;
+                color: var(--light-muted);
+                line-height: 1.7;
+                z-index: 200;
+                display: none;
+                backdrop-filter: blur(20px);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            }
+            #notes.on {
+                display: block;
+            }
+
+            /* ═══ NAV — SPOTIFY PLAYBACK CONTROLS ═══ */
+            .nav {
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                gap: 18px;
+                z-index: 200;
+                align-items: center;
+            }
+            .nav button {
+                background: none;
+                border: none;
+                color: var(--light-muted);
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.2s;
+                font-family: "Outfit", sans-serif;
+                padding: 0;
+            }
+            .nav button:hover {
+                color: #fff;
+                transform: scale(1.08);
+            }
+            .nav button.skip-btn {
+                width: 32px;
+                height: 32px;
+            }
+            .nav button.skip-btn svg {
+                width: 22px;
+                height: 22px;
+                fill: currentColor;
+            }
+            .nav button.play-btn {
+                width: 44px;
+                height: 44px;
+                border-radius: 50%;
+                background: var(--green) !important;
+                color: #000 !important;
+            }
+            .nav button.play-btn:hover {
+                background: var(--green-bright) !important;
+                color: #000 !important;
+                transform: scale(1.06);
+            }
+            .nav button.play-btn svg {
+                width: 20px;
+                height: 20px;
+                fill: currentColor;
+            }
+
+            /* ═══ UTILITY CLASSES — CONSOLIDATED TYPOGRAPHY ═══ */
+            .text-xs {
+                font-size: 10px;
+            }
+            .text-sm {
+                font-size: 12px;
+                color: var(--light-muted);
+                line-height: 1.6;
+            }
+            .text-base {
+                font-size: 13px;
+                color: var(--light-muted);
+                line-height: 1.6;
+            }
+            .text-md {
+                font-size: 14px;
+                color: var(--light-muted);
+                line-height: 1.6;
+            }
+            .text-lg {
+                font-size: 16px;
+            }
+            .text-h4 {
+                font-size: 17px;
+                margin-bottom: 6px;
+            }
+            .text-faint {
+                color: var(--light-faint);
+            }
+            .dark .text-sm,
+            .dark .text-base,
+            .dark .text-md {
+                color: var(--dark-muted);
+            }
+            .dark .text-faint {
+                color: var(--dark-faint);
+            }
+            .stat-num-lg {
+                font-size: 64px;
+            }
+            .stat-num-xl {
+                font-size: 72px;
+            }
+
+            /* Slide content wrapper — replaces inline z-index: 20 + positioning */
+            .slide-inner {
+                position: relative;
+                z-index: 20;
+            }
+            .slide-inner-centered {
+                position: relative;
+                z-index: 20;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                height: 100%;
+            }
+
+            /* Layout helpers */
+            .mt-0 {
+                margin-top: 0;
+            }
+            .mt-sm {
+                margin-top: 10px;
+            }
+            .mt-md {
+                margin-top: 16px;
+            }
+            .mt-lg {
+                margin-top: 20px;
+            }
+            .mt-xl {
+                margin-top: 24px;
+            }
+            .mt-2xl {
+                margin-top: 28px;
+            }
+            .mb-sm {
+                margin-bottom: 4px;
+            }
+            .mb-md {
+                margin-bottom: 6px;
+            }
+            .mb-lg {
+                margin-bottom: 10px;
+            }
+            .max-w-sm {
+                max-width: 340px;
+            }
+            .max-w-md {
+                max-width: 520px;
+            }
+            .max-w-lg {
+                max-width: 580px;
+            }
+            .max-w-xl {
+                max-width: 660px;
+            }
+            .max-w-2xl {
+                max-width: 720px;
+            }
+
+            /* Card label (replaces inline mono + color + margin-bottom) */
+            .card-label {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 10px;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                margin-bottom: 6px;
+            }
+            .card-label.green {
+                color: var(--green-dark);
+            }
+            .card-label.red {
+                color: var(--red);
+            }
+            .card-label.amber {
+                color: #b45309;
+            }
+            .dark .card-label.green {
+                color: var(--green);
+            }
+
+            /* Pill size variant for inline tiny pills */
+            .pill-sm {
+                font-size: 8px;
+                padding: 2px 8px;
+                margin-left: 6px;
+            }
+
+            /* Section three-column divider row */
+            .pillar-row {
+                display: flex;
+                gap: 0;
+                border-top: 1px solid var(--light-border);
+            }
+            .pillar-cell {
+                flex: 1;
+                padding: 22px;
+                text-align: center;
+                border-right: 1px solid var(--light-border);
+            }
+            .pillar-cell:last-child {
+                border-right: none;
+            }
+            .pillar-cell h4 {
+                font-size: 17px;
+                margin-bottom: 6px;
+            }
+            .pillar-cell p {
+                font-size: 13px;
+                color: var(--light-muted);
+                line-height: 1.5;
+            }
+
+            /* Implementation table */
+            .impl-header {
+                display: flex;
+                gap: 14px;
+                padding: 8px 0;
+                border-bottom: 1px solid var(--light-border);
+                font-family: "JetBrains Mono", monospace;
+                font-size: 9px;
+                letter-spacing: 1px;
+                color: var(--light-faint);
+                text-transform: uppercase;
+            }
+            .impl-row {
+                display: flex;
+                align-items: center;
+                padding: 13px 0;
+                border-bottom: 1px solid var(--light-border);
+                gap: 14px;
+            }
+            .impl-row:last-child {
+                border-bottom: none;
+            }
+            .impl-row .impl-name {
+                flex: 2;
+                font-size: 14px;
+                font-weight: 600;
+            }
+            .impl-row .impl-lever {
+                flex: 2;
+                font-size: 13px;
+                color: var(--light-muted);
+            }
+            .impl-row .impl-time {
+                flex: 1;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 10px;
+                color: var(--light-faint);
+            }
+            .impl-row .impl-priority {
+                flex: 1;
+            }
+
+            /* Agenda row item */
+            .agenda-item {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                margin-bottom: 24px;
+            }
+            .agenda-item:last-child {
+                margin-bottom: 0;
+            }
+            .agenda-num {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                letter-spacing: 2px;
+                min-width: 24px;
+            }
+            .agenda-title {
+                font-weight: 600;
+                font-size: 16px;
+            }
+            .agenda-sub {
+                color: var(--light-faint);
+                font-size: 13px;
+            }
+
+            /* Competitor comparison row */
+            .competitor-row {
+                display: flex;
+                gap: 0;
+                border-top: 1px solid var(--light-border);
+            }
+            .competitor-cell {
+                flex: 1;
+                padding: 14px;
+            }
+            .competitor-cell:first-child {
+                padding-left: 0;
+            }
+            .competitor-cell:last-child {
+                padding-right: 0;
+            }
+            .competitor-cell:not(:last-child) {
+                border-right: 1px solid var(--light-border);
+            }
+
+            /* ═══ TYPOGRAPHY ═══ */
+            .pad {
+                padding: 60px 80px;
+            }
+            @media (max-width: 900px) {
+                .pad {
+                    padding: 40px 32px;
+                }
+            }
+
+            /* Chips — section labels */
+            .chip {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 9px;
+                letter-spacing: 2.5px;
+                text-transform: uppercase;
+                padding: 5px 12px;
+                border-radius: 3px;
+                margin-bottom: 16px;
+            }
+            /* Light slide chips */
+            .chip {
+                background: rgba(29, 185, 84, 0.06);
+                color: var(--green-dark);
+            }
+            .chip.red {
+                background: rgba(233, 20, 41, 0.06);
+                color: var(--red);
+            }
+            .chip.muted {
+                background: rgba(29, 185, 84, 0.05);
+                color: var(--green-dark);
+                opacity: 0.75;
+            }
+            /* Dark slide chips */
+            .dark .chip {
+                background: rgba(29, 185, 84, 0.12);
+                color: var(--green);
+            }
+            .dark .chip.red {
+                background: rgba(233, 20, 41, 0.1);
+                color: var(--red);
+            }
+
+            .big {
+                font-size: clamp(44px, 6vw, 76px);
+                line-height: 1.05;
+                font-weight: 700;
+                letter-spacing: -2.5px;
+            }
+            .big em {
+                font-style: normal;
+                color: var(--green);
+            }
+            .med {
+                font-size: clamp(28px, 3.8vw, 48px);
+                line-height: 1.15;
+                font-weight: 600;
+                letter-spacing: -1px;
+            }
+            .med em {
+                font-style: normal;
+                color: var(--green);
+            }
+            .bod {
+                font-size: 15px;
+                color: var(--light-muted);
+                line-height: 1.7;
+                font-weight: 300;
+                max-width: 600px;
+            }
+            .dark .bod {
+                color: var(--dark-muted);
+            }
+            .jumbo {
+                font-size: clamp(100px, 15vw, 220px);
+                font-weight: 800;
+                line-height: 0.85;
+                position: absolute;
+                pointer-events: none;
+                letter-spacing: -8px;
+            }
+            .mono {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 9px;
+                letter-spacing: 2px;
+                color: var(--light-faint);
+                text-transform: uppercase;
+            }
+
+            /* ═══ CONSOLIDATED TYPE SCALE ═══ */
+            .text-xs {
+                font-size: 11px;
+            }
+            .text-sm {
+                font-size: 13px;
+            }
+            .text-base {
+                font-size: 14px;
+            }
+            .text-md {
+                font-size: 16px;
+            }
+            .text-lg {
+                font-size: 17px;
+            }
+            .text-stat-lg {
+                font-size: 64px;
+            }
+            .text-stat-xl {
+                font-size: 72px;
+            }
+            .text-detail {
+                font-size: 12px;
+                color: var(--light-faint);
+                line-height: 1.6;
+            }
+            .dark .text-detail {
+                color: var(--dark-faint);
+            }
+            .text-muted {
+                color: var(--light-muted);
+            }
+            .dark .text-muted {
+                color: var(--dark-muted);
+            }
+            .text-faint {
+                color: var(--light-faint);
+            }
+            .dark .text-faint {
+                color: var(--dark-faint);
+            }
+
+            /* ═══ LAYOUT UTILITIES ═══ */
+            .slide-center {
+                position: relative;
+                z-index: 20;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                height: 100%;
+            }
+            .slide-flow {
+                position: relative;
+                z-index: 20;
+            }
+            .mt-sm {
+                margin-top: 12px;
+            }
+            .mt-md {
+                margin-top: 20px;
+            }
+            .mt-lg {
+                margin-top: 28px;
+            }
+            .mb-sm {
+                margin-bottom: 6px;
+            }
+            .fw-600 {
+                font-weight: 600;
+            }
+
+            /* Section label for cards */
+            .card-label {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                margin-bottom: 6px;
+            }
+            .card-label.green {
+                color: var(--green-dark);
+            }
+            .card-label.red {
+                color: var(--red);
+            }
+            .dark .card-label.green {
+                color: var(--green);
+            }
+
+            /* Red timeline dot */
+            .tl-item.tl-neg::before {
+                background: var(--red) !important;
+                box-shadow: 0 0 6px rgba(233, 20, 41, 0.3);
+            }
+
+            /* Small pill variant */
+            .pill-sm {
+                font-size: 8px;
+                padding: 2px 8px;
+                margin-left: 6px;
+            }
+
+            /* ═══ COMPONENTS — LIGHT THEME ═══ */
+            .stat {
+                display: inline-block;
+                margin-right: 44px;
+                margin-bottom: 18px;
+            }
+            .stat-num {
+                font-size: 46px;
+                font-weight: 700;
+                line-height: 1;
+                color: var(--light-text);
+            }
+            .stat-num.green {
+                color: var(--green);
+            }
+            .stat-num.red {
+                color: var(--red);
+            }
+            .stat-label {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 9px;
+                letter-spacing: 1px;
+                color: var(--light-faint);
+                margin-top: 6px;
+                text-transform: uppercase;
+            }
+
+            .card {
+                background: var(--light-surface);
+                border-radius: 8px;
+                padding: 20px 24px;
+                margin: 12px 0;
+                border-left: 3px solid var(--green);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            }
+            .card.red {
+                border-left-color: var(--red);
+            }
+            .card.muted {
+                border-left-color: var(--green-dark);
+                opacity: 0.85;
+            }
+            .card.amber {
+                border-left-color: var(--amber);
+            }
+            .card p {
+                color: var(--light-muted);
+                font-size: 14px;
+                line-height: 1.65;
+            }
+            .card strong {
+                color: var(--light-text);
+            }
+
+            .dark .card {
+                background: rgba(255, 255, 255, 0.04);
+                box-shadow: none;
+            }
+            .dark .card p {
+                color: var(--dark-muted);
+            }
+            .dark .card strong {
+                color: #fff;
+            }
+
+            .quote {
+                font-style: italic;
+                font-size: 19px;
+                color: var(--light-text);
+                line-height: 1.5;
+                margin: 20px 0;
+                max-width: 560px;
+                padding-left: 24px;
+                border-left: 3px solid var(--green);
+                opacity: 0.85;
+            }
+            .quote strong {
+                color: var(--light-text);
+                font-style: normal;
+            }
+            .quote-attr {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 9px;
+                color: var(--light-faint);
+                margin-top: 8px;
+                font-style: normal;
+                letter-spacing: 1px;
+            }
+            .dark .quote {
+                color: rgba(255, 255, 255, 0.85);
+            }
+            .dark .quote strong {
+                color: #fff;
+            }
+            .dark .quote-attr {
+                color: var(--dark-faint);
+            }
+
+            .row {
+                display: flex;
+                gap: 32px;
+                flex-wrap: wrap;
+            }
+            .col {
+                flex: 1;
+                min-width: 240px;
+            }
+
+            .pill {
+                display: inline-block;
+                padding: 4px 11px;
+                border-radius: 12px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 8px;
+                letter-spacing: 1px;
+                font-weight: 500;
+            }
+            .pill.green {
+                background: rgba(29, 185, 84, 0.1);
+                color: var(--green-dark);
+            }
+            .pill.red {
+                background: rgba(233, 20, 41, 0.1);
+                color: var(--red);
+            }
+            .pill.gray {
+                background: rgba(29, 185, 84, 0.06);
+                color: var(--green-dark);
+                opacity: 0.7;
+            }
+            .pill.amber {
+                background: rgba(245, 158, 11, 0.1);
+                color: #b45309;
+            }
+            .dark .pill.green {
+                background: rgba(29, 185, 84, 0.15);
+                color: var(--green);
+            }
+            .dark .pill.red {
+                background: rgba(233, 20, 41, 0.15);
+                color: var(--red);
+            }
+            .dark .pill.gray {
+                background: rgba(29, 185, 84, 0.08);
+                color: rgba(29, 185, 84, 0.6);
+            }
+
+            .bar-chart {
+                margin: 14px 0;
+            }
+            .bar-row {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 7px;
+            }
+            .bar-label {
+                width: 100px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 10px;
+                color: var(--light-faint);
+                text-align: right;
+            }
+            .bar-track {
+                flex: 1;
+                height: 22px;
+                background: rgba(0, 0, 0, 0.04);
+                border-radius: 4px;
+                overflow: hidden;
+            }
+            .bar-fill {
+                height: 100%;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                padding-left: 10px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 9px;
+                font-weight: 600;
+            }
+            .bar-fill.green {
+                background: var(--green);
+                color: #fff;
+            }
+            .bar-fill.red {
+                background: var(--red);
+                color: #fff;
+            }
+            .bar-fill.gray {
+                background: var(--green-dark);
+                color: #fff;
+                opacity: 0.6;
+            }
+
+            /* Timeline */
+            .timeline {
+                position: relative;
+                padding-left: 28px;
+            }
+            .timeline::before {
+                content: "";
+                position: absolute;
+                left: 4px;
+                top: 8px;
+                bottom: 8px;
+                width: 2px;
+                background: linear-gradient(
+                    to bottom,
+                    var(--green),
+                    var(--light-faint)
+                );
+            }
+            .tl-item {
+                padding: 8px 0;
+                position: relative;
+            }
+            .tl-item::before {
+                content: "";
+                position: absolute;
+                left: -26px;
+                top: 12px;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: var(--green);
+            }
+            .tl-year {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                color: var(--green-dark);
+                letter-spacing: 1px;
+            }
+            .tl-text {
+                font-size: 14px;
+                color: var(--light-muted);
+                line-height: 1.5;
+            }
+
+            /* Divider slides */
+            .divider-slide {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 60px 80px;
+                height: 100%;
+                position: relative;
+                z-index: 20;
+            }
+            .divider-num {
+                display: none;
+            }
+            .divider-title {
+                font-size: clamp(48px, 7vw, 90px);
+                font-weight: 700;
+                letter-spacing: -3px;
+                line-height: 1;
+                color: #fff;
+            }
+            .divider-sub {
+                font-size: 16px;
+                color: var(--dark-muted);
+                margin-top: 16px;
+                font-weight: 300;
+                max-width: 500px;
+                line-height: 1.6;
+            }
+
+            /* Compare cards */
+            .compare-card {
+                flex: 1;
+                min-width: 170px;
+                padding: 20px;
+                border-left: 3px solid;
+                background: var(--light-surface);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            }
+            .compare-card.spotify {
+                border-color: var(--green);
+            }
+            .compare-card.apple {
+                border-color: #fc3c44;
+            }
+            .compare-card.amazon {
+                border-color: #ff9900;
+            }
+            .compare-name {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 9px;
+                letter-spacing: 2px;
+                margin-bottom: 10px;
+                text-transform: uppercase;
+            }
+            .compare-card.spotify .compare-name {
+                color: var(--green-dark);
+            }
+            .compare-card.apple .compare-name {
+                color: #fc3c44;
+            }
+            .compare-card.amazon .compare-name {
+                color: #ff9900;
+            }
+            .compare-card li {
+                font-size: 12px;
+                color: var(--light-muted);
+                line-height: 2;
+                list-style: none;
+            }
+            .compare-card li::before {
+                content: "·";
+                margin-right: 8px;
+                opacity: 0.4;
+            }
+            .compare-card li.neg {
+                color: var(--red);
+                opacity: 0.8;
+            }
+
+            /* Phase cards */
+            .phase-card {
+                flex: 1;
+                min-width: 190px;
+                padding: 22px;
+                background: var(--light-surface);
+                border-top: 3px solid rgba(29, 185, 84, 0.25);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            }
+            .phase-card.now {
+                border-top-color: var(--green);
+            }
+            .phase-card .phase-lbl {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 8px;
+                letter-spacing: 2px;
+                color: var(--light-faint);
+                margin-bottom: 8px;
+                text-transform: uppercase;
+            }
+            .phase-card h4 {
+                font-size: 15px;
+                color: var(--light-text);
+                margin-bottom: 6px;
+                font-weight: 600;
+            }
+            .phase-card p {
+                font-size: 12px;
+                color: var(--light-muted);
+                line-height: 1.6;
+            }
+            .phase-card .phase-yr {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 10px;
+                color: var(--green-dark);
+                margin-top: 10px;
+            }
+
+            /* Rec items */
+            .rec-item {
+                display: flex;
+                align-items: flex-start;
+                gap: 16px;
+                padding: 14px 0;
+                border-bottom: 1px solid var(--light-border);
+            }
+            .rec-item:last-child {
+                border-bottom: none;
+            }
+            .rec-num {
+                font-size: 32px;
+                font-weight: 700;
+                color: var(--green);
+                opacity: 0.35;
+                line-height: 1;
+                min-width: 36px;
+            }
+            .rec-item h4 {
+                font-size: 15px;
+                color: var(--light-text);
+                font-weight: 600;
+                margin-bottom: 3px;
+            }
+            .rec-item p {
+                font-size: 12px;
+                color: var(--light-faint);
+            }
+
+            /* Implementation rows */
+            .impl-row {
+                display: flex;
+                align-items: center;
+                padding: 13px 0;
+                border-bottom: 1px solid var(--light-border);
+                gap: 14px;
+            }
+            .impl-row:last-child {
+                border-bottom: none;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Background elements -->
+        <div id="bgVinyl" class="vinyl-container">
+            <div class="vinyl-glow"></div>
+            <div class="vinyl-disc">
+                <div class="vinyl-label"><span>SIDE A</span></div>
+            </div>
+            <div class="vinyl-groove-light"></div>
+            <div class="tonearm"></div>
+        </div>
+        <div id="bgCassette" class="cassette-container">
+            <div class="cassette-body">
+                <div class="cassette-window"></div>
+                <div class="reel"></div>
+                <div class="reel"></div>
+            </div>
+        </div>
+        <div id="bgCD" class="cd-container">
+            <div class="cd-player-body">
+                <div class="cd-player-slot"></div>
+                <div class="cd-window">
+                    <div class="cd-disc">
+                        <div class="cd-shimmer">
+                            <div class="cd-label">
+                                <span>GROUP 5 MIXTAPE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cd-player-dot"></div>
+                <div class="cd-player-label">Digital Audio</div>
+            </div>
+        </div>
+        <div id="bgIPod" class="ipod-container">
+            <div class="ipod-glow"></div>
+            <div class="ipod-body">
+                <div class="ipod-screen">
+                    <div class="ipod-screen-header">
+                        <span>Now Playing</span>
+                        <span>♫</span>
+                    </div>
+                    <div class="ipod-screen-body">
+                        <div class="ipod-song-title">
+                            <span>Face the Music — The Digital Revolution</span>
+                        </div>
+                        <div class="ipod-song-artist">Group 5</div>
+                        <div class="ipod-progress">
+                            <div class="ipod-progress-fill"></div>
+                        </div>
+                        <div class="ipod-time">
+                            <span>1:24</span><span>-2:38</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ipod-wheel">
+                    <div class="ipod-wheel-label top">Menu</div>
+                    <div class="ipod-wheel-label bottom">⏯</div>
+                    <div class="ipod-wheel-label left">◁</div>
+                    <div class="ipod-wheel-label right">▷</div>
+                    <div class="ipod-wheel-center"></div>
+                </div>
+            </div>
+        </div>
+        <div id="bgEQ" class="eq-container"></div>
+        <div id="bgWave" class="soundwave-bg">
+            <div class="soundwave"></div>
+            <div class="soundwave"></div>
+            <div class="soundwave"></div>
+        </div>
+        <div id="bgNotes" class="music-notes"></div>
+
+        <!-- Chrome -->
+        <div id="progress"></div>
+        <div id="era">
+            <div class="dot"></div>
+            <span></span>
+        </div>
+        <div id="counter"></div>
+        <div id="notes"></div>
+
+        <!-- ══════════════════════════════════════════════════════════
+     SLIDES
+     ══════════════════════════════════════════════════════════ -->
+        <div class="deck">
+            <!-- 0: TITLE (dark) -->
+            <div
+                class="s dark"
+                data-bg="vinyl"
+                data-era=""
+                data-notes="Welcome. This is a PFI framework analysis of Spotify's value capture challenge in the global music streaming market."
+            >
+                <div
+                    style="
+                        position: relative;
+                        z-index: 20;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        height: 100%;
+                        padding: 60px 80px;
+                    "
+                >
+                    <div
+                        class="mono a1"
+                        style="color: var(--green); margin-bottom: 16px"
+                    >
+                        International Business Strategy
+                    </div>
+                    <h1 class="big a2" style="max-width: 700px; color: #fff">
+                        Spotify<br /><em>Face the Music</em>
+                    </h1>
+                    <p
+                        class="bod a3"
+                        style="
+                            margin-top: 20px;
+                            font-size: 17px;
+                            color: var(--dark-muted);
+                        "
+                    >
+                        A Teece PFI Framework Analysis
+                    </p>
+                    <div
+                        class="a4"
+                        style="margin-top: 36px; display: flex; gap: 10px"
+                    >
+                        <span class="pill green"
+                            >Profiting from Innovation</span
+                        >
+                        <span class="pill green">Case Study Analysis</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1: AGENDA (light) -->
+            <div
+                class="s pad"
+                data-bg="vinyl"
+                data-era=""
+                data-notes="Our presentation follows four parts: context and disruption, PFI diagnosis, strategic recommendations, and lessons for digital business."
+            >
+                <div class="slide-inner-centered">
+                    <div class="chip a1">Overview</div>
+                    <h2 class="med a2">Presentation <em>Structure</em></h2>
+                    <div class="a3" style="margin-top: 28px; max-width: 520px">
+                        <div
+                            style="
+                                display: flex;
+                                align-items: center;
+                                gap: 20px;
+                                margin-bottom: 24px;
+                            "
+                        >
+                            <div
+                                style="
+                                    font-family:
+                                        &quot;JetBrains Mono&quot;, monospace;
+                                    font-size: 11px;
+                                    letter-spacing: 2px;
+                                    color: var(--green);
+                                    min-width: 24px;
+                                "
+                            >
+                                01
+                            </div>
+                            <div>
+                                <div class="agenda-title">
+                                    From Napster to Streaming Dominance
+                                </div>
+                                <div class="agenda-sub">
+                                    Digital disruption and the rise of Spotify
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            style="
+                                display: flex;
+                                align-items: center;
+                                gap: 20px;
+                                margin-bottom: 24px;
+                            "
+                        >
+                            <div
+                                style="
+                                    font-family:
+                                        &quot;JetBrains Mono&quot;, monospace;
+                                    font-size: 11px;
+                                    letter-spacing: 2px;
+                                    color: var(--green);
+                                    min-width: 24px;
+                                "
+                            >
+                                02
+                            </div>
+                            <div>
+                                <div class="agenda-title">
+                                    Applying Teece's PFI Framework
+                                </div>
+                                <div class="agenda-sub">
+                                    Appropriability, dominant design,
+                                    complementary assets
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            style="
+                                display: flex;
+                                align-items: center;
+                                gap: 20px;
+                                margin-bottom: 24px;
+                            "
+                        >
+                            <div
+                                style="
+                                    font-family:
+                                        &quot;JetBrains Mono&quot;, monospace;
+                                    font-size: 11px;
+                                    letter-spacing: 2px;
+                                    color: var(--green);
+                                    min-width: 24px;
+                                "
+                            >
+                                03
+                            </div>
+                            <div>
+                                <div class="agenda-title">
+                                    Strategic Recommendations
+                                </div>
+                                <div class="agenda-sub">
+                                    Five PFI-grounded strategies to improve
+                                    value capture
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            style="
+                                display: flex;
+                                align-items: center;
+                                gap: 20px;
+                            "
+                        >
+                            <div
+                                style="
+                                    font-family:
+                                        &quot;JetBrains Mono&quot;, monospace;
+                                    font-size: 11px;
+                                    letter-spacing: 2px;
+                                    color: var(--green);
+                                    min-width: 24px;
+                                "
+                            >
+                                04
+                            </div>
+                            <div>
+                                <div class="agenda-title">
+                                    Lessons for International Business
+                                </div>
+                                <div class="agenda-sub">
+                                    Generalisable implications from the Spotify
+                                    analysis
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2: PART 1 DIVIDER (dark) -->
+            <div
+                class="s dark"
+                data-bg="cassette"
+                data-era="s1"
+                data-notes="Let's begin with context — understanding the music industry before and during digital disruption."
+            >
+                <div class="divider-slide">
+                    <div class="divider-num a1">Part One</div>
+                    <div class="divider-title a2">
+                        From Napster to<br />Streaming
+                        <span style="color: var(--green)">Dominance</span>
+                    </div>
+                    <div class="divider-sub a3">
+                        The digital disruption of the music industry and the
+                        rise of Spotify
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3: PRE-DIGITAL -->
+            <div
+                class="s pad"
+                data-bg="cassette"
+                data-era="s1"
+                data-notes="Before disruption, five labels controlled everything — A&R, recording, manufacturing, distribution, retail. Revenue peaked at $25.2 billion in 1999, almost entirely from physical media. Strong appropriability: copyright worked because the CD was the moat."
+            >
+                <div class="slide-inner">
+                    <div class="chip a1">Context</div>
+                    <h2 class="med a2">
+                        The Pre-digital Era: <em>Vertical Integration</em>
+                    </h2>
+                    <p class="bod a3" style="margin-top: 12px">
+                        Five major labels managed a tightly integrated value
+                        chain, where they controlled everything between talent
+                        management, recording, manufacturing, distribution, and
+                        retail.
+                    </p>
+                    <div style="margin-top: 28px" class="a3">
+                        <div class="stat">
+                            <div class="stat-num green">$25.2B</div>
+                            <div class="stat-label">Peak revenue · 1999</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-num">5</div>
+                            <div class="stat-label">Major labels</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-num green">~94%</div>
+                            <div class="stat-label">Physical media revenue</div>
+                        </div>
+                    </div>
+                    <div class="card a4" style="max-width: 520px">
+                        <div class="card-label green">PFI Lens</div>
+                        <p>
+                            Labels held critical complementary assets in
+                            pressing plants, distributors, and retail shelf
+                            space.<br /><br />robust copyright + physical
+                            control = strong appropriability regime
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4: NAPSTER & COLLAPSE -->
+            <div
+                class="s pad"
+                data-bg="cd"
+                data-era="s1"
+                data-notes="Napster launched 1999 with 26.4 million users sharing 80 million MP3s. Revenue fell 37% by 2008. The CD was the entire value capture mechanism — once digital, labels' complementary assets evaporated overnight."
+            >
+                <div class="slide-inner">
+                    <div class="chip red a1">Disruption</div>
+                    <h2 class="med a2">
+                        Napster <span style="color: var(--red)">&amp;</span> the
+                        Loss of Control
+                    </h2>
+                    <div class="a3" style="margin-top: 20px">
+                        <div class="timeline">
+                            <div class="tl-item">
+                                <div class="tl-year">1999</div>
+                                <div class="tl-text">
+                                    Napster comes onto the scene with 80M MP3
+                                    files and gains 26.4M users
+                                </div>
+                            </div>
+                            <div class="tl-item">
+                                <div class="tl-year">2001</div>
+                                <div class="tl-text">
+                                    The Recording Industry Association of
+                                    America shuts down Napster, but KaZaA,
+                                    LimeWire, and BitTorrent emerge and evade
+                                    without central servers
+                                </div>
+                            </div>
+                            <div class="tl-item tl-neg">
+                                <div class="tl-year" style="color: var(--red)">
+                                    2008
+                                </div>
+                                <div class="tl-text">
+                                    The industry drops to $15.9B — down 37% from
+                                    peak
+                                </div>
+                            </div>
+                            <div class="tl-item">
+                                <div class="tl-year">2008</div>
+                                <div class="tl-text">
+                                    Spotify launches as a Swedish startup, with
+                                    Europe as its first market
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="card red a4"
+                        style="max-width: 580px; margin-top: 20px"
+                    >
+                        <div class="card-label red">PFI Lens</div>
+                        <p>
+                            The CD was the entire value capture mechanism. Once
+                            digital, labels' complementary assets evaporated.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5: POST-NAPSTER -->
+            <div
+                class="s pad"
+                data-bg="cd"
+                data-era="s1"
+                data-notes="Post-Napster era: 30,000+ lawsuits against consumers — a PR catastrophe. Users didn't refuse to pay, they refused to pay $18 for one song. Incumbents couldn't cannibalise their own model."
+            >
+                <div class="slide-inner">
+                    <div class="chip red a1">Free-Fall</div>
+                    <h2 class="med a2">
+                        Industry in
+                        <span style="color: var(--red)">Free-Fall</span>
+                    </h2>
+                    <p class="bod a3" style="margin-top: 10px">
+                        Napster's closure decentralised piracy — KaZaA,
+                        LimeWire, BitTorrent emerged without central servers.
+                    </p>
+                    <div class="row a4" style="margin-top: 24px; gap: 24px">
+                        <div class="card red" style="flex: 1; margin: 0">
+                            <div class="card-label red">The Misdiagnosis</div>
+                            <p>
+                                30,000+ consumer lawsuits by the RIAA: a PR
+                                catastrophe. The industry treated it as a legal
+                                problem — it was a business model mismatch.
+                            </p>
+                        </div>
+                        <div class="card" style="flex: 1; margin: 0">
+                            <div class="card-label green">The Real Problem</div>
+                            <p>
+                                Users didn't refuse to pay — they refused to pay
+                                $18 for one song. Incumbents with sunk costs in
+                                physical infrastructure couldn't cannibalise
+                                their own model.
+                            </p>
+                        </div>
+                    </div>
+                    <div
+                        class="card muted a5"
+                        style="max-width: 520px; margin-top: 4px"
+                    >
+                        <div class="card-label green">PFI Lens</div>
+                        <p>
+                            Strong appropriability requires either IP protection
+                            or bottleneck assets. Napster destroyed both. A
+                            textbook 'pre-paradigmatic' phase of high
+                            uncertainty.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6: ITUNES -->
+            <div
+                class="s pad"
+                data-bg="ipod"
+                data-era="s1"
+                data-notes="iTunes launched April 2003 — 99 cents per track. The iPod was the critical complementary hardware asset. Apple's goal was device sales, not music margins. PFI lesson: Apple captured value because it owned the distribution bottleneck."
+            >
+                <div class="slide-inner-centered">
+                    <div class="chip a1">The First Legal Standard</div>
+                    <h2 class="med a2">
+                        iTunes: The <em>Distribution Bottleneck</em>
+                    </h2>
+                    <div style="margin-top: 24px; gap: 40px">
+                        <div class="col a3">
+                            <div class="stat">
+                                <div class="stat-num green">$0.99</div>
+                                <div class="stat-label">Per track</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-num">1M</div>
+                                <div class="stat-label">
+                                    Songs sold in 3 days
+                                </div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-num green">#1</div>
+                                <div class="stat-label">
+                                    US music retailer by 2006
+                                </div>
+                            </div>
+                            <p
+                                class="bod"
+                                style="margin-top: 14px; max-width: none"
+                            >
+                                The iPod was the critical complementary hardware
+                                asset. Apple's goal was device sales, not music
+                                margins.
+                            </p>
+                            <div class="row">
+                                <div
+                                    class="col card mt-0"
+                                    style="max-width: 360px"
+                                >
+                                    <div class="card-label green">PFI Lens</div>
+                                    <p
+                                        style="
+                                            font-weight: 600;
+                                            color: var(--light-text);
+                                        "
+                                    >
+                                        Apple captured value because it owned
+                                        the distribution bottleneck.
+                                    </p>
+                                    <p
+                                        style="
+                                            font-size: 13px;
+                                            color: var(--light-faint);
+                                            margin-top: 6px;
+                                        "
+                                    >
+                                        The internet innovated. Apple profited.
+                                        A pattern Spotify would later experience
+                                        firsthand.
+                                    </p>
+                                </div>
+                                <div
+                                    class="col card muted a5"
+                                    style="max-width: 360px"
+                                >
+                                    <p>
+                                        <strong>Structural ceiling:</strong>
+                                        Download-and-own didn't resolve revenue
+                                        decline at scale, and it tied value
+                                        capture to Apple's closed ecosystem.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7: SPOTIFY ORIGINS -->
+            <div
+                class="s pad"
+                data-bg="ipod"
+                data-era="s1"
+                data-notes="Daniel Ek co-founded Spotify in Stockholm 2006. The founding insight: you can't beat free on price — beat it on convenience. Freemium model. But ~70% of revenue goes to rights holders."
+            >
+                <div class="slide-inner-centered">
+                    <div class="chip a1">Origins</div>
+                    <h2 class="med a2">Daniel Ek's <em>Insight</em></h2>
+                    <div class="quote a3">
+                        "You can't beat free on price. You beat it on
+                        <strong>convenience.</strong>"
+                        <div class="quote-attr">
+                            — The founding logic, Stockholm 2006
+                        </div>
+                    </div>
+                    <div class="row a4" style="margin-top: 20px; gap: 40px">
+                        <div style="max-width: 250px">
+                            <div class="card-label green">Free Tier</div>
+                            <p class="bod text-md" style="max-width: none">
+                                Ad-supported on-demand. Conversion funnel +
+                                piracy competitor + data engine.
+                            </p>
+                        </div>
+                        <div style="max-width: 250px">
+                            <div class="mono" style="margin-bottom: 6px">
+                                Premium · €9.99/mo
+                            </div>
+                            <p class="bod text-md" style="max-width: none">
+                                Ad-free, offline. ~44% convert. But ~70% of
+                                revenue → rights holders.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="a5" style="margin-top: 24px">
+                        <div class="card-label" style="margin-bottom: 8px">
+                            Where the money goes
+                        </div>
+                        <div class="bar-chart" style="max-width: 460px">
+                            <div class="bar-row">
+                                <div class="bar-label">Rights holders</div>
+                                <div class="bar-track">
+                                    <div
+                                        class="bar-fill red"
+                                        style="width: 70%"
+                                    >
+                                        ~70%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8: MARKET POSITION -->
+            <div
+                class="s pad"
+                data-bg="eq"
+                data-era="s1"
+                data-notes="By 2021: 356M MAUs, 158M premium subs, 32% global share — and zero annual profit since IPO. Competitors: Apple 72M with iOS pre-install, Amazon 55M bundled with Prime, YouTube 2 billion free users."
+            >
+                <div class="slide-inner">
+                    <div class="chip a1">Market Position</div>
+                    <h2 class="med a2">Spotify by <em>2021</em></h2>
+                    <div class="a3" style="margin-top: 20px">
+                        <div class="stat">
+                            <div class="stat-num green">356M</div>
+                            <div class="stat-label">Monthly active users</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-num">158M</div>
+                            <div class="stat-label">Premium subscribers</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-num green">32%</div>
+                            <div class="stat-label">Global streaming share</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-num red">€0</div>
+                            <div class="stat-label">
+                                Annual profit — every year since IPO
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="a4"
+                        style="
+                            margin-top: 12px;
+                            display: flex;
+                            gap: 0;
+                            border-top: 1px solid var(--light-border);
+                            max-width: 680px;
+                        "
+                    >
+                        <div
+                            style="
+                                flex: 1;
+                                padding: 14px 14px 14px 0;
+                                border-right: 1px solid var(--light-border);
+                            "
+                        >
+                            <div
+                                class="mono"
+                                style="color: #fc3c44; margin-bottom: 4px"
+                            >
+                                Apple Music — 72M
+                            </div>
+                            <p class="text-detail">
+                                iOS pre-install. No App Store tax. Music as
+                                loss-leader.
+                            </p>
+                        </div>
+                        <div
+                            style="
+                                flex: 1;
+                                padding: 14px;
+                                border-right: 1px solid var(--light-border);
+                            "
+                        >
+                            <div
+                                class="mono"
+                                style="color: #ff9900; margin-bottom: 4px"
+                            >
+                                Amazon Music — 55M
+                            </div>
+                            <p class="text-detail">
+                                Prime bundle. Alexa. $3.99 loss-leader tier.
+                            </p>
+                        </div>
+                        <div style="flex: 1; padding: 14px 0 14px 14px">
+                            <div class="card-label">
+                                YouTube Music — 30M paid
+                            </div>
+                            <p class="text-detail">
+                                2B free YouTube users. Largest free music
+                                platform.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9: STRATEGIC PARADOX -->
+            <div
+                class="s pad"
+                data-bg="eq"
+                data-era="s1"
+                data-notes="The central paradox: Spotify invented the dominant design for music streaming — yet has never reported an annual profit. Teece's PFI framework diagnoses this: weak appropriability, established dominant design, deficient complementary assets."
+            >
+                <div class="slide-inner-centered">
+                    <div class="chip a1">The Paradox</div>
+                    <h2 class="big a2" style="max-width: 600px">
+                        Innovation <em>Without</em> Reward
+                    </h2>
+                    <div class="quote a3" style="border-left-color: var(--red)">
+                        "Under what conditions will the
+                        <strong>innovator</strong> — rather than the imitator or
+                        a complementary asset holder — capture the returns to
+                        innovation?"
+                        <div class="quote-attr">
+                            — David J. Teece, Research Policy (1986)
+                        </div>
+                    </div>
+                    <div
+                        class="a4"
+                        style="
+                            margin-top: 16px;
+                            display: flex;
+                            gap: 8px;
+                            flex-wrap: wrap;
+                        "
+                    >
+                        <span class="pill red">Weak Appropriability</span>
+                        <span class="pill gray"
+                            >Established Dominant Design</span
+                        >
+                        <span class="pill red"
+                            >Deficient Complementary Assets</span
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10: PART 2 DIVIDER (dark) -->
+
+            <div
+                class="s dark"
+                data-bg="wave"
+                data-era="s2"
+                data-notes="Now we apply Teece's PFI framework to diagnose why Spotify struggles to capture value."
+            >
+                <div class="divider-slide">
+                    <div class="divider-num a1">Part Two</div>
+                    <div class="divider-title a2">
+                        The PFI<br /><span style="color: var(--green)"
+                            >Diagnosis</span
+                        >
+                    </div>
+                    <div class="divider-sub a3">
+                        Appropriability, dominant design, and complementary
+                        assets
+                    </div>
+                </div>
+            </div>
+
+            <!-- 11: THREE PILLARS -->
+            <div
+                class="s pad"
+                data-bg="wave"
+                data-era="s2"
+                data-notes="Teece's three pillars: Appropriability regime — can you prevent imitation? Dominant design — what phase of technological evolution? Complementary assets — what resources beyond the innovation are needed to commercialise it?"
+            >
+                <div class="slide-inner-centered">
+                    <div class="chip a1">Framework</div>
+                    <h2 class="med a2">Teece's PFI: <em>Three Pillars</em></h2>
+                    <p class="bod a2" style="margin-bottom: 28px">
+                        Teece (1986; 2018): Three factors determine who captures
+                        value from innovation.
+                    </p>
+                    <div
+                        class="row a3"
+                        style="
+                            gap: 0;
+                            border-top: 1px solid var(--light-border);
+                        "
+                    >
+                        <div class="pillar-cell">
+                            <div class="pill red" style="margin-bottom: 10px">
+                                WEAK
+                            </div>
+                            <h4>Appropriability</h4>
+                            <p class="text-base">
+                                Non-proprietary tech, licensed catalogue,
+                                instantly imitable.
+                            </p>
+                        </div>
+                        <div class="pillar-cell">
+                            <div class="pill gray" style="margin-bottom: 10px">
+                                ESTABLISHED
+                            </div>
+                            <h4>Dominant Design</h4>
+                            <p class="text-base">
+                                Spotify set the standard. Competition shifts to
+                                assets.
+                            </p>
+                        </div>
+                        <div class="pillar-cell">
+                            <div class="pill red" style="margin-bottom: 10px">
+                                DEFICIENT
+                            </div>
+                            <h4>Complementary Assets</h4>
+                            <p class="text-base">
+                                No device ecosystem, no OS, no cross-subsidy
+                                capacity.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 12: APPROPRIABILITY -->
+            <div
+                class="s pad"
+                data-bg="wave"
+                data-era="s2"
+                data-notes="Appropriability weak on every dimension. ~70 cents per dollar to labels. Big Three control 68% of recorded music. Bright spot: algorithmic discovery — tacit knowledge, hard to replicate, insufficient alone."
+            >
+                <div class="slide-inner-centered">
+                    <div class="chip a1">Appropriability</div>
+                    <h2 class="med a2">
+                        The <span style="color: var(--red)">Royalty</span> Trap
+                    </h2>
+                    <div class="row" style="margin-top: 20px; gap: 40px">
+                        <div class="col a3">
+                            <p class="bod text-md" style="max-width: none">
+                                Every dimension is weak. Technology
+                                non-proprietary, catalogue licensed, model
+                                replicated by Apple within months.
+                            </p>
+                            <div style="margin-top: 20px">
+                                <div class="stat">
+                                    <div class="stat-num red stat-num-xl">
+                                        70%
+                                    </div>
+                                    <div class="stat-label">
+                                        of every dollar → rights holders
+                                    </div>
+                                </div>
+                            </div>
+                            <p
+                                class="bod a4"
+                                style="
+                                    font-size: 13px;
+                                    margin-top: 12px;
+                                    max-width: none;
+                                "
+                            >
+                                Big Three (Universal, Sony, Warner) hold ~68% of
+                                global recorded music.
+                            </p>
+                        </div>
+                        <div class="col a4" style="max-width: 320px">
+                            <div class="card mt-0">
+                                <div class="card-label green">Bright Spot</div>
+                                <p>
+                                    <strong>Algorithmic discovery</strong> —
+                                    tacit knowledge + proprietary data. Hard to
+                                    replicate. Insufficient alone.
+                                </p>
+                            </div>
+                            <div class="card red a5">
+                                <div class="card-label red">Teece's Term</div>
+                                <p style="font-weight: 600">
+                                    Co-specialised complementary asset
+                                    bottleneck
+                                </p>
+                                <p class="text-detail" style="margin-top: 4px">
+                                    Can't operate without label licences —
+                                    permanent leverage.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 13: DOMINANT DESIGN PHASES -->
+            <div
+                class="s pad"
+                data-bg="wave"
+                data-era="s2"
+                data-notes="Three phases. Fluid 2001-2011: multiple architectures competing. Transition 2011-2015: streaming displaces downloads. Specific/post-design 2015+: streaming is the standard, Apple and Amazon enter directly. Competition shifts to complementary assets."
+            >
+                <div class="slide-inner">
+                    <div class="chip red a1">Dominant Design</div>
+                    <h2 class="med a2">Three Phases of <em>Evolution</em></h2>
+                    <p
+                        class="bod a2"
+                        style="margin-bottom: 20px; font-size: 14px"
+                    >
+                        Before dominant design, competition centres on
+                        technology. After, it shifts to process and
+                        complementary assets.
+                    </p>
+                    <div class="row a3" style="gap: 12px">
+                        <div class="phase-card">
+                            <div class="phase-lbl">Phase 1 · Fluid</div>
+                            <h4>Pre-Design</h4>
+                            <p>
+                                Multiple competing architectures. High
+                                uncertainty. First-mover advantage is real but
+                                temporary.
+                            </p>
+                            <div class="phase-yr">2001 – 2011</div>
+                        </div>
+                        <div class="phase-card">
+                            <div class="phase-lbl">Phase 2 · Transition</div>
+                            <h4>Emergence</h4>
+                            <p>
+                                On-demand streaming displaces downloads. Network
+                                effects and a breakout product narrow
+                                competition.
+                            </p>
+                            <div class="phase-yr">2011 – 2015</div>
+                        </div>
+                        <div class="phase-card now">
+                            <div class="phase-lbl">Phase 3 · Specific</div>
+                            <h4>Post-Design</h4>
+                            <p>
+                                Architecture established. Advantage derives from
+                                execution and assets — not being first.
+                            </p>
+                            <div class="phase-yr">2015 → Present</div>
+                        </div>
+                    </div>
+                    <div
+                        class="card red a4"
+                        style="max-width: 600px; margin-top: 12px"
+                    >
+                        <p>
+                            <strong style="color: var(--red)">Critical:</strong>
+                            Apple Music replicated Spotify's design within
+                            months and reached 10M subscribers in six weeks via
+                            iOS pre-installation. Teece's prediction in action.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 14: ASSET TYPOLOGY -->
+            <div
+                class="s pad"
+                data-bg="wave"
+                data-era="s2"
+                data-notes="Teece's three asset types: Generic — freely available, no advantage. Specialised — unilaterally dependent, harder to replicate. Co-specialised — bilaterally dependent, the strongest moats and primary value capture mechanism."
+            >
+                <div class="slide-inner">
+                    <div class="chip a1">Asset Types</div>
+                    <h2 class="med a2">
+                        Complementary Assets: <em>Teece's Typology</em>
+                    </h2>
+                    <div class="a3" style="margin-top: 20px; max-width: 680px">
+                        <div
+                            style="
+                                padding: 18px 0;
+                                border-bottom: 1px solid var(--light-border);
+                            "
+                        >
+                            <div
+                                style="
+                                    display: flex;
+                                    align-items: baseline;
+                                    gap: 12px;
+                                    margin-bottom: 6px;
+                                "
+                            >
+                                <span class="pill gray">GENERIC</span
+                                ><span style="font-size: 14px; font-weight: 600"
+                                    >No competitive advantage</span
+                                >
+                            </div>
+                            <p class="text-base">
+                                Freely available at market rates. Cloud
+                                infrastructure, broadband, software talent. Any
+                                entrant acquires them at the same cost.
+                            </p>
+                        </div>
+                        <div
+                            style="
+                                padding: 18px 0;
+                                border-bottom: 1px solid var(--light-border);
+                            "
+                        >
+                            <div
+                                style="
+                                    display: flex;
+                                    align-items: baseline;
+                                    gap: 12px;
+                                    margin-bottom: 6px;
+                                "
+                            >
+                                <span class="pill amber">SPECIALISED</span
+                                ><span style="font-size: 14px; font-weight: 600"
+                                    >Unilaterally dependent</span
+                                >
+                            </div>
+                            <p class="text-base">
+                                Valuable in context of this technology.
+                                Streaming licences, algorithmic discovery,
+                                podcast studios. Eventually matchable by
+                                well-resourced rivals.
+                            </p>
+                        </div>
+                        <div style="padding: 18px 0">
+                            <div
+                                style="
+                                    display: flex;
+                                    align-items: baseline;
+                                    gap: 12px;
+                                    margin-bottom: 6px;
+                                "
+                            >
+                                <span class="pill red">CO-SPECIALISED</span
+                                ><span style="font-size: 14px; font-weight: 600"
+                                    >Bilaterally dependent — the strongest
+                                    moats</span
+                                >
+                            </div>
+                            <p class="text-base">
+                                Asset and innovation mutually enhance each
+                                other. Apple's App Store + iOS ecosystem. Amazon
+                                Prime bundle. The primary value capture
+                                mechanism post-dominant-design.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 15: ASSET GAP -->
+            <div
+                class="s pad"
+                data-bg="wave"
+                data-era="s2"
+                data-notes="Core diagnosis. Spotify has data, users, brand — but no device ecosystem, no OS integration, no cross-subsidy. Apple and Amazon hold the bottleneck assets."
+            >
+                <div class="slide-inner">
+                    <div class="chip a1">Asset Comparison</div>
+                    <h2 class="med a2">The <em>Asset Gap</em></h2>
+                    <div class="row a3" style="gap: 8px; margin-top: 20px">
+                        <div class="compare-card spotify">
+                            <div class="compare-name">Spotify</div>
+                            <ul>
+                                <li>Algorithmic data</li>
+                                <li>356M users</li>
+                                <li>Brand</li>
+                                <li class="neg">No device ecosystem</li>
+                                <li class="neg">No OS integration</li>
+                                <li class="neg">30% iOS tax</li>
+                            </ul>
+                        </div>
+                        <div class="compare-card apple">
+                            <div class="compare-name">Apple Music</div>
+                            <ul>
+                                <li>1B+ iOS devices</li>
+                                <li>Pre-installed</li>
+                                <li>App Store owned</li>
+                                <li>No 30% self-tax</li>
+                                <li>Siri integration</li>
+                                <li>10M subs in 6 weeks</li>
+                            </ul>
+                        </div>
+                        <div class="compare-card amazon">
+                            <div class="compare-name">Amazon Music</div>
+                            <ul>
+                                <li>200M+ Prime homes</li>
+                                <li>Bundled free</li>
+                                <li>Alexa / Echo</li>
+                                <li>AWS infrastructure</li>
+                                <li>Vast cross-subsidy</li>
+                                <li>Fastest growing</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p
+                        class="a4"
+                        style="
+                            font-style: italic;
+                            font-size: 15px;
+                            color: var(--light-faint);
+                            margin-top: 20px;
+                            text-align: center;
+                        "
+                    >
+                        "Profits will go to the bottleneck assets."
+                        <span style="font-style: normal; font-size: 10px"
+                            >— Teece (2018)</span
+                        >
+                    </p>
+                </div>
+            </div>
+
+            <!-- 16: APP STORE BOTTLENECK -->
+            <div
+                class="s pad"
+                data-bg="wave"
+                data-era="s2"
+                data-notes="30% iOS commission on Spotify subs. 0% for Apple Music. 54% of Spotify's base on iOS. EU antitrust complaint filed March 2019."
+            >
+                <div class="slide-inner-centered">
+                    <div class="chip red a1">Bottleneck</div>
+                    <h2 class="med a2">
+                        The App Store <span style="color: var(--red)">Tax</span>
+                    </h2>
+                    <div class="a3" style="margin-top: 24px">
+                        <div class="stat">
+                            <div class="stat-num red stat-num-lg">30%</div>
+                            <div class="stat-label">
+                                iOS commission on Spotify subs
+                            </div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-num green stat-num-lg">0%</div>
+                            <div class="stat-label">
+                                Commission Apple Music pays itself
+                            </div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-num stat-num-lg">54%</div>
+                            <div class="stat-label">
+                                Spotify's subscriber base on iOS
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card red a4" style="max-width: 540px">
+                        <div class="card-label red">PFI Lens</div>
+                        <p>
+                            The App Store and iOS are co-specialised — each
+                            makes the other more valuable. Spotify cannot
+                            commercialise streaming without iOS access, giving
+                            Apple ongoing leverage.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 17: PODCAST PIVOT -->
+            <div
+                class="s pad"
+                data-bg="wave"
+                data-era="s2"
+                data-notes="~1 billion invested 2019-2021 in podcasts. Owned content carries no per-stream royalty. Strategy migrates from weak appropriability toward stronger appropriability."
+            >
+                <div class="slide-inner">
+                    <div class="chip a1">Strategic Response</div>
+                    <h2 class="med a2">The Podcast <em>Pivot</em></h2>
+                    <div class="row" style="margin-top: 20px; gap: 24px">
+                        <div class="col a3">
+                            <div class="card red mt-0">
+                                <div class="card-label red">The Problem</div>
+                                <p>
+                                    Music: weak appropriability, licensed, ~70%
+                                    royalty burden. No path to profitability
+                                    through scale alone.
+                                </p>
+                            </div>
+                            <div class="card a4">
+                                <div class="card-label green">The Pivot</div>
+                                <p>
+                                    Podcast content carries
+                                    <strong>no per-stream royalty</strong>.
+                                    Owned IP is proprietary — not licensable by
+                                    competitors.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col a4">
+                            <div class="card-label" style="margin-bottom: 10px">
+                                ~€1B invested 2019–2021
+                            </div>
+                            <div class="bar-chart">
+                                <div class="bar-row">
+                                    <div class="bar-label">Gimlet</div>
+                                    <div class="bar-track">
+                                        <div
+                                            class="bar-fill green"
+                                            style="width: 92%"
+                                        >
+                                            $230M
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bar-row">
+                                    <div class="bar-label">The Ringer</div>
+                                    <div class="bar-track">
+                                        <div
+                                            class="bar-fill green"
+                                            style="width: 78%"
+                                        >
+                                            $196M
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bar-row">
+                                    <div class="bar-label">Anchor</div>
+                                    <div class="bar-track">
+                                        <div
+                                            class="bar-fill green"
+                                            style="width: 62%"
+                                        >
+                                            $154M
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bar-row">
+                                    <div class="bar-label">Joe Rogan</div>
+                                    <div class="bar-track">
+                                        <div
+                                            class="bar-fill green"
+                                            style="width: 40%"
+                                        >
+                                            $100M+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bar-row">
+                                    <div class="bar-label">Parcast</div>
+                                    <div class="bar-track">
+                                        <div
+                                            class="bar-fill green"
+                                            style="width: 22%"
+                                        >
+                                            $56M
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 18: PFI SYNTHESIS -->
+            <div
+                class="s pad"
+                data-bg="wave"
+                data-era="s2"
+                data-notes="All three pillars point to the same conclusion. Weak appropriability, established dominant design, deficient complementary assets relative to Apple and Amazon."
+            >
+                <div class="slide-inner-centered">
+                    <div class="chip a1">Synthesis</div>
+                    <h2 class="med a2">
+                        PFI Diagnosis:
+                        <span style="color: var(--green)">Complete</span>
+                    </h2>
+                    <div class="a3" style="margin-top: 24px; max-width: 620px">
+                        <div
+                            style="
+                                display: flex;
+                                gap: 14px;
+                                align-items: flex-start;
+                                padding: 14px 0;
+                                border-bottom: 1px solid var(--light-border);
+                            "
+                        >
+                            <span
+                                class="pill red"
+                                style="min-width: 90px; text-align: center"
+                                >WEAK</span
+                            >
+                            <div>
+                                <h4 class="text-md" style="margin-bottom: 3px">
+                                    Appropriability Regime
+                                </h4>
+                                <p class="text-detail">
+                                    Non-proprietary tech. Licensed catalogue.
+                                    Immediately replicable.
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            style="
+                                display: flex;
+                                gap: 14px;
+                                align-items: flex-start;
+                                padding: 14px 0;
+                                border-bottom: 1px solid var(--light-border);
+                            "
+                        >
+                            <span
+                                class="pill gray"
+                                style="min-width: 90px; text-align: center"
+                                >ESTABLISHED</span
+                            >
+                            <div>
+                                <h4 class="text-md" style="margin-bottom: 3px">
+                                    Dominant Design
+                                </h4>
+                                <p class="text-detail">
+                                    Spotify set the standard. Shifts competition
+                                    to the asset layer.
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            style="
+                                display: flex;
+                                gap: 14px;
+                                align-items: flex-start;
+                                padding: 14px 0;
+                            "
+                        >
+                            <span
+                                class="pill red"
+                                style="min-width: 90px; text-align: center"
+                                >DEFICIENT</span
+                            >
+                            <div>
+                                <h4 class="text-md" style="margin-bottom: 3px">
+                                    Complementary Assets
+                                </h4>
+                                <p class="text-detail">
+                                    No device ecosystem, no OS, no
+                                    cross-subsidy, 30% iOS tax.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 19: PART 3 DIVIDER (dark) -->
+            <div
+                class="s dark"
+                data-bg="eq"
+                data-era="s3"
+                data-notes="Five strategic recommendations grounded in Teece's PFI framework."
+            >
+                <div class="divider-slide">
+                    <div class="divider-num a1">Part Three</div>
+                    <div class="divider-title a2">
+                        Strategic<br /><span style="color: var(--green)"
+                            >Recommendations</span
+                        >
+                    </div>
+                    <div class="divider-sub a3">
+                        Five evidence-based strategies to improve value capture
+                    </div>
+                </div>
+            </div>
+
+            <!-- 20: RECS OVERVIEW -->
+            <div
+                class="s pad"
+                data-bg="eq"
+                data-era="s3"
+                data-notes="Five recommendations targeting appropriability, complementary assets, and the regulatory environment."
+            >
+                <div class="slide-inner-centered">
+                    <div class="chip a1">Overview</div>
+                    <h2 class="med a2">Five <em>Recommendations</em></h2>
+                    <div class="a3" style="margin-top: 16px; max-width: 660px">
+                        <div class="rec-item">
+                            <div class="rec-num">1</div>
+                            <div>
+                                <h4>Own the Content Pipeline</h4>
+                                <p>
+                                    Podcasts, audiobooks, original IP →
+                                    non-licensable content
+                                    <span class="pill green pill-sm"
+                                        >Appropriability ↑</span
+                                    >
+                                </p>
+                            </div>
+                        </div>
+                        <div class="rec-item">
+                            <div class="rec-num">2</div>
+                            <div>
+                                <h4>Monetise Proprietary Data</h4>
+                                <p>
+                                    30B+ daily events → B2B intelligence product
+                                    <span class="pill green pill-sm"
+                                        >Assets ↑</span
+                                    >
+                                </p>
+                            </div>
+                        </div>
+                        <div class="rec-item">
+                            <div class="rec-num">3</div>
+                            <div>
+                                <h4>Direct Artist Relationships</h4>
+                                <p>
+                                    Reduce label intermediation, shift
+                                    bargaining power
+                                    <span class="pill green pill-sm"
+                                        >Both ↑</span
+                                    >
+                                </p>
+                            </div>
+                        </div>
+                        <div class="rec-item">
+                            <div class="rec-num">4</div>
+                            <div>
+                                <h4>Shape the Regulatory Environment</h4>
+                                <p>
+                                    Apple antitrust + copyright reform
+                                    <span class="pill green pill-sm"
+                                        >Regime ↑</span
+                                    >
+                                </p>
+                            </div>
+                        </div>
+                        <div class="rec-item">
+                            <div class="rec-num">5</div>
+                            <div>
+                                <h4>Ecosystem Partnerships</h4>
+                                <p>
+                                    Automotive, Tencent-model equity swaps
+                                    <span class="pill green pill-sm"
+                                        >Assets ↑</span
+                                    >
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 21: R1 -->
+            <div
+                class="s pad"
+                data-bg="eq"
+                data-era="s3"
+                data-notes="R1: Own the Content Pipeline. Podcasts — no per-stream royalty. Audiobooks via Findaway. Original audio dramas as co-specialised content."
+            >
+                <div class="slide-inner">
+                    <div class="chip a1">R1 · Appropriability ↑</div>
+                    <h2 class="med a2">Own the <em>Content Pipeline</em></h2>
+                    <p class="bod a3 text-md" style="margin-top: 10px">
+                        In a weak appropriability regime, value capture requires
+                        proprietary assets competitors cannot licence.
+                    </p>
+                    <div class="row a4" style="margin-top: 16px; gap: 16px">
+                        <div class="card" style="flex: 1; margin: 0">
+                            <p>
+                                <strong>Podcasts:</strong> Joe Rogan
+                                demonstrated viability — drove premium growth in
+                                18–35 demo. Continue exclusive strategy.
+                            </p>
+                        </div>
+                        <div class="card" style="flex: 1; margin: 0">
+                            <p>
+                                <strong>Audiobooks:</strong> Expand via Findaway
+                                (acquired 2021). Growing market dominated by
+                                Audible — no streaming incumbent.
+                            </p>
+                        </div>
+                        <div class="card" style="flex: 1; margin: 0">
+                            <p>
+                                <strong>Originals:</strong> Commission audio
+                                dramas and artist-exclusive sessions —
+                                co-specialised content only on Spotify.
+                            </p>
+                        </div>
+                    </div>
+                    <div
+                        class="card a5"
+                        style="max-width: 580px; margin-top: 4px"
+                    >
+                        <p>
+                            <strong style="color: var(--green-dark)"
+                                >Unit economics:</strong
+                            >
+                            Owned podcast plays generate returns through
+                            retention
+                            <strong
+                                >without triggering any per-play royalty</strong
+                            >.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 22: R2 -->
+            <div
+                class="s pad"
+                data-bg="eq"
+                data-era="s3"
+                data-notes="R2: Monetise Proprietary Data. 30B+ listening events per day. Formalise Spotify Audience Intelligence as B2B offering. GDPR/CCPA compliance non-negotiable."
+            >
+                <div class="slide-inner-centered">
+                    <div class="chip a1">R2 · Assets ↑</div>
+                    <h2 class="med a2">Monetise <em>Proprietary Data</em></h2>
+                    <div class="a3" style="margin-top: 20px">
+                        <div class="stat">
+                            <div class="stat-num green">30B+</div>
+                            <div class="stat-label">
+                                Listening events per day
+                            </div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-num">356M</div>
+                            <div class="stat-label">Users generating data</div>
+                        </div>
+                    </div>
+                    <div
+                        class="row a4"
+                        style="margin-top: 12px; gap: 20px; max-width: 680px"
+                    >
+                        <div style="flex: 1">
+                            <h4 class="text-base" style="margin-bottom: 4px">
+                                Tiered Data Products
+                            </h4>
+                            <p class="text-sm">
+                                Expand Spotify for Artists: free for
+                                independents, premium for labels, managers,
+                                booking agents.
+                            </p>
+                        </div>
+                        <div style="flex: 1">
+                            <h4 class="text-base" style="margin-bottom: 4px">
+                                B2B Intelligence
+                            </h4>
+                            <p class="text-sm">
+                                Listening context (mood, activity, time-of-day)
+                                is qualitatively superior to demographic
+                                targeting.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card amber a5" style="max-width: 540px">
+                        <p>
+                            <strong style="color: #b45309">Governance:</strong>
+                            All data monetisation must comply with GDPR, CCPA,
+                            and emerging privacy regulation. Opt-in is
+                            non-negotiable.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 23: R3 -->
+            <div
+                class="s pad"
+                data-bg="eq"
+                data-era="s3"
+                data-notes="R3: Direct Artist Relationships. Expand distribution tools. Even a credible threat shifts bargaining position at licence renewal. Medium-to-long-term initiative."
+            >
+                <div class="slide-inner-centered">
+                    <div class="chip a1">
+                        R3 · Appropriability ↑ · Royalty Leverage
+                    </div>
+                    <h2 class="med a2">Direct <em>Artist</em> Relationships</h2>
+                    <p class="bod a3 text-md" style="margin-top: 10px">
+                        When a bottleneck is held by a concentrated oligopoly,
+                        the innovator should build alternative supply routes.
+                    </p>
+                    <div
+                        class="row a4"
+                        style="margin-top: 16px; gap: 16px; max-width: 680px"
+                    >
+                        <div class="card" style="flex: 1; margin: 0">
+                            <p>
+                                <strong>Distribution:</strong> Expand Spotify
+                                for Artists into full direct distribution —
+                                competing with DistroKid and TuneCore.
+                            </p>
+                        </div>
+                        <div class="card" style="flex: 1; margin: 0">
+                            <p>
+                                <strong>Promo tools:</strong> Formalise Marquee
+                                and algorithmic playlist placement as a
+                                standalone revenue line.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card a5" style="max-width: 580px">
+                        <p>
+                            <strong style="color: var(--green-dark)"
+                                >Strategic logic:</strong
+                            >
+                            Even a <em>credible threat</em> shifts bargaining
+                            position at label licence renewal. The goal is
+                            leverage, not full disintermediation.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 24: R4 -->
+            <div
+                class="s pad"
+                data-bg="eq"
+                data-era="s3"
+                data-notes="R4: Shape the Regulatory Environment. Apple antitrust — EU DMA would structurally remove the 30% tax. Multi-front campaign. Streaming coalition."
+            >
+                <div class="slide-inner-centered">
+                    <div class="chip a1">R4 · Regime ↑</div>
+                    <h2 class="med a2">Shape the <em>Rules</em></h2>
+                    <p class="bod a3 text-md" style="margin-top: 10px">
+                        The appropriability regime is not fixed. Changing the
+                        rules of the game is itself a strategy.
+                    </p>
+                    <div class="a4" style="margin-top: 20px; max-width: 620px">
+                        <div
+                            style="
+                                padding: 10px 0;
+                                border-bottom: 1px solid var(--light-border);
+                            "
+                        >
+                            <h4 class="text-sm" style="margin-bottom: 3px">
+                                Apple Antitrust — Highest Priority
+                            </h4>
+                            <p
+                                style="
+                                    font-size: 12px;
+                                    color: var(--light-muted);
+                                "
+                            >
+                                EU DMA enforcement would structurally remove the
+                                30% iOS tax overnight.
+                            </p>
+                        </div>
+                        <div
+                            style="
+                                padding: 10px 0;
+                                border-bottom: 1px solid var(--light-border);
+                            "
+                        >
+                            <h4 class="text-sm" style="margin-bottom: 3px">
+                                Multi-Front Campaign
+                            </h4>
+                            <p
+                                style="
+                                    font-size: 12px;
+                                    color: var(--light-muted);
+                                "
+                            >
+                                US (FTC, DOJ), EU, and UK — shifting the global
+                                norm on gatekeeper liability.
+                            </p>
+                        </div>
+                        <div
+                            style="
+                                padding: 10px 0;
+                                border-bottom: 1px solid var(--light-border);
+                            "
+                        >
+                            <h4 class="text-sm" style="margin-bottom: 3px">
+                                Streaming Coalition
+                            </h4>
+                            <p
+                                style="
+                                    font-size: 12px;
+                                    color: var(--light-muted);
+                                "
+                            >
+                                United front with Deezer, Tidal, Soundcloud is
+                                more effective than individual litigation.
+                            </p>
+                        </div>
+                        <div style="padding: 10px 0">
+                            <h4 class="text-sm" style="margin-bottom: 3px">
+                                Royalty Rate Reviews
+                            </h4>
+                            <p
+                                style="
+                                    font-size: 12px;
+                                    color: var(--light-muted);
+                                "
+                            >
+                                Per-stream rates set periodically by tribunals.
+                                Active participation is a legitimate strategic
+                                tool.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 25: R5 -->
+            <div
+                class="s pad"
+                data-bg="eq"
+                data-era="s3"
+                data-notes="R5: Ecosystem Partnerships. Automotive integration highest priority. Tencent equity swap as model. Gaming integration creates bilateral dependency."
+            >
+                <div class="slide-inner-centered">
+                    <div class="chip a1">R5 · Assets ↑</div>
+                    <h2 class="med a2">Ecosystem <em>Partnerships</em></h2>
+                    <p class="bod a3 text-md" style="margin-top: 10px">
+                        Spotify cannot build iPhones — but it can create
+                        bilateral dependencies outside Apple's and Amazon's
+                        control.
+                    </p>
+                    <div class="row a4" style="margin-top: 16px; gap: 16px">
+                        <div class="card" style="flex: 1; margin: 0">
+                            <div class="card-label green">
+                                Automotive · Highest priority
+                            </div>
+                            <p>
+                                In-car audio is large and growing. Car OEMs not
+                                yet locked into Apple/Android ecosystems.
+                            </p>
+                        </div>
+                        <div class="card" style="flex: 1; margin: 0">
+                            <div class="card-label green">Tencent Model</div>
+                            <p>
+                                2017 equity swap: bilateral ownership created
+                                mutual market access. Replicate in SE Asia,
+                                LATAM, South Asia.
+                            </p>
+                        </div>
+                        <div class="card" style="flex: 1; margin: 0">
+                            <div class="card-label green">Gaming</div>
+                            <p>
+                                Deep PlayStation/Xbox integration. Gaming is a
+                                growing listening context with bilateral
+                                dependency potential.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 26: IMPLEMENTATION -->
+            <div
+                class="s pad"
+                data-bg="eq"
+                data-era="s3"
+                data-notes="R4 Regulatory highest priority, 2-5 years. R1 Content high, 12-36 months. R2 Data high, 6-18 months. R5 Partnerships medium, 18-48 months. R3 Artists medium, 3-5 years."
+            >
+                <div class="slide-inner">
+                    <div class="chip a1">Implementation</div>
+                    <h2 class="med a2">Priority <em>Framework</em></h2>
+                    <div class="a3" style="margin-top: 20px; max-width: 720px">
+                        <div class="impl-header">
+                            <div style="flex: 2">Recommendation</div>
+                            <div style="flex: 2">PFI Lever</div>
+                            <div style="flex: 1">Timeframe</div>
+                            <div style="flex: 1">Priority</div>
+                        </div>
+                        <div class="impl-row">
+                            <div class="impl-name">R4: Regulatory / Apple</div>
+                            <div class="impl-lever">
+                                Appropriability regime ↑
+                            </div>
+                            <div class="impl-time">2–5yr</div>
+                            <div style="flex: 1">
+                                <span class="pill red pill-sm">Highest</span>
+                            </div>
+                        </div>
+                        <div class="impl-row">
+                            <div class="impl-name">R1: Own content</div>
+                            <div class="impl-lever">
+                                Appropriability ↑ · Assets ↑
+                            </div>
+                            <div class="impl-time">12–36mo</div>
+                            <div style="flex: 1">
+                                <span class="pill amber pill-sm">High</span>
+                            </div>
+                        </div>
+                        <div class="impl-row">
+                            <div class="impl-name">R2: Monetise data</div>
+                            <div class="impl-lever">Complementary assets ↑</div>
+                            <div class="impl-time">6–18mo</div>
+                            <div style="flex: 1">
+                                <span class="pill amber pill-sm">High</span>
+                            </div>
+                        </div>
+                        <div class="impl-row">
+                            <div class="impl-name">
+                                R5: Ecosystem partnerships
+                            </div>
+                            <div class="impl-lever">Complementary assets ↑</div>
+                            <div class="impl-time">18–48mo</div>
+                            <div style="flex: 1">
+                                <span class="pill gray pill-sm">Medium</span>
+                            </div>
+                        </div>
+                        <div class="impl-row">
+                            <div class="impl-name">R3: Direct artist tools</div>
+                            <div class="impl-lever">
+                                Appropriability ↑ · Leverage
+                            </div>
+                            <div class="impl-time">3–5yr</div>
+                            <div style="flex: 1">
+                                <span class="pill gray pill-sm">Medium</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 27: PART 4 DIVIDER (dark) -->
+            <div
+                class="s dark"
+                data-bg="wave"
+                data-era="s4"
+                data-notes="Four lessons for international and digital business from the Spotify PFI analysis."
+            >
+                <div class="divider-slide">
+                    <div class="divider-num a1">Part Four</div>
+                    <div class="divider-title a2">
+                        Lessons for<br /><span style="color: var(--green)"
+                            >Digital Business</span
+                        >
+                    </div>
+                    <div class="divider-sub a3">
+                        Key theoretical and practical implications
+                    </div>
+                </div>
+            </div>
+
+            <!-- 28: LESSON 1 -->
+            <div
+                class="s pad"
+                data-bg="wave"
+                data-era="s4"
+                data-notes="Lesson 1: Enabling technologies face structural value capture limits. ~74% revenue to rights holders. Zero profit despite €7.88B revenue. Platform innovators must design appropriability strategies from inception."
+            >
+                <div class="slide-inner-centered">
+                    <div class="chip muted a1">Lesson 1</div>
+                    <h2 class="med a2">
+                        Enabling Tech: The <em>Value Trap</em>
+                    </h2>
+                    <div class="a3" style="margin-top: 20px">
+                        <div class="stat">
+                            <div class="stat-num red">~74%</div>
+                            <div class="stat-label">
+                                Revenue to rights holders per euro
+                            </div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-num red">€0</div>
+                            <div class="stat-label">
+                                Annual profit despite €7.88B revenue
+                            </div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-num">32%</div>
+                            <div class="stat-label">
+                                Global share — yet value flows elsewhere
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card a4" style="max-width: 580px">
+                        <p>
+                            <strong>Teece (2018):</strong> Enabling technologies
+                            face systematically weaker value capture. Social
+                            returns typically double private returns. The broad
+                            applicability that makes enabling tech
+                            transformative prevents the innovator from owning
+                            all complements.
+                        </p>
+                    </div>
+                    <p
+                        class="a5"
+                        style="
+                            font-size: 14px;
+                            color: var(--green-dark);
+                            margin-top: 14px;
+                            font-weight: 600;
+                        "
+                    >
+                        → Platform innovators must design appropriability
+                        strategies from inception.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 29: LESSON 2 -->
+            <div
+                class="s pad"
+                data-bg="wave"
+                data-era="s4"
+                data-notes="Lesson 2: Complementary assets trump innovation post-dominant-design. Apple replicated within months, 10M subs in 6 weeks. Market entry should prioritise asset analysis over product superiority."
+            >
+                <div class="slide-inner-centered">
+                    <div class="chip muted a1">Lesson 2</div>
+                    <h2 class="med a2">Assets <em>Trump</em> Innovation</h2>
+                    <div class="row a3" style="margin-top: 24px; gap: 8px">
+                        <div class="compare-card spotify" style="padding: 22px">
+                            <div class="compare-name">
+                                Spotify — The Innovator
+                            </div>
+                            <ul>
+                                <li>Created the dominant design</li>
+                                <li>356M MAUs, 158M premium</li>
+                                <li class="neg">
+                                    Net loss every year since founding
+                                </li>
+                                <li class="neg">
+                                    Market leadership ≠ profitability
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="compare-card apple" style="padding: 22px">
+                            <div class="compare-name">
+                                Apple Music — The Asset Holder
+                            </div>
+                            <ul>
+                                <li>Replicated design within months</li>
+                                <li>10M subscribers in 6 weeks via iOS</li>
+                                <li>Music is a loss-leader for hardware</li>
+                                <li>Asset control > product innovation</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card muted a4" style="max-width: 580px">
+                        <p>
+                            <strong>Generalised lesson:</strong> Market entry
+                            decisions should prioritise complementary asset
+                            analysis over product superiority. A technically
+                            inferior product backed by superior assets will
+                            consistently outperform.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 30: LESSON 3 -->
+            <div
+                class="s pad"
+                data-bg="wave"
+                data-era="s4"
+                data-notes="Lesson 3: Shaping the appropriability regime is a legitimate strategic tool. Regulatory engagement IS strategy. Cross-jurisdictional arbitrage is a strategic capability."
+            >
+                <div class="slide-inner-centered">
+                    <div class="chip muted a1">Lesson 3</div>
+                    <h2 class="med a2">Shaping the <em>Rules</em></h2>
+                    <p
+                        class="bod a3"
+                        style="
+                            font-size: 14px;
+                            margin-top: 10px;
+                            max-width: 620px;
+                        "
+                    >
+                        The appropriability regime is not fixed — it can be
+                        shaped through litigation, lobbying, and
+                        standard-setting.
+                    </p>
+                    <div
+                        class="row a4"
+                        style="margin-top: 20px; gap: 16px; max-width: 700px"
+                    >
+                        <div class="card" style="flex: 1; margin: 0">
+                            <div class="card-label green">
+                                Digital Platforms
+                            </div>
+                            <p>
+                                Regulatory engagement IS strategy. The EU DMA
+                                could eliminate the 30% iOS tax — more impactful
+                                than any product update.
+                            </p>
+                        </div>
+                        <div class="card" style="flex: 1; margin: 0">
+                            <div class="card-label green">Emerging Markets</div>
+                            <p>
+                                Treat the regulatory environment as a strategic
+                                variable to shape, not merely accept.
+                            </p>
+                        </div>
+                        <div class="card" style="flex: 1; margin: 0">
+                            <div class="card-label green">MNC Strategy</div>
+                            <p>
+                                Cross-jurisdictional regulatory arbitrage is a
+                                capability. Spotify leveraged EU law against a
+                                US firm.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 31: LESSON 4 -->
+            <div
+                class="s pad"
+                data-bg="wave"
+                data-era="s4"
+                data-notes="Lesson 4: Diversify when core has weak appropriability. Spotify's ~1B podcast investment is a structural appropriability repair programme."
+            >
+                <div class="slide-inner-centered">
+                    <div class="chip muted a1">Lesson 4</div>
+                    <h2 class="med a2">Diversify to <em>Capture</em></h2>
+                    <div class="row a3" style="margin-top: 24px; gap: 40px">
+                        <div style="flex: 1">
+                            <div class="card red mt-0">
+                                <div class="card-label red">
+                                    FROM: Music-Only
+                                </div>
+                                <p>
+                                    Weak appropriability. ~74% to rights
+                                    holders. Fully imitable. No proprietary
+                                    moat.
+                                </p>
+                            </div>
+                            <div
+                                style="
+                                    text-align: center;
+                                    padding: 10px;
+                                    font-size: 20px;
+                                    color: var(--green);
+                                "
+                            >
+                                ↓
+                            </div>
+                            <div class="card mt-0">
+                                <div class="card-label green">
+                                    TO: Audio Ecosystem
+                                </div>
+                                <p>
+                                    Owned podcast IP. No label royalties.
+                                    Exclusive content. Creator lock-in.
+                                    Audiobooks.
+                                </p>
+                            </div>
+                        </div>
+                        <div style="flex: 1">
+                            <div class="card muted" style="margin-top: 0">
+                                <div class="mono" style="margin-bottom: 6px">
+                                    The Generalised Lesson
+                                </div>
+                                <p>
+                                    When core domain has structural
+                                    appropriability limits,
+                                    <strong
+                                        >diversify into adjacent verticals where
+                                        proprietary assets can be built</strong
+                                    >.
+                                </p>
+                                <p class="text-detail" style="margin-top: 6px">
+                                    Spotify's ~€1B podcast investment is a
+                                    structural appropriability repair programme.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 32: SYNTHESIS TABLE -->
+            <div
+                class="s pad"
+                data-bg="wave"
+                data-era="s4"
+                data-notes="Innovation alone is necessary but not sufficient. Strategy must simultaneously address appropriability, complementary assets, and regulatory context."
+            >
+                <div class="slide-inner">
+                    <div class="chip muted a1">Synthesis</div>
+                    <h2 class="med a2">Four Lessons, <em>One Insight</em></h2>
+                    <div class="a3" style="margin-top: 16px; max-width: 720px">
+                        <div class="impl-header">
+                            <div style="flex: 1">Lesson</div>
+                            <div style="flex: 1">PFI Concept</div>
+                            <div style="flex: 2">Implication</div>
+                        </div>
+                        <div class="impl-row">
+                            <div
+                                style="
+                                    flex: 1;
+                                    font-size: 12px;
+                                    font-weight: 600;
+                                "
+                            >
+                                Enabling tech value trap
+                            </div>
+                            <div
+                                style="
+                                    flex: 1;
+                                    font-size: 11px;
+                                    color: var(--light-muted);
+                                "
+                            >
+                                Social vs private returns
+                            </div>
+                            <div
+                                style="
+                                    flex: 2;
+                                    font-size: 11px;
+                                    color: var(--light-muted);
+                                "
+                            >
+                                Design appropriability strategies from day one
+                            </div>
+                        </div>
+                        <div class="impl-row">
+                            <div
+                                style="
+                                    flex: 1;
+                                    font-size: 12px;
+                                    font-weight: 600;
+                                "
+                            >
+                                Assets > innovation
+                            </div>
+                            <div
+                                style="
+                                    flex: 1;
+                                    font-size: 11px;
+                                    color: var(--light-muted);
+                                "
+                            >
+                                Bottleneck control
+                            </div>
+                            <div
+                                style="
+                                    flex: 2;
+                                    font-size: 11px;
+                                    color: var(--light-muted);
+                                "
+                            >
+                                Prioritise asset analysis over product
+                                superiority
+                            </div>
+                        </div>
+                        <div class="impl-row">
+                            <div
+                                style="
+                                    flex: 1;
+                                    font-size: 12px;
+                                    font-weight: 600;
+                                "
+                            >
+                                Regulatory shaping
+                            </div>
+                            <div
+                                style="
+                                    flex: 1;
+                                    font-size: 11px;
+                                    color: var(--light-muted);
+                                "
+                            >
+                                Regime is endogenous
+                            </div>
+                            <div
+                                style="
+                                    flex: 2;
+                                    font-size: 11px;
+                                    color: var(--light-muted);
+                                "
+                            >
+                                Cross-jurisdictional engagement as capability
+                            </div>
+                        </div>
+                        <div class="impl-row">
+                            <div
+                                style="
+                                    flex: 1;
+                                    font-size: 12px;
+                                    font-weight: 600;
+                                "
+                            >
+                                Platform diversification
+                            </div>
+                            <div
+                                style="
+                                    flex: 1;
+                                    font-size: 11px;
+                                    color: var(--light-muted);
+                                "
+                            >
+                                Vertical scope
+                            </div>
+                            <div
+                                style="
+                                    flex: 2;
+                                    font-size: 11px;
+                                    color: var(--light-muted);
+                                "
+                            >
+                                Diversify when core has weak appropriability
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="card a4"
+                        style="max-width: 620px; margin-top: 16px"
+                    >
+                        <p style="font-weight: 600">
+                            Innovation alone is necessary but not sufficient for
+                            value capture in digital markets.
+                        </p>
+                        <p class="text-detail" style="margin-top: 4px">
+                            Strategy must simultaneously address
+                            appropriability, complementary assets, and
+                            regulatory context.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 33: CONCLUSION (dark) -->
+            <div
+                class="s dark pad"
+                data-bg="eq"
+                data-era=""
+                data-notes="Spotify — most successful streaming innovator, never profitable. Not a management failure — the PFI paradox. Five recommendations reposition toward stronger value capture. Who captures value is determined by who controls the bottleneck assets."
+            >
+                <div class="slide-inner-centered">
+                    <div class="chip a1">Conclusion</div>
+                    <h2 class="big a2" style="max-width: 620px; color: #fff">
+                        Spotify <em>&amp;</em> the PFI <em>Paradox</em>
+                    </h2>
+                    <div
+                        style="
+                            display: flex;
+                            gap: 8px;
+                            margin-top: 28px;
+                            flex-wrap: wrap;
+                        "
+                        class="a3"
+                    >
+                        <span class="pill red">Weak Appropriability</span>
+                        <span class="pill green">Established Standard</span>
+                        <span class="pill red">Deficient Assets</span>
+                    </div>
+                    <p
+                        class="a4"
+                        style="
+                            margin-top: 24px;
+                            font-size: 16px;
+                            color: var(--dark-muted);
+                            max-width: 560px;
+                            line-height: 1.7;
+                        "
+                    >
+                        Five recommendations reposition Spotify toward a
+                        diversified audio ecosystem with stronger value capture.
+                    </p>
+                    <div
+                        class="quote a5"
+                        style="
+                            margin-top: 20px;
+                            max-width: 560px;
+                            color: rgba(255, 255, 255, 0.8);
+                            border-left-color: var(--green);
+                        "
+                    >
+                        "Who captures value is determined not by who innovates
+                        first, but by who controls the
+                        <strong style="color: #fff">bottleneck assets</strong>."
+                        <div
+                            class="quote-attr"
+                            style="color: var(--dark-faint)"
+                        >
+                            — Teece's Core Insight
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 34: REFERENCES (light) -->
+            <div class="s pad" data-bg="" data-era="" data-notes="References.">
+                <div class="slide-inner">
+                    <div class="chip muted a1">References</div>
+                    <h2 class="med a2" style="margin-bottom: 20px">Sources</h2>
+                    <div class="row a3" style="gap: 40px">
+                        <div class="col">
+                            <div
+                                class="mono"
+                                style="
+                                    color: var(--green-dark);
+                                    margin-bottom: 10px;
+                                "
+                            >
+                                Academic Sources
+                            </div>
+                            <p
+                                style="
+                                    font-size: 11px;
+                                    color: var(--light-muted);
+                                    line-height: 2.2;
+                                "
+                            >
+                                Teece, D.J. (1986) 'Profiting from Technological
+                                Innovation', <em>Research Policy</em>, 15(6),
+                                pp. 285–305.<br />Teece, D.J. (2006)
+                                'Reflections on Profiting from Innovation',
+                                <em>Research Policy</em>, 35(8), pp.
+                                1131–1146.<br />Teece, D.J. (2018) 'Profiting
+                                from Innovation in the Digital Economy',
+                                <em>Research Policy</em>, 47(8), pp.
+                                1367–1387.<br />Teece, D.J., Pisano, G. &amp;
+                                Shuen, A. (1997) 'Dynamic Capabilities and
+                                Strategic Management',
+                                <em>Strategic Management Journal</em>, 18(7),
+                                pp. 509–533.<br />Utterback, J.M. &amp;
+                                Abernathy, W.J. (1975) 'A Dynamic Model of
+                                Process and Product Innovation', <em>Omega</em>,
+                                3(6).
+                            </p>
+                        </div>
+                        <div class="col">
+                            <div
+                                class="mono"
+                                style="
+                                    color: var(--green-dark);
+                                    margin-bottom: 10px;
+                                "
+                            >
+                                Industry &amp; Case Sources
+                            </div>
+                            <p
+                                style="
+                                    font-size: 11px;
+                                    color: var(--light-muted);
+                                    line-height: 2.2;
+                                "
+                            >
+                                IFPI Global Music Report (2021). International
+                                Federation of the Phonographic Industry.<br />Spotify
+                                Technology S.A. (2021) Annual Report and Form
+                                20-F. NYSE.<br />European Commission (2021)
+                                'Antitrust: Statement of Objections to Apple'.
+                                EC Press Release, 30 April.<br />Spotify for
+                                Artists Platform Data (2021).
+                                spotify.com/artists.<br />HBS Case: 'Spotify'
+                                (2021). Harvard Business School Publishing.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /deck -->
+
+        <!-- Nav — Spotify Playback Controls -->
+        <div class="nav">
+            <button class="skip-btn" onclick="go(-1)" title="← Previous">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"
+                        transform="scale(-1,1) translate(-24,0)"
+                    />
+                </svg>
+            </button>
+            <button
+                class="play-btn"
+                onclick="toggleNotes()"
+                title="Speaker Notes"
+            >
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+            </button>
+            <button class="skip-btn" onclick="go(1)" title="→ Next">
+                <svg viewBox="0 0 24 24">
+                    <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
+                </svg>
+            </button>
+        </div>
+
+        <script>
+            // Generate EQ bars
+            (function () {
+                const eq = document.getElementById("bgEQ");
+                for (let i = 0; i < 26; i++) {
+                    const b = document.createElement("div");
+                    b.className = "eq-bar";
+                    const h = 35 + Math.random() * 180,
+                        h1 = 25 + Math.random() * 90,
+                        h2 = 70 + Math.random() * 220,
+                        h3 = 40 + Math.random() * 130;
+                    b.style.cssText = `--height:${h}px;--h1:${h1}px;--h2:${h2}px;--h3:${h3}px;--delay:${(i * 0.05).toFixed(2)}s;--speed:${(4 + Math.random() * 4).toFixed(2)}s`;
+                    eq.appendChild(b);
+                }
+            })();
+
+            // Generate notes
+            (function () {
+                const n = document.getElementById("bgNotes");
+                const s = ["♪", "♫", "♬", "♩"];
+                for (let i = 0; i < 18; i++) {
+                    const d = document.createElement("div");
+                    d.className = "note";
+                    d.textContent = s[Math.floor(Math.random() * s.length)];
+                    d.style.cssText = `left:${Math.random() * 100}%;bottom:${Math.random() * 30}%;--dur:${10 + Math.random() * 10}s;--delay:${Math.random() * 5}s;font-size:${14 + Math.random() * 20}px;opacity:${0.08 + Math.random() * 0.3}`;
+                    n.appendChild(d);
+                }
+            })();
+
+            const slides = [...document.querySelectorAll(".s")];
+            const total = slides.length;
+            let current = 0,
+                notesVisible = false;
+            const bgEls = {
+                vinyl: document.getElementById("bgVinyl"),
+                cassette: document.getElementById("bgCassette"),
+                cd: document.getElementById("bgCD"),
+                ipod: document.getElementById("bgIPod"),
+                eq: document.getElementById("bgEQ"),
+                wave: document.getElementById("bgWave"),
+                notes: document.getElementById("bgNotes"),
+            };
+            let activeBg = "";
+
+            function show(i) {
+                if (i < 0 || i >= total) return;
+                slides[current].classList.remove("on");
+                current = i;
+                slides[current].classList.add("on");
+
+                const isDark = slides[current].classList.contains("dark");
+                document.body.style.background = isDark
+                    ? "var(--dark-bg)"
+                    : "var(--light-bg)";
+                document.getElementById("counter").style.color = isDark
+                    ? "var(--dark-faint)"
+                    : "var(--light-faint)";
+                document.getElementById("notes").style.background = isDark
+                    ? "rgba(30,30,30,.95)"
+                    : "rgba(255,255,255,.95)";
+                document.getElementById("notes").style.color = isDark
+                    ? "var(--dark-muted)"
+                    : "var(--light-muted)";
+                document.getElementById("notes").style.borderColor = isDark
+                    ? "var(--dark-border)"
+                    : "var(--light-border)";
+                document.querySelectorAll(".nav .skip-btn").forEach((b) => {
+                    b.style.color = isDark
+                        ? "var(--dark-muted)"
+                        : "var(--light-muted)";
+                });
+
+                document.getElementById("progress").style.width =
+                    (current / (total - 1)) * 100 + "%";
+                document.getElementById("counter").textContent =
+                    String(current + 1).padStart(2, "0") +
+                    " / " +
+                    String(total).padStart(2, "0");
+
+                const era = slides[current].dataset.era;
+                const eraEl = document.getElementById("era");
+                eraEl.className = "";
+                if (era === "s1") {
+                    eraEl.className = "on s1";
+                    eraEl.querySelector("span").textContent = "Part One";
+                } else if (era === "s2") {
+                    eraEl.className = "on s2";
+                    eraEl.querySelector("span").textContent = "Part Two";
+                } else if (era === "s3") {
+                    eraEl.className = "on s3";
+                    eraEl.querySelector("span").textContent = "Part Three";
+                } else if (era === "s4") {
+                    eraEl.className = "on s4";
+                    eraEl.querySelector("span").textContent = "Part Four";
+                }
+
+                const newBg = slides[current].dataset.bg || "";
+                if (newBg !== activeBg) {
+                    // Hide old bg
+                    if (activeBg && bgEls[activeBg]) {
+                        const oldEl = bgEls[activeBg];
+                        // Use special transition animations where available
+                        if (activeBg === "vinyl" && newBg === "cassette") {
+                            oldEl.className = "vinyl-container exit-to-tape";
+                        } else if (activeBg === "cassette" && newBg === "cd") {
+                            oldEl.className = "cassette-container exit-unravel";
+                        } else if (activeBg === "cd" && newBg === "ipod") {
+                            oldEl.className = "cd-container exit-shatter";
+                        } else if (activeBg === "ipod" && newBg === "eq") {
+                            oldEl.className = "ipod-container exit-to-eq";
+                        } else if (activeBg === "cd" && newBg === "eq") {
+                            oldEl.className = "cd-container exit-shatter";
+                        } else {
+                            // Generic hide: reset to base class (opacity:0)
+                            oldEl.className = oldEl.className.split(" ")[0];
+                        }
+                    }
+                    // Show new bg
+                    if (newBg && bgEls[newBg]) {
+                        const newEl = bgEls[newBg];
+                        // Use special entrance animations where available
+                        if (activeBg === "vinyl" && newBg === "cassette") {
+                            newEl.className =
+                                "cassette-container enter-from-vinyl";
+                            // After entrance animation, switch to steady state
+                            setTimeout(() => {
+                                if (activeBg === "cassette")
+                                    newEl.className =
+                                        "cassette-container steady";
+                            }, 1100);
+                        } else if (activeBg === "cassette" && newBg === "cd") {
+                            setTimeout(() => {
+                                newEl.className =
+                                    "cd-container enter-from-tape";
+                                setTimeout(() => {
+                                    if (activeBg === "cd")
+                                        newEl.className = "cd-container steady";
+                                }, 1300);
+                            }, 700);
+                        } else if (activeBg === "cd" && newBg === "ipod") {
+                            setTimeout(() => {
+                                newEl.className =
+                                    "ipod-container enter-from-cd";
+                                setTimeout(() => {
+                                    if (activeBg === "ipod")
+                                        newEl.className =
+                                            "ipod-container steady";
+                                }, 1100);
+                            }, 500);
+                        } else if (activeBg === "ipod" && newBg === "eq") {
+                            setTimeout(() => {
+                                newEl.className =
+                                    "eq-container enter-from-ipod";
+                                setTimeout(() => {
+                                    if (activeBg === "eq")
+                                        newEl.className = "eq-container steady";
+                                }, 900);
+                            }, 400);
+                        } else if (activeBg === "cd" && newBg === "eq") {
+                            setTimeout(() => {
+                                newEl.className = "eq-container enter-from-cd";
+                                setTimeout(() => {
+                                    if (activeBg === "eq")
+                                        newEl.className = "eq-container steady";
+                                }, 700);
+                            }, 500);
+                        } else {
+                            // Generic show: use active, then switch to steady
+                            newEl.className =
+                                newEl.className.split(" ")[0] + " active";
+                            setTimeout(() => {
+                                if (activeBg === newBg) {
+                                    newEl.className =
+                                        newEl.className.split(" ")[0] +
+                                        " steady";
+                                }
+                            }, 1300);
+                        }
+                    }
+                    activeBg = newBg;
+                }
+                // Music notes follow eq and wave
+                if (newBg === "eq" || newBg === "wave") {
+                    bgEls.notes.classList.add("active");
+                } else {
+                    bgEls.notes.className = "music-notes";
+                }
+                document.getElementById("notes").textContent =
+                    slides[current].dataset.notes || "";
+            }
+            function go(d) {
+                show(current + d);
+            }
+            function toggleNotes() {
+                notesVisible = !notesVisible;
+                document
+                    .getElementById("notes")
+                    .classList.toggle("on", notesVisible);
+            }
+
+            document.addEventListener("keydown", (e) => {
+                if (
+                    e.key === "ArrowRight" ||
+                    e.key === " " ||
+                    e.key === "PageDown"
+                ) {
+                    e.preventDefault();
+                    go(1);
+                }
+                if (e.key === "ArrowLeft" || e.key === "PageUp") {
+                    e.preventDefault();
+                    go(-1);
+                }
+                if (e.key === "n" || e.key === "N") toggleNotes();
+                if (e.key === "Home") show(0);
+                if (e.key === "End") show(total - 1);
+                if (e.key === "f" || e.key === "F") {
+                    if (!document.fullscreenElement)
+                        document.documentElement.requestFullscreen();
+                    else document.exitFullscreen();
+                }
+            });
+            let ts = 0;
+            document.addEventListener("touchstart", (e) => {
+                ts = e.touches[0].clientX;
+            });
+            document.addEventListener("touchend", (e) => {
+                const d = ts - e.changedTouches[0].clientX;
+                if (Math.abs(d) > 50) go(d > 0 ? 1 : -1);
+            });
+            show(0);
+        </script>
+    </body>
+</html>
