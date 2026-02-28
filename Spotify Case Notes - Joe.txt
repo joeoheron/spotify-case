@@ -1,0 +1,201 @@
+﻿(Case Notes)
+Piracy
+Storage
+* physical vs. digital
+	* owned vs. subscribed
+
+Zune, iPod. Walkman-devices
+
+Competitors
+* Apple, Amazon, Soundcloud, Podcast apps, other media?
+
+From 125000 → 40000000 song libraries
+
+Major Labels try their hand with Music Net and Pressplay
+* Labeled as some of the worst tech products of all time
+
+iTunes profits weren’t significant
+* Acted as more of a loss leader, with iPods having greater margin and being more important to bottom line
+
+Sony Connect and Zune Marketplace
+* These came with certain compatibility requirements
+
+DRM was abandoned due to Amazon's entry into the market
+
+Radiohead attempted a choose your price with one of their albums, selling direct to listeners
+
+Rhapsody music streaming
+
+Pandora, Slacker, Tidal
+
+Data access: storage space available on hardware vs. data limitations from networks
+
+Streaming bigger than downloads by 2017
+
+Global
+* Spotify was in Europe for 3 years before moving into US market
+* By 2020, they were present in 85 different countries
+* There’s been some difficulty with emerging markets
+	* Piracy
+	* How much do they consider purchasing power in their pricing and monetization strategies?
+* Equity swap with Tencent
+	* Allowed more significant access to Chinese market
+
+Business Model
+* Freemium
+* What differentiates them from competitors at this point?
+* The average revenue per user is at €4.31 and has been in decline lately
+
+Extras
+* Spotify recognizes and leverages the importance of playlists
+* They’ve provided an ability to follow friends
+* Spotify for Artists provides a space for artists to see more data about their music and listeners
+
+Half of Spotify’s employees are in R&D
+
+Sales more expensive in free version
+* Does the general public suffer from subscription fatigue?
+	* The case shows free users accelerating at greater rate than paid
+	* Have they reached a plateau percentage of paid users?
+Royalties represent the biggest cost of the business
+
+Taylor Swift left Spotify, then came back
+
+Spotify briefly offered publishing abilities for artists in their Spotify for Artists offering, then backtracked on that
+
+Self publishing has been on the rise
+
+Two-thirds of the label market is controlled by only 3 major labels
+* Signing a new artist and working with them can cost between $500000-2m
+
+How significant is the matter of new music discovery vs. listening to the same tracks over and over?
+
+The Apple App Store charges a 30% fee on app transactions, causing issues for Spotify
+
+Spotify introduced a hifi plan that would be more expensive than its other plans, where competitors were willing to offer hifi for free
+
+YouTube holds the largest portion of the free music streaming market
+
+Wasn’t podcast data notoriously difficult to collect, analyse and derive insights?
+
+When do losses matter to investors?
+
+Spotify aims to have billions of users, how well does that balance with increasing premium costs and inability to earn more from free users?
+
+What role does Spotify play in live show ticket sales?
+
+Summarise
+
+Timing plays a role here, not necessarily the first mover, but they were an early mover.
+
+User experience has been a critical component of their success.
+
+Piracy has had a major influence on the industry.
+
+Who’s all involved here?
+* Spotify. Record Labels, Artists, Users (paid vs. free)
+
+E
+
+I-competitive tech, royalties, labels, low earnings-high cost free plan
+
+A
+
+I
+
+
+(Research Paper Notes)
+Value Capture Problem
+* Requires understanding platforms and ecosystems
+	* labels, piracy, artists, physical vs. digital, download vs. stream
+* There’s an amplified difficulty for capturing value for enabling technologies
+	* Is Spotify an enabling technology?
+		* I don’t think so.
+	* It’s difficult and impractical control/own all products that get built on top of an enabling technology
+* Enabling technologies need complementary assets
+	* What are these in audio?
+		* podcasts, live shows (horizontal)
+		* producing and publishing (vertical)
+* Complementors lead to coordination and market design challenges
+	* How does this apply to the case?
+		* Spotify decided to remove self-publishing and leaned more into horizontal
+	* Greater social than private returns causes failure
+
+Profiting from Innovation (PFI)
+* Must find and consider this framework
+* What is “industry architecture” (Jacobides et al) as mentioned in the research?
+
+Why do pioneering firms often fail to capture much of the economic returns from innovation?
+* iPod vs. the first MP3
+* Is Spotify the iPod or the first MP3?
+* "incremental/imitative entrants" are more likely to take market share than something radical
+
+The social returns of research and development are 2x the private returns
+
+What does research and development spillover mean and how does it apply to this case?
+
+How important is appropriability (low vs. high) in Spotify’s case?
+
+The paper mentions that a large portfolio of patents can prove valuable for cross licensing deals with rivals
+* Is this exemplified in the Spotify case somehow? Does it matter?
+
+General Purpose Technologies (GPT)
+1. Pervasive-widely used
+2. Capable of ongoing tech improvement
+3. Enable complementary innovations in application sectors
+* examples: electricity, the printing press
+
+Enabling Technologies
+* Meets criteria 2 & 3 above
+* examples: 3G/4G
+* Artificial intelligence is mentioned in the paper, but perhaps this is a GPT now?
+	* Out of scope of case, but how similar is the OpenAI case for lack of profitability?
+
+What do spillovers represent in this paper and in this case?
+* Are there both dynamic and static examples applicable here?
+
+Adoption is critical to the improvement of a technology
+* What does coordination look like with major labels?
+
+Does venture capital/private investment pick up the pieces where policy falls short?
+
+What is full appropriation?
+
+"... capturing value from enabling technologies is more challenging, from a business model standpoint, than capturing value from a modest discrete innovation."
+
+Potential presentation activity could be polling the class to “Put your hand up if you believe Spotify is one of the worst technologies ever.”
+
+MPEG-is this an enabling technology within the case? What does MPEG stand for again?
+
+Profiting from innovation says that profits go to bottleneck assets within ecosystems
+* These may shift over time
+* What makes a bottleneck asset?
+* example: data rate increases may raise profits of video content providers while imposing greater cost on network provider
+	* fortune of specific types of content will face different appropriability regimes
+		* Netflix mentioned in research for video, but what about audio?
+			* Bad Bunny vs a stranger's mixtape
+
+Five Drivers of Profiting from Innovation
+1. Appropriability Regime
+2. Complementary Assets/Tech and Related Business Model Issues
+3. Standards and Installed Base Effects
+	a. What does that mean? Is it relevant here?
+4. Timing
+5. Ecosystem Strength
+
+Is music distribution a bottleneck asset? Is it production?
+
+Ecosystems that Spotify Operates Within
+* music
+* mobile technology
+* cloud technology
+* podcasts
+
+**Dynamic Capabilities Framework**
+
+Tight integration is an advantage.
+
+General Purpose Technologies, Enabling Technologies, Ecosystems, Platforms
+
+Is high-fidelity an example of progression in audio focused enabling
+technology?

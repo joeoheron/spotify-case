@@ -1498,6 +1498,7 @@
                 padding: 5px 12px;
                 border-radius: 3px;
                 margin-bottom: 16px;
+                align-self: baseline;
             }
             /* Light slide chips */
             .chip {
@@ -2477,6 +2478,367 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- 5: INDUSTRY IN FREE-FALL -->
+            <div
+                class="s pad"
+                data-bg="cd"
+                data-era="s1"
+                data-notes="US recorded music revenue collapsed from ~$20.5B in 1999 to ~$8B in 2015 — a 60% decline in real terms. Physical formats (CD) cratered as piracy decentralised post-Napster. Digital downloads partially compensated but couldn't fill the gap. Streaming (green) only begins recovering the industry from ~2010 onwards. Incumbents with sunk costs in physical infrastructure couldn't cannibalise their own model."
+            >
+                <div class="slide-inner">
+                    <div class="chip red a1">Free-Fall</div>
+                    <h2 class="med a2">
+                        Industry in
+                        <span style="color: var(--red)">Free-Fall</span>
+                    </h2>
+                    <p
+                        class="bod a3"
+                        style="margin-top: 6px; color: var(--light-muted)"
+                    >
+                        US recorded music revenue, 1999–2015 (approx., 2020
+                        dollars)
+                    </p>
+                    <div class="a4" style="margin-top: 14px">
+                        <svg
+                            viewBox="0 0 760 250"
+                            style="
+                                width: 100%;
+                                max-width: 800px;
+                                display: block;
+                            "
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <!-- Physical layer (RED) — fills from baseline to physical revenue top -->
+                            <polygon
+                                shape-rendering="geometricPrecision"
+                                points="60,29.0 102.5,36.1 145,47.3 187.5,63.4 230,74.0 272.5,84.6 315,94.6 357.5,113.9 400,128.3 442.5,142.7 485,152.4 527.5,159.0 570,166.4 612.5,171.9 655,177.4 697.5,182.8 740,189.2 740,225 60,225"
+                                fill="#e91429"
+                                fill-opacity="0.82"
+                            />
+                            <!-- Downloads layer (AMBER) — fills between physical top and physical+downloads top -->
+                            <polygon
+                                shape-rendering="geometricPrecision"
+                                points="60,29.0 102.5,36.1 145,47.3 187.5,63.4 230,73.6 272.5,80.8 315,84.2 357.5,96.8 400,105.4 442.5,116.0 485,126.6 527.5,134.2 570,142.6 612.5,149.9 655,157.3 697.5,165.6 740,174.8 740,189.2 697.5,182.8 655,177.4 612.5,171.9 570,166.4 527.5,159.0 485,152.4 442.5,142.7 400,128.3 357.5,113.9 315,94.6 272.5,84.6 230,74.0 187.5,63.4 145,47.3 102.5,36.1 60,29.0"
+                                fill="#f59e0b"
+                                fill-opacity="0.85"
+                            />
+                            <!-- Ringtones/Mobile layer (SLATE) — fills between downloads top and downloads+ringtones top -->
+                            <polygon
+                                shape-rendering="geometricPrecision"
+                                points="60,29.0 102.5,36.1 145,47.3 187.5,63.4 230,73.6 272.5,78.4 315,78.4 357.5,87.7 400,95.1 442.5,107.0 485,119.7 527.5,129.0 570,138.5 612.5,147.3 655,155.7 697.5,164.4 740,173.9 740,174.8 697.5,165.6 655,157.3 612.5,149.9 570,142.6 527.5,134.2 485,126.6 442.5,116.0 400,105.4 357.5,96.8 315,84.2 272.5,80.8 230,73.6 187.5,63.4 145,47.3 102.5,36.1 60,29.0"
+                                fill="#94a3b8"
+                                fill-opacity="0.85"
+                            />
+                            <!-- Streaming layer (GREEN) — fills between ringtones top and total revenue top -->
+                            <polygon
+                                shape-rendering="geometricPrecision"
+                                points="60,29.0 102.5,36.1 145,47.3 187.5,63.4 230,73.6 272.5,78.4 315,78.4 357.5,85.3 400,91.5 442.5,101.9 485,113.7 527.5,121.1 570,129.0 612.5,135.6 655,140.7 697.5,144.4 740,148.4 740,173.9 697.5,164.4 655,155.7 612.5,147.3 570,138.5 527.5,129.0 485,119.7 442.5,107.0 400,95.1 357.5,87.7 315,78.4 272.5,78.4 230,73.6 187.5,63.4 145,47.3 102.5,36.1 60,29.0"
+                                fill="#1db954"
+                                fill-opacity="0.9"
+                            />
+                            <!-- Baseline -->
+                            <line
+                                x1="60"
+                                y1="225"
+                                x2="740"
+                                y2="225"
+                                stroke="#1a1a1a"
+                                stroke-width="1.5"
+                                stroke-opacity="0.12"
+                            />
+                            <!-- X-axis ticks -->
+                            <line
+                                x1="60"
+                                y1="225"
+                                x2="60"
+                                y2="229"
+                                stroke="#1a1a1a"
+                                stroke-width="1"
+                                stroke-opacity="0.2"
+                            />
+                            <line
+                                x1="230"
+                                y1="225"
+                                x2="230"
+                                y2="229"
+                                stroke="#1a1a1a"
+                                stroke-width="1"
+                                stroke-opacity="0.2"
+                            />
+                            <line
+                                x1="400"
+                                y1="225"
+                                x2="400"
+                                y2="229"
+                                stroke="#1a1a1a"
+                                stroke-width="1"
+                                stroke-opacity="0.2"
+                            />
+                            <line
+                                x1="570"
+                                y1="225"
+                                x2="570"
+                                y2="229"
+                                stroke="#1a1a1a"
+                                stroke-width="1"
+                                stroke-opacity="0.2"
+                            />
+                            <line
+                                x1="740"
+                                y1="225"
+                                x2="740"
+                                y2="229"
+                                stroke="#1a1a1a"
+                                stroke-width="1"
+                                stroke-opacity="0.2"
+                            />
+                            <!-- X-axis year labels -->
+                            <text
+                                x="60"
+                                y="240"
+                                font-family="JetBrains Mono, monospace"
+                                font-size="9"
+                                fill="#6b6b6b"
+                                text-anchor="middle"
+                            >
+                                1999
+                            </text>
+                            <text
+                                x="230"
+                                y="240"
+                                font-family="JetBrains Mono, monospace"
+                                font-size="9"
+                                fill="#6b6b6b"
+                                text-anchor="middle"
+                            >
+                                2003
+                            </text>
+                            <text
+                                x="400"
+                                y="240"
+                                font-family="JetBrains Mono, monospace"
+                                font-size="9"
+                                fill="#6b6b6b"
+                                text-anchor="middle"
+                            >
+                                2007
+                            </text>
+                            <text
+                                x="570"
+                                y="240"
+                                font-family="JetBrains Mono, monospace"
+                                font-size="9"
+                                fill="#6b6b6b"
+                                text-anchor="middle"
+                            >
+                                2011
+                            </text>
+                            <text
+                                x="740"
+                                y="240"
+                                font-family="JetBrains Mono, monospace"
+                                font-size="9"
+                                fill="#6b6b6b"
+                                text-anchor="middle"
+                            >
+                                2015
+                            </text>
+                            <!-- Event marker: Napster shutdown 2001 (x=145) -->
+                            <line
+                                x1="145"
+                                y1="20"
+                                x2="145"
+                                y2="225"
+                                stroke="#e91429"
+                                stroke-width="0.8"
+                                stroke-dasharray="3,3"
+                                stroke-opacity="0.45"
+                            />
+                            <text
+                                x="148"
+                                y="28"
+                                font-family="JetBrains Mono, monospace"
+                                font-size="8"
+                                fill="#e91429"
+                                fill-opacity="0.8"
+                            >
+                                Napster
+                            </text>
+                            <!-- Event marker: iTunes 2003 (x=230) -->
+                            <line
+                                x1="230"
+                                y1="20"
+                                x2="230"
+                                y2="225"
+                                stroke="#6b6b6b"
+                                stroke-width="0.8"
+                                stroke-dasharray="3,3"
+                                stroke-opacity="0.25"
+                            />
+                            <text
+                                x="233"
+                                y="28"
+                                font-family="JetBrains Mono, monospace"
+                                font-size="8"
+                                fill="#6b6b6b"
+                                fill-opacity="0.75"
+                            >
+                                iTunes
+                            </text>
+                            <!-- Event marker: Spotify US launch 2011 (x=570) -->
+                            <line
+                                x1="570"
+                                y1="20"
+                                x2="570"
+                                y2="225"
+                                stroke="#1db954"
+                                stroke-width="0.8"
+                                stroke-dasharray="3,3"
+                                stroke-opacity="0.55"
+                            />
+                            <text
+                                x="573"
+                                y="28"
+                                font-family="JetBrains Mono, monospace"
+                                font-size="8"
+                                fill="#1db954"
+                            >
+                                Spotify US
+                            </text>
+                            <!-- Revenue labels -->
+                            <text
+                                x="60"
+                                y="14"
+                                font-family="JetBrains Mono, monospace"
+                                font-size="9"
+                                fill="#1a1a1a"
+                                fill-opacity="0.4"
+                                text-anchor="middle"
+                            >
+                                ~$20.5B
+                            </text>
+                            <text
+                                x="736"
+                                y="143"
+                                font-family="JetBrains Mono, monospace"
+                                font-size="9"
+                                fill="#1a1a1a"
+                                fill-opacity="0.4"
+                                text-anchor="end"
+                            >
+                                ~$8B
+                            </text>
+                        </svg>
+                    </div>
+                    <!-- Legend -->
+                    <div
+                        class="a5"
+                        style="
+                            display: flex;
+                            gap: 20px;
+                            margin-top: 8px;
+                            flex-wrap: wrap;
+                            align-items: center;
+                            justify-content: center;
+                            max-width: 800px;
+                        "
+                    >
+                        <div
+                            style="display: flex; align-items: center; gap: 6px"
+                        >
+                            <div
+                                style="
+                                    width: 10px;
+                                    height: 10px;
+                                    border-radius: 2px;
+                                    background: #e91429;
+                                    opacity: 0.82;
+                                    flex-shrink: 0;
+                                "
+                            ></div>
+                            <span
+                                style="
+                                    font-family:
+                                        &quot;JetBrains Mono&quot;, monospace;
+                                    font-size: 10px;
+                                    color: var(--light-muted);
+                                "
+                                >Physical (CD, Cassette, Vinyl)</span
+                            >
+                        </div>
+                        <div
+                            style="display: flex; align-items: center; gap: 6px"
+                        >
+                            <div
+                                style="
+                                    width: 10px;
+                                    height: 10px;
+                                    border-radius: 2px;
+                                    background: #f59e0b;
+                                    opacity: 0.85;
+                                    flex-shrink: 0;
+                                "
+                            ></div>
+                            <span
+                                style="
+                                    font-family:
+                                        &quot;JetBrains Mono&quot;, monospace;
+                                    font-size: 10px;
+                                    color: var(--light-muted);
+                                "
+                                >Digital Downloads</span
+                            >
+                        </div>
+                        <div
+                            style="display: flex; align-items: center; gap: 6px"
+                        >
+                            <div
+                                style="
+                                    width: 10px;
+                                    height: 10px;
+                                    border-radius: 2px;
+                                    background: #94a3b8;
+                                    opacity: 0.85;
+                                    flex-shrink: 0;
+                                "
+                            ></div>
+                            <span
+                                style="
+                                    font-family:
+                                        &quot;JetBrains Mono&quot;, monospace;
+                                    font-size: 10px;
+                                    color: var(--light-muted);
+                                "
+                                >Ringtones &amp; Mobile</span
+                            >
+                        </div>
+                        <div
+                            style="display: flex; align-items: center; gap: 6px"
+                        >
+                            <div
+                                style="
+                                    width: 10px;
+                                    height: 10px;
+                                    border-radius: 2px;
+                                    background: #1db954;
+                                    opacity: 0.9;
+                                    flex-shrink: 0;
+                                "
+                            ></div>
+                            <span
+                                style="
+                                    font-family:
+                                        &quot;JetBrains Mono&quot;, monospace;
+                                    font-size: 10px;
+                                    color: var(--light-muted);
+                                "
+                                >Streaming</span
+                            >
+                        </div>
+                    </div>
                     <div
                         class="card red a4"
                         style="max-width: 580px; margin-top: 20px"
@@ -2490,57 +2852,6 @@
                             business entities and organizations whose fates are
                             tied technologically and/or competitively." (Teece,
                             2018, p.1372)
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 5: POST-NAPSTER -->
-            <div
-                class="s pad"
-                data-bg="cd"
-                data-era="s1"
-                data-notes="Post-Napster era: 30,000+ lawsuits against consumers — a PR catastrophe. Users didn't refuse to pay, they refused to pay $18 for one song. Incumbents couldn't cannibalise their own model."
-            >
-                <div class="slide-inner">
-                    <div class="chip red a1">Free-Fall</div>
-                    <h2 class="med a2">
-                        Industry in
-                        <span style="color: var(--red)">Free-Fall</span>
-                    </h2>
-                    <p class="bod a3" style="margin-top: 10px">
-                        Napster's closure decentralised piracy — KaZaA,
-                        LimeWire, BitTorrent emerged without central servers.
-                    </p>
-                    <div class="row a4" style="margin-top: 24px; gap: 24px">
-                        <div class="card red" style="flex: 1; margin: 0">
-                            <div class="card-label red">The Misdiagnosis</div>
-                            <p>
-                                30,000+ consumer lawsuits by the RIAA: a PR
-                                catastrophe. The industry treated it as a legal
-                                problem — it was a business model mismatch.
-                            </p>
-                        </div>
-                        <div class="card" style="flex: 1; margin: 0">
-                            <div class="card-label green">The Real Problem</div>
-                            <p>
-                                Users didn't refuse to pay — they refused to pay
-                                $18 for one song. Incumbents with sunk costs in
-                                physical infrastructure couldn't cannibalise
-                                their own model.
-                            </p>
-                        </div>
-                    </div>
-                    <div
-                        class="card muted a5"
-                        style="max-width: 520px; margin-top: 4px"
-                    >
-                        <div class="card-label green">PFI Lens</div>
-                        <p>
-                            Strong appropriability requires either IP protection
-                            or bottleneck assets. Napster destroyed both. A
-                            textbook 'pre-paradigmatic' phase of high
-                            uncertainty.
                         </p>
                     </div>
                 </div>
