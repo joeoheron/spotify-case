@@ -1396,7 +1396,6 @@
                 padding: 8px 0;
                 border-bottom: 1px solid var(--light-border);
                 font-family: "JetBrains Mono", monospace;
-                font-size: 9px;
                 letter-spacing: 1px;
                 color: var(--light-faint);
                 text-transform: uppercase;
@@ -1413,18 +1412,15 @@
             }
             .impl-row .impl-name {
                 flex: 2;
-                font-size: 14px;
                 font-weight: 600;
             }
             .impl-row .impl-lever {
                 flex: 2;
-                font-size: 13px;
                 color: var(--light-muted);
             }
             .impl-row .impl-time {
                 flex: 1;
                 font-family: "JetBrains Mono", monospace;
-                font-size: 10px;
                 color: var(--light-faint);
             }
             .impl-row .impl-priority {
@@ -2058,13 +2054,11 @@
                 min-width: 36px;
             }
             .rec-item h4 {
-                font-size: 15px;
                 color: var(--light-text);
                 font-weight: 600;
                 margin-bottom: 3px;
             }
             .rec-item p {
-                font-size: 12px;
                 color: var(--light-faint);
             }
 
@@ -3131,6 +3125,7 @@
                                     border-radius: 8px;
                                     margin: 20px 0;
                                     background-color: var(--light-border);
+                                    width: fit-content;
                                 "
                             >
                                 <h2 class="med a2">Spotify</h2>
@@ -3140,6 +3135,8 @@
                                         grid-template-columns: 1fr 1fr;
                                         gap: 12px;
                                         margin-top: 20px;
+                                        column-gap: 40px;
+                                        padding-left: 44px;
                                     "
                                 >
                                     <div class="stat">
@@ -3242,7 +3239,7 @@
                             </div>
                         </div>
 
-                        <div style="width: 52%">
+                        <div style="width: 44%; padding-top: 40px">
                             <p
                                 class="bod a3"
                                 style="
@@ -3266,9 +3263,9 @@
                                 "
                             >
                                 <svg
-                                    style="width: 100%; display: block"
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 460 260"
+                                    style="width: 100%"
                                 >
                                     <!-- Y-axis grid -->
                                     <line
@@ -3591,7 +3588,7 @@
                                 class="a5"
                                 style="
                                     display: flex;
-                                    gap: 20px;
+                                    gap: 12px;
                                     margin-top: 8px;
                                     flex-wrap: wrap;
                                     align-items: center;
@@ -4513,7 +4510,7 @@
                         PFI predicts that the bottleneck assets, if any, will
                         earn the lion's share of the rents."
                         <span style="font-style: normal; font-size: 10px"
-                            >— Teece (2018)</span
+                            >— Teece (2018, p.1377)</span
                         >
                     </p>
                 </div>
@@ -4551,7 +4548,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card red a4" style="max-width: 540px">
+                    <div
+                        class="card red a4"
+                        style="max-width: 680px; margin: 20px auto"
+                    >
                         <div class="card-label red">PFI Lens</div>
                         <p>
                             The App Store and iOS are textbook bottlenecks, and
@@ -4599,10 +4599,15 @@
                                     Moving from a music-only offering to an
                                     "audio" is the direction Spotify has chosen
                                     to go, with podcasts identified as their
-                                    entrypoint. Podcast content carries
+                                    entrypoint. Podcast content differs from
+                                    music content in that it has
                                     <strong>no per-stream royalty</strong>, and
                                     owned IP is proprietary — not licensable by
-                                    competitors.
+                                    competitors. Supporting podcast technologies
+                                    have received major Spotify investment to
+                                    further grow the podcast ecosystem and
+                                    control various complementary assets
+                                    throughout it.
                                 </p>
                             </div>
                         </div>
@@ -4616,17 +4621,17 @@
                                     text-align: center;
                                 "
                             >
-                                ~€1B invested in podcasts from 2019–2021
+                                ~ €1B invested in podcasts from 2019–2021
                             </div>
                             <div class="bar-chart">
                                 <div class="bar-row">
-                                    <div class="bar-label">Gimlet</div>
+                                    <div class="bar-label">Megaphone</div>
                                     <div class="bar-track">
                                         <div
                                             class="bar-fill green"
-                                            style="width: 92%"
+                                            style="width: 100%"
                                         >
-                                            $230M
+                                            $235M
                                         </div>
                                     </div>
                                 </div>
@@ -4635,9 +4640,20 @@
                                     <div class="bar-track">
                                         <div
                                             class="bar-fill green"
-                                            style="width: 78%"
+                                            style="width: 96%"
                                         >
                                             $196M
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bar-row">
+                                    <div class="bar-label">Gimlet</div>
+                                    <div class="bar-track">
+                                        <div
+                                            class="bar-fill green"
+                                            style="width: 94%"
+                                        >
+                                            $194M
                                         </div>
                                     </div>
                                 </div>
@@ -4646,7 +4662,7 @@
                                     <div class="bar-track">
                                         <div
                                             class="bar-fill green"
-                                            style="width: 62%"
+                                            style="width: 84%"
                                         >
                                             $154M
                                         </div>
@@ -4657,112 +4673,12 @@
                                     <div class="bar-track">
                                         <div
                                             class="bar-fill green"
-                                            style="width: 40%"
+                                            style="width: 72%"
                                         >
-                                            $100M+
+                                            ~ $100M
                                         </div>
                                     </div>
                                 </div>
-                                <div class="bar-row">
-                                    <div class="bar-label">Parcast</div>
-                                    <div class="bar-track">
-                                        <div
-                                            class="bar-fill green"
-                                            style="width: 22%"
-                                        >
-                                            $56M
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 18: PFI SYNTHESIS -->
-            <div
-                class="s pad"
-                data-bg="wave"
-                data-era="s2"
-                data-notes="All three pillars point to the same conclusion. Weak appropriability, established dominant design, deficient complementary assets relative to Apple and Amazon."
-            >
-                <div class="slide-inner-centered">
-                    <div class="chip a1">Synthesis</div>
-                    <h2 class="med a2">
-                        PFI Diagnosis:
-                        <span style="color: var(--green)">Complete</span>
-                    </h2>
-                    <div class="a3" style="margin-top: 24px; max-width: 620px">
-                        <div
-                            style="
-                                display: flex;
-                                gap: 14px;
-                                align-items: flex-start;
-                                padding: 14px 0;
-                                border-bottom: 1px solid var(--light-border);
-                            "
-                        >
-                            <span
-                                class="pill red"
-                                style="min-width: 90px; text-align: center"
-                                >WEAK</span
-                            >
-                            <div>
-                                <h4 class="text-md" style="margin-bottom: 3px">
-                                    Appropriability Regime
-                                </h4>
-                                <p class="text-detail">
-                                    Non-proprietary tech. Licensed catalogue.
-                                    Immediately replicable.
-                                </p>
-                            </div>
-                        </div>
-                        <div
-                            style="
-                                display: flex;
-                                gap: 14px;
-                                align-items: flex-start;
-                                padding: 14px 0;
-                                border-bottom: 1px solid var(--light-border);
-                            "
-                        >
-                            <span
-                                class="pill green"
-                                style="min-width: 90px; text-align: center"
-                                >ESTABLISHED</span
-                            >
-                            <div>
-                                <h4 class="text-md" style="margin-bottom: 3px">
-                                    Dominant Design
-                                </h4>
-                                <p class="text-detail">
-                                    Spotify set the standard. Shifts competition
-                                    to the asset layer.
-                                </p>
-                            </div>
-                        </div>
-                        <div
-                            style="
-                                display: flex;
-                                gap: 14px;
-                                align-items: flex-start;
-                                padding: 14px 0;
-                            "
-                        >
-                            <span
-                                class="pill red"
-                                style="min-width: 90px; text-align: center"
-                                >DEFICIENT</span
-                            >
-                            <div>
-                                <h4 class="text-md" style="margin-bottom: 3px">
-                                    Complementary Assets
-                                </h4>
-                                <p class="text-detail">
-                                    No device ecosystem, no OS, no
-                                    cross-subsidy, 30% iOS tax.
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -4803,7 +4719,7 @@
                         <div class="rec-item">
                             <div class="rec-num">1</div>
                             <div>
-                                <h4>Own the Content Pipeline</h4>
+                                <h4>Own More Content</h4>
                                 <p>
                                     Podcasts, audiobooks, original IP →
                                     non-licensable content
@@ -4816,7 +4732,7 @@
                         <div class="rec-item">
                             <div class="rec-num">2</div>
                             <div>
-                                <h4>Monetise Proprietary Data</h4>
+                                <h4>Monetise Data</h4>
                                 <p>
                                     30B+ daily events → B2B intelligence product
                                     <span class="pill green pill-sm"
@@ -4828,7 +4744,7 @@
                         <div class="rec-item">
                             <div class="rec-num">3</div>
                             <div>
-                                <h4>Direct Artist Relationships</h4>
+                                <h4>Engage in Direct Artist Relationships</h4>
                                 <p>
                                     Reduce label intermediation, shift
                                     bargaining power
@@ -4845,7 +4761,7 @@
                                 <p>
                                     Apple antitrust + copyright reform
                                     <span class="pill green pill-sm"
-                                        >Regime ↑</span
+                                        >Appropriability ↑</span
                                     >
                                 </p>
                             </div>
@@ -4853,7 +4769,7 @@
                         <div class="rec-item">
                             <div class="rec-num">5</div>
                             <div>
-                                <h4>Ecosystem Partnerships</h4>
+                                <h4>Form Ecosystem Partnerships</h4>
                                 <p>
                                     Automotive, Tencent-model equity swaps
                                     <span class="pill green pill-sm"
@@ -4875,44 +4791,41 @@
             >
                 <div class="slide-inner">
                     <div class="chip a1">R1 · Appropriability ↑</div>
-                    <h2 class="med a2">Own the <em>Content Pipeline</em></h2>
+                    <h2 class="med a2"><em>Own</em> More Content</h2>
                     <p class="bod a3 text-md" style="margin-top: 10px">
-                        In a weak appropriability regime, value capture requires
-                        proprietary assets competitors cannot licence.
+                        In a weak appropriability regime, value can be captured
+                        by owning proprietary assets that competitors cannot
+                        licence.
                     </p>
                     <div class="row a4" style="margin-top: 16px; gap: 16px">
-                        <div class="card" style="flex: 1; margin: 0">
+                        <div class="card" style="flex: 1">
+                            <div class="card-label green">Podcasts</div>
                             <p>
-                                <strong>Podcasts:</strong> Joe Rogan
-                                demonstrated viability — drove premium growth in
-                                18–35 demo. Continue exclusive strategy.
+                                Joe Rogan demonstrated viability — drove premium
+                                growth in 18–35 demo. Continue exclusive
+                                strategy.
                             </p>
                         </div>
-                        <div class="card" style="flex: 1; margin: 0">
+                        <div class="card" style="flex: 1">
+                            <div class="card-label green">Audiobooks</div>
                             <p>
-                                <strong>Audiobooks:</strong> Expand via Findaway
-                                (acquired 2021). Growing market dominated by
-                                Audible — no streaming incumbent.
+                                Expand more into audiobooks and take market
+                                share away from Audible.
                             </p>
                         </div>
-                        <div class="card" style="flex: 1; margin: 0">
+                        <div class="card" style="flex: 1">
+                            <div class="card-label green">Originals</div>
                             <p>
-                                <strong>Originals:</strong> Commission audio
-                                dramas and artist-exclusive sessions —
-                                co-specialised content only on Spotify.
+                                Commission audio dramas and artist-exclusive
+                                sessions for content that's only on Spotify.
                             </p>
                         </div>
                     </div>
-                    <div
-                        class="card a5"
-                        style="max-width: 580px; margin-top: 4px"
-                    >
+                    <div class="card a5" style="max-width: 800px; margin: auto">
+                        <div class="card-label green">Unit Economics</div>
                         <p>
-                            <strong style="color: var(--green-dark)"
-                                >Unit economics:</strong
-                            >
                             Owned podcast plays generate returns through
-                            retention
+                            listener retention
                             <strong
                                 >without triggering any per-play royalty</strong
                             >.
@@ -4930,7 +4843,7 @@
             >
                 <div class="slide-inner-centered">
                     <div class="chip a1">R2 · Assets ↑</div>
-                    <h2 class="med a2">Monetise <em>Proprietary Data</em></h2>
+                    <h2 class="med a2">Monetise <em>Data</em></h2>
                     <div class="a3" style="margin-top: 20px">
                         <div class="stat">
                             <div class="stat-num green">30B+</div>
@@ -4945,12 +4858,10 @@
                     </div>
                     <div
                         class="row a4"
-                        style="margin-top: 12px; gap: 20px; max-width: 680px"
+                        style="gap: 20px; max-width: 800px; margin: 20px 0"
                     >
                         <div style="flex: 1">
-                            <h4 class="text-base" style="margin-bottom: 4px">
-                                Tiered Data Products
-                            </h4>
+                            <h4 class="text-base">Tiered Data Products</h4>
                             <p class="text-sm">
                                 Expand Spotify for Artists: free for
                                 independents, premium for labels, managers,
@@ -4958,9 +4869,7 @@
                             </p>
                         </div>
                         <div style="flex: 1">
-                            <h4 class="text-base" style="margin-bottom: 4px">
-                                B2B Intelligence
-                            </h4>
+                            <h4 class="text-base">B2B Intelligence</h4>
                             <p class="text-sm">
                                 Listening context (mood, activity, time-of-day)
                                 is qualitatively superior to demographic
@@ -4968,9 +4877,12 @@
                             </p>
                         </div>
                     </div>
-                    <div class="card amber a5" style="max-width: 540px">
+                    <div
+                        class="card amber a5"
+                        style="max-width: 640px; margin: 20px 0"
+                    >
+                        <div class="card-label amber">Governance</div>
                         <p>
-                            <strong style="color: #b45309">Governance:</strong>
                             All data monetisation must comply with GDPR, CCPA,
                             and emerging privacy regulation. Opt-in is
                             non-negotiable.
@@ -4987,41 +4899,40 @@
                 data-notes="R3: Direct Artist Relationships. Expand distribution tools. Even a credible threat shifts bargaining position at licence renewal. Medium-to-long-term initiative."
             >
                 <div class="slide-inner-centered">
-                    <div class="chip a1">
-                        R3 · Appropriability ↑ · Royalty Leverage
-                    </div>
-                    <h2 class="med a2">Direct <em>Artist</em> Relationships</h2>
+                    <div class="chip a1">R3 · Appropriability ↑</div>
+                    <h2 class="med a2">
+                        Engage in <em>Direct Artist Relationships</em>
+                    </h2>
                     <p class="bod a3 text-md" style="margin-top: 10px">
                         When a bottleneck is held by a concentrated oligopoly,
                         the innovator should build alternative supply routes.
                     </p>
-                    <div
-                        class="row a4"
-                        style="margin-top: 16px; gap: 16px; max-width: 680px"
-                    >
-                        <div class="card" style="flex: 1; margin: 0">
+                    <div class="row a4" style="flex-wrap: inherit">
+                        <div class="card">
+                            <div class="card-label green">Distribution</div>
                             <p>
-                                <strong>Distribution:</strong> Expand Spotify
-                                for Artists into full direct distribution —
-                                competing with DistroKid and TuneCore.
+                                Reconsider publishing and distribution
+                                capabilities in Spotify for Artists.
                             </p>
                         </div>
-                        <div class="card" style="flex: 1; margin: 0">
+                        <div class="card">
+                            <div class="card-label green">
+                                Promotional Tools
+                            </div>
                             <p>
-                                <strong>Promo tools:</strong> Formalise Marquee
-                                and algorithmic playlist placement as a
-                                standalone revenue line.
+                                Formalise marketing tools and algorithmic
+                                playlist placement as a standalone revenue line.
                             </p>
                         </div>
                     </div>
-                    <div class="card a5" style="max-width: 580px">
+                    <div class="card a5">
+                        <div class="card-label green">Strategic Logic</div>
                         <p>
-                            <strong style="color: var(--green-dark)"
-                                >Strategic logic:</strong
-                            >
-                            Even a <em>credible threat</em> shifts bargaining
-                            position at label licence renewal. The goal is
-                            leverage, not full disintermediation.
+                            Major labels spend $500K - $2M to sign and promote
+                            artists. Such a high budget limits their ability to
+                            reach a wider range of artists, providing potential
+                            for modularising in this complementary asset to
+                            increase appropriability.
                         </p>
                     </div>
                 </div>
@@ -5035,7 +4946,7 @@
                 data-notes="R4: Shape the Regulatory Environment. Apple antitrust — EU DMA would structurally remove the 30% tax. Multi-front campaign. Streaming coalition."
             >
                 <div class="slide-inner-centered">
-                    <div class="chip a1">R4 · Regime ↑</div>
+                    <div class="chip a1">R4 · Appropriability ↑</div>
                     <h2 class="med a2">Shape the <em>Rules</em></h2>
                     <p class="bod a3 text-md" style="margin-top: 10px">
                         The appropriability regime is not fixed. Changing the
@@ -5135,20 +5046,19 @@
                     </p>
                     <div class="row a4" style="margin-top: 16px; gap: 16px">
                         <div class="card" style="flex: 1; margin: 0">
-                            <div class="card-label green">
-                                Automotive · Highest priority
-                            </div>
+                            <div class="card-label green">Automotive</div>
                             <p>
-                                In-car audio is large and growing. Car OEMs not
-                                yet locked into Apple/Android ecosystems.
+                                In-car audio is large and growing. Car
+                                manufacturers are not yet fully locked into
+                                Apple/Android ecosystems.
                             </p>
                         </div>
                         <div class="card" style="flex: 1; margin: 0">
                             <div class="card-label green">Tencent Model</div>
                             <p>
-                                2017 equity swap: bilateral ownership created
-                                mutual market access. Replicate in SE Asia,
-                                LATAM, South Asia.
+                                Replicate in the equity swap strategy in other
+                                international markets that are difficult to
+                                enter.
                             </p>
                         </div>
                         <div class="card" style="flex: 1; margin: 0">
@@ -5173,7 +5083,10 @@
                 <div class="slide-inner">
                     <div class="chip a1">Implementation</div>
                     <h2 class="med a2">Priority <em>Framework</em></h2>
-                    <div class="a3" style="margin-top: 20px; max-width: 720px">
+                    <div
+                        class="a3"
+                        style="margin-top: 20px; /*! max-width: 720px */"
+                    >
                         <div class="impl-header">
                             <div style="flex: 2">Recommendation</div>
                             <div style="flex: 3">PFI Lever</div>
@@ -5193,7 +5106,7 @@
                         <div class="impl-row">
                             <div class="impl-name">R1: Own content</div>
                             <div class="impl-lever" style="flex: 3">
-                                Appropriability ↑ Complementarities ↑
+                                Appropriability ↑ Assets ↑
                             </div>
                             <div class="impl-time">12–36mo</div>
                             <div style="flex: 1">
@@ -5203,7 +5116,7 @@
                         <div class="impl-row">
                             <div class="impl-name">R2: Monetise data</div>
                             <div class="impl-lever" style="flex: 3">
-                                Complementarities ↑
+                                Assets ↑
                             </div>
                             <div class="impl-time">6–18mo</div>
                             <div style="flex: 1">
@@ -5215,7 +5128,7 @@
                                 R5: Ecosystem partnerships
                             </div>
                             <div class="impl-lever" style="flex: 3">
-                                Complementarities ↑
+                                Assets ↑
                             </div>
                             <div class="impl-time">18–48mo</div>
                             <div style="flex: 1">
@@ -5225,7 +5138,7 @@
                         <div class="impl-row">
                             <div class="impl-name">R3: Direct artist tools</div>
                             <div class="impl-lever" style="flex: 3">
-                                Appropriability ↑ Complementarities ↑
+                                Appropriability ↑ Assets ↑
                             </div>
                             <div class="impl-time">3–5yr</div>
                             <div style="flex: 1">
@@ -5288,28 +5201,21 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card a4" style="max-width: 580px">
+                    <div
+                        class="card a4"
+                        style="max-width: 800px; margin: 20px auto"
+                    >
+                        <div class="card-label green">
+                            Social Returns / 2 = Private Returns
+                        </div>
                         <p>
-                            <strong>Teece (2018):</strong> Enabling technologies
-                            face systematically weaker value capture. Social
-                            returns typically double private returns. The broad
-                            applicability that makes enabling tech
-                            transformative prevents the innovator from owning
-                            all complements.
+                            Enabling technologies face systematically weaker
+                            value capture. Social returns typically double
+                            private returns. The broad applicability that makes
+                            enabling tech transformative prevents the innovator
+                            from owning all complements. (Teece, 2018)
                         </p>
                     </div>
-                    <p
-                        class="a5"
-                        style="
-                            font-size: 14px;
-                            color: var(--green-dark);
-                            margin-top: 14px;
-                            font-weight: 600;
-                        "
-                    >
-                        → Platform innovators must design appropriability
-                        strategies from inception.
-                    </p>
                 </div>
             </div>
 
@@ -5330,7 +5236,7 @@
                             </div>
                             <ul>
                                 <li>Created the dominant design</li>
-                                <li>356M MAUs, 158M premium</li>
+                                <li>355M users, 155M premium</li>
                                 <li class="neg">
                                     Net loss every year since founding
                                 </li>
@@ -5345,19 +5251,25 @@
                             </div>
                             <ul>
                                 <li>Replicated design within months</li>
-                                <li>10M subscribers in 6 weeks via iOS</li>
+                                <li>
+                                    Pre-installation on iOS leads to rapid
+                                    adoption
+                                </li>
                                 <li>Music is a loss-leader for hardware</li>
                                 <li>Asset control > product innovation</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="card muted a4" style="max-width: 580px">
+                    <div
+                        class="card muted a4"
+                        style="max-width: 800px; margin: 20px auto"
+                    >
+                        <div class="card-label green">General Lesson</div>
                         <p>
-                            <strong>Generalised lesson:</strong> Market entry
-                            decisions should prioritise complementary asset
-                            analysis over product superiority. A technically
-                            inferior product backed by superior assets will
-                            consistently outperform.
+                            Market entry decisions should prioritise
+                            complementary asset analysis over product
+                            superiority. A technically inferior product backed
+                            by superior assets will consistently outperform.
                         </p>
                     </div>
                 </div>
@@ -5375,20 +5287,13 @@
                     <h2 class="med a2">Shaping the <em>Rules</em></h2>
                     <p
                         class="bod a3"
-                        style="
-                            font-size: 14px;
-                            margin-top: 10px;
-                            max-width: 620px;
-                        "
+                        style="margin-top: 10px; max-width: 620px"
                     >
                         The appropriability regime is not fixed — it can be
                         shaped through litigation, lobbying, and
                         standard-setting.
                     </p>
-                    <div
-                        class="row a4"
-                        style="margin-top: 20px; gap: 16px; max-width: 700px"
-                    >
+                    <div class="row a4" style="margin-top: 20px; gap: 16px">
                         <div class="card" style="flex: 1; margin: 0">
                             <div class="card-label green">
                                 Digital Platforms
@@ -5404,14 +5309,6 @@
                             <p>
                                 Treat the regulatory environment as a strategic
                                 variable to shape, not merely accept.
-                            </p>
-                        </div>
-                        <div class="card" style="flex: 1; margin: 0">
-                            <div class="card-label green">MNC Strategy</div>
-                            <p>
-                                Cross-jurisdictional regulatory arbitrage is a
-                                capability. Spotify leveraged EU law against a
-                                US firm.
                             </p>
                         </div>
                     </div>
@@ -5430,14 +5327,14 @@
                     <h2 class="med a2">Diversify to <em>Capture</em></h2>
                     <div class="row a3" style="margin-top: 24px; gap: 40px">
                         <div style="flex: 1">
-                            <div class="card red mt-0">
+                            <div class="card red mt-0" style="margin: inherit">
                                 <div class="card-label red">
                                     FROM: Music-Only
                                 </div>
                                 <p>
-                                    Weak appropriability. ~74% to rights
-                                    holders. Fully imitable. No proprietary
-                                    moat.
+                                    Weak appropriability with > 70% of revenue
+                                    going to rights holders. Fully imitable
+                                    without a proprietary moat.
                                 </p>
                             </div>
                             <div
@@ -5450,32 +5347,34 @@
                             >
                                 ↓
                             </div>
-                            <div class="card mt-0">
+                            <div class="card mt-0" style="margin: inherit">
                                 <div class="card-label green">
                                     TO: Audio Ecosystem
                                 </div>
                                 <p>
-                                    Owned podcast IP. No label royalties.
-                                    Exclusive content. Creator lock-in.
-                                    Audiobooks.
+                                    Owned podcast intellectual property and no
+                                    label royalties to pay here. Provide
+                                    exclusive content and tooling to keep both
+                                    users and creators in the system.
                                 </p>
                             </div>
                         </div>
                         <div style="flex: 1">
-                            <div class="card muted" style="margin-top: 0">
-                                <div class="mono" style="margin-bottom: 6px">
-                                    The Generalised Lesson
+                            <div class="card" style="margin-top: 0">
+                                <div class="card-label green">
+                                    General Lesson
                                 </div>
                                 <p>
                                     When core domain has structural
                                     appropriability limits,
                                     <strong
-                                        >diversify into adjacent verticals where
-                                        proprietary assets can be built</strong
+                                        >a business must diversify into adjacent
+                                        verticals where proprietary assets can
+                                        be built</strong
                                     >.
                                 </p>
                                 <p class="text-detail" style="margin-top: 6px">
-                                    Spotify's ~€1B podcast investment is a
+                                    Spotify's ~ €1B podcast investment is a
                                     structural appropriability repair programme.
                                 </p>
                             </div>
@@ -5494,134 +5393,63 @@
                 <div class="slide-inner">
                     <div class="chip muted a1">Synthesis</div>
                     <h2 class="med a2">Four Lessons, <em>One Insight</em></h2>
-                    <div class="a3" style="margin-top: 16px; max-width: 720px">
+                    <div class="a3" style="margin: 16px auto">
                         <div class="impl-header">
                             <div style="flex: 1">Lesson</div>
                             <div style="flex: 1">PFI Concept</div>
                             <div style="flex: 2">Implication</div>
                         </div>
                         <div class="impl-row">
-                            <div
-                                style="
-                                    flex: 1;
-                                    font-size: 12px;
-                                    font-weight: 600;
-                                "
-                            >
-                                Enabling tech value trap
+                            <div style="flex: 1; font-weight: 600">
+                                Enabling Tech Value Trap
                             </div>
-                            <div
-                                style="
-                                    flex: 1;
-                                    font-size: 11px;
-                                    color: var(--light-muted);
-                                "
-                            >
+                            <div style="flex: 1; color: var(--light-muted)">
                                 Social vs private returns
                             </div>
-                            <div
-                                style="
-                                    flex: 2;
-                                    font-size: 11px;
-                                    color: var(--light-muted);
-                                "
-                            >
+                            <div style="flex: 2; color: var(--light-muted)">
                                 Design appropriability strategies from day one
                             </div>
                         </div>
                         <div class="impl-row">
-                            <div
-                                style="
-                                    flex: 1;
-                                    font-size: 12px;
-                                    font-weight: 600;
-                                "
-                            >
-                                Assets > innovation
+                            <div style="flex: 1; font-weight: 600">
+                                Assets > Innovation
                             </div>
-                            <div
-                                style="
-                                    flex: 1;
-                                    font-size: 11px;
-                                    color: var(--light-muted);
-                                "
-                            >
+                            <div style="flex: 1; color: var(--light-muted)">
                                 Bottleneck control
                             </div>
-                            <div
-                                style="
-                                    flex: 2;
-                                    font-size: 11px;
-                                    color: var(--light-muted);
-                                "
-                            >
+                            <div style="flex: 2; color: var(--light-muted)">
                                 Prioritise asset analysis over product
                                 superiority
                             </div>
                         </div>
                         <div class="impl-row">
-                            <div
-                                style="
-                                    flex: 1;
-                                    font-size: 12px;
-                                    font-weight: 600;
-                                "
-                            >
-                                Regulatory shaping
+                            <div style="flex: 1; font-weight: 600">
+                                Regulatory Shaping
                             </div>
-                            <div
-                                style="
-                                    flex: 1;
-                                    font-size: 11px;
-                                    color: var(--light-muted);
-                                "
-                            >
+                            <div style="flex: 1; color: var(--light-muted)">
                                 Regime is endogenous
                             </div>
-                            <div
-                                style="
-                                    flex: 2;
-                                    font-size: 11px;
-                                    color: var(--light-muted);
-                                "
-                            >
+                            <div style="flex: 2; color: var(--light-muted)">
                                 Cross-jurisdictional engagement as capability
                             </div>
                         </div>
                         <div class="impl-row">
-                            <div
-                                style="
-                                    flex: 1;
-                                    font-size: 12px;
-                                    font-weight: 600;
-                                "
-                            >
-                                Platform diversification
+                            <div style="flex: 1; font-weight: 600">
+                                Platform Diversification
                             </div>
-                            <div
-                                style="
-                                    flex: 1;
-                                    font-size: 11px;
-                                    color: var(--light-muted);
-                                "
-                            >
+                            <div style="flex: 1; color: var(--light-muted)">
                                 Vertical scope
                             </div>
-                            <div
-                                style="
-                                    flex: 2;
-                                    font-size: 11px;
-                                    color: var(--light-muted);
-                                "
-                            >
+                            <div style="flex: 2; color: var(--light-muted)">
                                 Diversify when core has weak appropriability
                             </div>
                         </div>
                     </div>
                     <div
                         class="card a4"
-                        style="max-width: 620px; margin-top: 16px"
+                        style="max-width: 800px; margin: 16px auto"
                     >
+                        <div class="card-label green">The Insight</div>
                         <p style="font-weight: 600">
                             Innovation alone is necessary but not sufficient for
                             value capture in digital markets.
@@ -5645,21 +5473,9 @@
                 <div class="slide-inner-centered">
                     <div class="chip a1">Conclusion</div>
                     <h2 class="big a2" style="max-width: 620px; color: #fff">
-                        Spotify <em>&amp;</em> the PFI <em>Paradox</em>
+                        Spotify <em>&amp;</em> the Profiting from Innovation
+                        <em>Paradox</em>
                     </h2>
-                    <div
-                        style="
-                            display: flex;
-                            gap: 8px;
-                            margin-top: 28px;
-                            flex-wrap: wrap;
-                        "
-                        class="a3"
-                    >
-                        <span class="pill red">Weak Appropriability</span>
-                        <span class="pill green">Established Standard</span>
-                        <span class="pill red">Deficient Assets</span>
-                    </div>
                     <p
                         class="a4"
                         style="
@@ -5670,28 +5486,11 @@
                             line-height: 1.7;
                         "
                     >
-                        Five recommendations reposition Spotify toward a
-                        diversified audio ecosystem with stronger value capture.
+                        The five recommendations made here will help reposition
+                        Spotify toward a diversified audio ecosystem capable of
+                        capturing a larger portion of the value that they
+                        create.
                     </p>
-                    <div
-                        class="quote a5"
-                        style="
-                            margin-top: 20px;
-                            max-width: 560px;
-                            color: rgba(255, 255, 255, 0.8);
-                            border-left-color: var(--green);
-                        "
-                    >
-                        "Who captures value is determined not by who innovates
-                        first, but by who controls the
-                        <strong style="color: #fff">bottleneck assets</strong>."
-                        <div
-                            class="quote-attr"
-                            style="color: var(--dark-faint)"
-                        >
-                            — Teece's Core Insight
-                        </div>
-                    </div>
                 </div>
             </div>
 
