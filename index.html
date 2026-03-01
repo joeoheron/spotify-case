@@ -1827,6 +1827,9 @@
 
             .bar-chart {
                 margin: 14px 0;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
             }
             .bar-row {
                 display: flex;
@@ -1837,13 +1840,12 @@
             .bar-label {
                 width: 100px;
                 font-family: "JetBrains Mono", monospace;
-                font-size: 10px;
                 color: var(--light-faint);
                 text-align: right;
             }
             .bar-track {
                 flex: 1;
-                height: 22px;
+                height: 40px;
                 background: rgba(0, 0, 0, 0.04);
                 border-radius: 4px;
                 overflow: hidden;
@@ -1855,7 +1857,6 @@
                 align-items: center;
                 padding-left: 10px;
                 font-family: "JetBrains Mono", monospace;
-                font-size: 9px;
                 font-weight: 600;
             }
             .bar-fill.green {
@@ -1867,9 +1868,9 @@
                 color: #fff;
             }
             .bar-fill.green {
-                background: var(--green-dark);
+                background: var(--green);
                 color: #fff;
-                opacity: 0.6;
+                opacity: 0.8;
             }
 
             /* Timeline */
@@ -3744,11 +3745,13 @@
                             font-style: inherit;
                         "
                     >
-                        While scale, scope, and installed base/network eﬀects
+                        "While scale, scope, and installed base/network eﬀects
                         still matter,
                         <strong>complements are center stage</strong> in the
-                        wireless-enabled world of digital convergence.
-                        <div class="quote-attr">— David Teece (2018)</div>
+                        wireless-enabled world of digital convergence."
+                        <div class="quote-attr">
+                            — David Teece (2018, p.1382)
+                        </div>
                     </div>
                 </div>
             </div>
@@ -3857,7 +3860,9 @@
                             </div>
                             <h4>Modularity</h4>
                             <p class="text-base">
-                                Streaming module has become commodotised.
+                                Streaming is now commodotised. High-fidelity has
+                                potential, but it's also susceptible to
+                                commoditisation.
                             </p>
                         </div>
                         <div class="pillar-cell">
@@ -3909,43 +3914,211 @@
                             <div style="margin-top: 20px">
                                 <div class="stat">
                                     <div class="stat-num red stat-num-xl">
-                                        > 70%
+                                        &gt; 70%
                                     </div>
                                     <div class="stat-label">
                                         of revenue → rights holders
                                     </div>
                                 </div>
                             </div>
-                            <p
-                                class="bod a4"
-                                style="
-                                    font-size: 13px;
-                                    margin-top: 12px;
-                                    max-width: none;
-                                "
-                            >
-                                Big Three (Universal, Sony, Warner) hold ~68% of
-                                global recorded music.
-                            </p>
-                        </div>
-                        <div class="col a4" style="max-width: 320px">
-                            <div class="card mt-0">
-                                <div class="card-label green">Bright Spot</div>
-                                <p>
-                                    <strong>Algorithmic discovery</strong> —
-                                    tacit knowledge + proprietary data. Hard to
-                                    replicate. Insufficient alone.
-                                </p>
-                            </div>
                             <div class="card red a5">
                                 <div class="card-label red">PFI Lens</div>
                                 <p style="font-weight: 600">
-                                    Co-specialised complementary asset
-                                    bottleneck
+                                    Input Oligopoly Complementary Asset
+                                    Bottleneck
                                 </p>
                                 <p class="text-detail" style="margin-top: 4px">
-                                    Can't operate without label licences —
-                                    permanent leverage.
+                                    Users depend on Spotify, then Spotify
+                                    depends on major labels, of which there are
+                                    only three. These labels maximise their own
+                                    individual benefits and negotiate on behalf
+                                    of themselves, resulting in higher royalty
+                                    payouts by Spotify.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col a4" style="max-width: 320px">
+                            <div class="col a4" style="max-width: 320px">
+                                <svg
+                                    viewBox="0 0 300 300"
+                                    style="
+                                        width: 100%;
+                                        max-width: 300px;
+                                        display: block;
+                                    "
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <!-- Universal: 31.8% -->
+                                    <path
+                                        d="M 154.20,30.29 A 107,107 0 0,1 251.59,181.63 L 205.17,160.50 A 56,56 0 0,0 154.20,81.29 Z"
+                                        fill="#e91429"
+                                        fill-opacity="0.9"
+                                    />
+                                    <text
+                                        x="222.7"
+                                        y="96.2"
+                                        font-family="JetBrains Mono, monospace"
+                                        font-size="9"
+                                        fill="white"
+                                        fill-opacity="0.9"
+                                        text-anchor="middle"
+                                        font-weight="600"
+                                    >
+                                        31.8%
+                                    </text>
+                                    <!-- Sony: 19.8% -->
+                                    <path
+                                        d="M 249.87,188.67 A 107,107 0 0,1 141.75,250.80 L 146.87,200.05 A 56,56 0 0,0 203.46,167.54 Z"
+                                        fill="#6366f1"
+                                        fill-opacity="0.9"
+                                    />
+                                    <text
+                                        x="193.1"
+                                        y="218.0"
+                                        font-family="JetBrains Mono, monospace"
+                                        font-size="9"
+                                        fill="white"
+                                        fill-opacity="0.9"
+                                        text-anchor="middle"
+                                        font-weight="600"
+                                    >
+                                        19.8%
+                                    </text>
+                                    <!-- Warner: 16.4% -->
+                                    <path
+                                        d="M 136.37,250.54 A 107,107 0 0,1 50.30,189.64 L 96.44,167.93 A 56,56 0 0,0 141.49,199.80 Z"
+                                        fill="#f59e0b"
+                                        fill-opacity="0.9"
+                                    />
+                                    <text
+                                        x="100.0"
+                                        y="213.6"
+                                        font-family="JetBrains Mono, monospace"
+                                        font-size="9"
+                                        fill="white"
+                                        fill-opacity="0.9"
+                                        text-anchor="middle"
+                                        font-weight="600"
+                                    >
+                                        16.4%
+                                    </text>
+                                    <!-- Others: 32.0% (recessed, thinner band) -->
+                                    <path
+                                        d="M 58.61,183.00 A 101,101 0 0,1 150.00,39.00 L 150.00,78.00 A 62,62 0 0,0 93.90,166.40 Z"
+                                        fill="var(--green)"
+                                        fill-opacity="1"
+                                    />
+                                    <text
+                                        x="81.2"
+                                        y="99.3"
+                                        font-family="JetBrains Mono, monospace"
+                                        font-size="9"
+                                        fill="white"
+                                        fill-opacity="0.9"
+                                        text-anchor="middle"
+                                        font-weight="600"
+                                    >
+                                        32.0%
+                                    </text>
+
+                                    <!-- Center label -->
+                                    <text
+                                        x="150"
+                                        y="134"
+                                        font-family="JetBrains Mono, monospace"
+                                        font-size="22"
+                                        fill="#e91429"
+                                        text-anchor="middle"
+                                        font-weight="700"
+                                    >
+                                        68%
+                                    </text>
+                                    <text
+                                        x="150"
+                                        y="150"
+                                        font-family="JetBrains Mono, monospace"
+                                        font-size="8"
+                                        fill="#6b6b6b"
+                                        text-anchor="middle"
+                                    >
+                                        Big Three
+                                    </text>
+
+                                    <!-- Legend (centered) -->
+                                    <circle
+                                        cx="42.0"
+                                        cy="275"
+                                        r="4"
+                                        fill="#e91429"
+                                        fill-opacity="0.9"
+                                    />
+                                    <text
+                                        x="52.0"
+                                        y="278"
+                                        font-family="JetBrains Mono, monospace"
+                                        font-size="8"
+                                        fill="#6b6b6b"
+                                    >
+                                        Universal
+                                    </text>
+                                    <circle
+                                        cx="115.2"
+                                        cy="275"
+                                        r="4"
+                                        fill="#6366f1"
+                                        fill-opacity="0.9"
+                                    />
+                                    <text
+                                        x="125.2"
+                                        y="278"
+                                        font-family="JetBrains Mono, monospace"
+                                        font-size="8"
+                                        fill="#6b6b6b"
+                                    >
+                                        Sony
+                                    </text>
+                                    <circle
+                                        cx="164.4"
+                                        cy="275"
+                                        r="4"
+                                        fill="#f59e0b"
+                                        fill-opacity="0.9"
+                                    />
+                                    <text
+                                        x="174.4"
+                                        y="278"
+                                        font-family="JetBrains Mono, monospace"
+                                        font-size="8"
+                                        fill="#6b6b6b"
+                                    >
+                                        Warner
+                                    </text>
+                                    <circle
+                                        cx="223.2"
+                                        cy="275"
+                                        r="4"
+                                        fill="var(--green)"
+                                        fill-opacity="1"
+                                    />
+                                    <text
+                                        x="233.2"
+                                        y="278"
+                                        font-family="JetBrains Mono, monospace"
+                                        font-size="8"
+                                        fill="#6b6b6b"
+                                    >
+                                        Others
+                                    </text>
+                                </svg>
+                                <p
+                                    class="text-detail"
+                                    style="
+                                        margin-top: 6px;
+                                        color: var(--light-muted);
+                                        text-align: center;
+                                    "
+                                >
+                                    Global recorded music market share, 2020
                                 </p>
                             </div>
                         </div>
@@ -4290,9 +4463,14 @@
                         <div class="compare-card spotify">
                             <div class="compare-name">Spotify</div>
                             <ul>
-                                <li>Algorithmic data</li>
-                                <li>356M users</li>
-                                <li>Brand</li>
+                                <li>Algorithmic data (playlists, Wrapped)</li>
+                                <li>355M users</li>
+                                <li>
+                                    High-fidelity audio
+                                    <span style="color: var(--red)"
+                                        >(extra)</span
+                                    >
+                                </li>
                                 <li class="neg">No device ecosystem</li>
                                 <li class="neg">No OS integration</li>
                                 <li class="neg">30% iOS tax</li>
@@ -4306,7 +4484,7 @@
                                 <li>App Store owned</li>
                                 <li>No 30% self-tax</li>
                                 <li>Siri integration</li>
-                                <li>Rapid adoption</li>
+                                <li>Free high-fidelity</li>
                             </ul>
                         </div>
                         <div class="compare-card amazon">
@@ -4315,12 +4493,9 @@
                                 <li>200M+ Prime homes</li>
                                 <li>Bundled for free</li>
                                 <li>Alexa / Echo</li>
-                                <li>
-                                    Amazon Web Services (AWS) cloud
-                                    infrastructure
-                                </li>
+                                <li>Amazon Web Services infrastructure</li>
                                 <li>Vast cross-subsidy</li>
-                                <li>Fastest growing</li>
+                                <li>Free high-fidelity</li>
                             </ul>
                         </div>
                     </div>
@@ -4364,7 +4539,7 @@
                             </div>
                         </div>
                         <div class="stat">
-                            <div class="stat-num stat-num-lg">0</div>
+                            <div class="stat-num stat-num-lg">0%</div>
                             <div class="stat-label">
                                 App Store fee for Apple Music
                             </div>
@@ -4405,25 +4580,43 @@
                         <div class="col a3">
                             <div class="card red mt-0">
                                 <div class="card-label red">The Problem</div>
-                                <p>
-                                    Music: weak appropriability, licensed, ~70%
-                                    royalty burden. No path to profitability
-                                    through scale alone.
+                                <p style="font-size: inherit">
+                                    Being invested into a music-only offering
+                                    results in weak appropriability. Between
+                                    licencing requirements with a >70% royalty
+                                    burden and recent imitators, Spotify's
+                                    original value proposition of being the most
+                                    user friendly and innovative music streaming
+                                    service appears to be in danger. Reaching
+                                    profitability does not seem likely through a
+                                    sole focus scaling their current model and
+                                    advantages.
                                 </p>
                             </div>
                             <div class="card a4">
                                 <div class="card-label green">The Pivot</div>
-                                <p>
-                                    Podcast content carries
-                                    <strong>no per-stream royalty</strong>.
-                                    Owned IP is proprietary — not licensable by
+                                <p style="font-size: inherit">
+                                    Moving from a music-only offering to an
+                                    "audio" is the direction Spotify has chosen
+                                    to go, with podcasts identified as their
+                                    entrypoint. Podcast content carries
+                                    <strong>no per-stream royalty</strong>, and
+                                    owned IP is proprietary — not licensable by
                                     competitors.
                                 </p>
                             </div>
                         </div>
                         <div class="col a4">
-                            <div class="card-label" style="margin-bottom: 10px">
-                                ~€1B invested 2019–2021
+                            <div
+                                class="card-label"
+                                style="
+                                    margin-bottom: 12px;
+                                    font-size: inherit;
+                                    font-weight: 600;
+                                    text-align: center;
+                                "
+                            >
+                                ~€1B invested in podcasts from 2019–2021
                             </div>
                             <div class="bar-chart">
                                 <div class="bar-row">
@@ -5077,9 +5270,9 @@
                     </h2>
                     <div class="a3" style="margin-top: 20px">
                         <div class="stat">
-                            <div class="stat-num red">~74%</div>
+                            <div class="stat-num red">> 70%</div>
                             <div class="stat-label">
-                                Revenue to rights holders per euro
+                                Revenue goes to rights holders
                             </div>
                         </div>
                         <div class="stat">
