@@ -1509,6 +1509,10 @@
                 background: rgba(233, 20, 41, 0.06);
                 color: var(--red);
             }
+            .chip.yellow {
+                background: rgba(245, 158, 11, 0.06);
+                color: var(--amber);
+            }
             .chip.muted {
                 background: rgba(29, 185, 84, 0.05);
                 color: var(--green-dark);
@@ -2987,9 +2991,7 @@
             >
                 <div class="slide-inner-centered">
                     <div class="chip a1">Legal Digital Breakthrough</div>
-                    <h2 class="med a2">
-                        iTunes: The <em>Distribution Bottleneck</em>
-                    </h2>
+                    <h2 class="med a2">iTunes to <em>The Rescue</em></h2>
                     <div style="margin-top: 24px; gap: 40px">
                         <div class="col a3">
                             <div class="stat">
@@ -3003,9 +3005,9 @@
                                 </div>
                             </div>
                             <div class="stat">
-                                <div class="stat-num green">#1</div>
+                                <div class="stat-num green">Leader</div>
                                 <div class="stat-label">
-                                    US music retailer by 2006
+                                    In digital download market
                                 </div>
                             </div>
                             <p
@@ -3058,47 +3060,47 @@
                 <div class="slide-inner-centered">
                     <div class="chip a1">Origins of Spotify</div>
                     <h2 class="med a2">Daniel Ek's <em>Insight</em></h2>
-                    <div class="quote a3">
-                        "You can't beat free on price. You beat it on
-                        <strong>convenience.</strong>"
-                        <div class="quote-attr">
-                            — The founding logic, Stockholm 2006
-                        </div>
+                    <div class="quote a3" style="font-style: inherit">
+                        "I also think, and over time what I’ve realized,
+                        <strong>convenience.</strong> quite often wins. It’s
+                        really the only point in time when
+                        <strong
+                            >the stolen product has been much, much, much better
+                            than the one you legally acquire</strong
+                        >."
+                        <div class="quote-attr">— Daniel Ek (Lacy, 2023)</div>
                     </div>
-                    <div class="row a4" style="margin-top: 20px; gap: 40px">
-                        <div style="max-width: 250px">
-                            <div class="card-label green">Free Tier</div>
+                    <div
+                        class="row a4"
+                        style="
+                            margin-top: 20px;
+                            gap: 40px;
+                            width: 80%;
+                            flex-wrap: inherit;
+                        "
+                    >
+                        <div>
+                            <div
+                                class="mono"
+                                style="margin-bottom: 6px; color: var(--green)"
+                            >
+                                Free
+                            </div>
                             <p class="bod text-md" style="max-width: none">
-                                Ad-supported on-demand. Conversion funnel +
-                                piracy competitor + data engine.
+                                Ad-supported and on-demand, this tier acts as a
+                                conversion funnel + piracy competitor + data
+                                engine.
                             </p>
                         </div>
-                        <div style="max-width: 250px">
+                        <div>
                             <div class="mono" style="margin-bottom: 6px">
                                 Premium · €9.99/mo
                             </div>
                             <p class="bod text-md" style="max-width: none">
-                                Ad-free, offline. ~44% convert. But ~70% of
-                                revenue → rights holders.
+                                Ad-free, with offline access, a high percentage
+                                of users convert to paid, but ~70% of revenue
+                                goes to rights holders.
                             </p>
-                        </div>
-                    </div>
-                    <div class="a5" style="margin-top: 24px">
-                        <div class="card-label" style="margin-bottom: 8px">
-                            Where the money goes
-                        </div>
-                        <div class="bar-chart" style="max-width: 460px">
-                            <div class="bar-row">
-                                <div class="bar-label">Rights holders</div>
-                                <div class="bar-track">
-                                    <div
-                                        class="bar-fill red"
-                                        style="width: 70%"
-                                    >
-                                        ~70%
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -3720,35 +3722,23 @@
                 data-notes="The central paradox: Spotify invented the dominant design for music streaming — yet has never reported an annual profit. Teece's PFI framework diagnoses this: weak appropriability, established dominant design, deficient complementary assets."
             >
                 <div class="slide-inner-centered">
-                    <div class="chip a1">The Paradox</div>
+                    <div class="chip a1 red">The Paradox</div>
                     <h2 class="big a2" style="max-width: 600px">
-                        Innovation <em>Without</em> Reward
+                        Innovation
+                        <span style="color: var(--red)">Without Reward</span>
                     </h2>
-                    <div class="quote a3" style="border-left-color: var(--red)">
-                        Under what conditions will the
-                        <strong>innovator</strong> — rather than the imitator or
-                        a complementary asset holder — capture the returns to
-                        innovation?
-                        <div class="quote-attr">
-                            — David J. Teece, Research Policy (1986)
-                        </div>
-                    </div>
                     <div
-                        class="a4"
+                        class="quote a3"
                         style="
-                            margin-top: 16px;
-                            display: flex;
-                            gap: 8px;
-                            flex-wrap: wrap;
+                            border-left-color: var(--red);
+                            font-style: inherit;
                         "
                     >
-                        <span class="pill red">Weak Appropriability</span>
-                        <span class="pill green"
-                            >Established Dominant Design</span
-                        >
-                        <span class="pill red"
-                            >Deficient Complementary Assets</span
-                        >
+                        While scale, scope, and installed base/network eﬀects
+                        still matter,
+                        <strong>complements are center stage</strong> in the
+                        wireless-enabled world of digital convergence.
+                        <div class="quote-attr">— David Teece (2018)</div>
                     </div>
                 </div>
             </div>
@@ -3767,9 +3757,9 @@
                         Profiting from Innovation
                         <span style="color: var(--green)">Diagnosis</span>
                     </div>
-                    <div class="divider-sub a3">
-                        Appropriability, dominant design, and complementary
-                        assets
+                    <div class="divider-sub a3" style="max-width: none">
+                        A strategic analysis of value creation and value capture
+                        in music streaming
                     </div>
                 </div>
             </div>
@@ -3786,9 +3776,13 @@
                     <h2 class="med a2">
                         <em>The Pillars</em> of Profiting from Innovation
                     </h2>
-                    <p class="bod a2" style="margin-bottom: 28px">
-                        Initially research had capturing value stem from three
-                        factors, with three more being added over time.
+                    <p
+                        class="bod a2"
+                        style="margin-bottom: 28px; max-width: none"
+                    >
+                        Initial research had value capture stem from three
+                        factors, but three more have been added by Teece over
+                        time.
                     </p>
                     <div
                         class="row a3"
@@ -3803,28 +3797,29 @@
                             </div>
                             <h4>Appropriability</h4>
                             <p class="text-base">
-                                Non-proprietary tech, licensed catalogue,
-                                instantly imitable.
+                                Labels take significant royalties and provide
+                                licence to competitors to offer same music
+                                catalogue.
                             </p>
                         </div>
                         <div class="pillar-cell">
                             <div class="pill green" style="margin-bottom: 10px">
-                                ESTABLISHED
+                                STRONG
                             </div>
                             <h4>Dominant Design</h4>
                             <p class="text-base">
-                                Spotify set the standard. Competition shifts to
-                                assets.
+                                Spotify set customer expectations and industry
+                                standards for in-app user experience.
                             </p>
                         </div>
                         <div class="pillar-cell">
                             <div class="pill red" style="margin-bottom: 10px">
-                                DEFICIENT
+                                WEAK
                             </div>
                             <h4>Complementary Assets</h4>
                             <p class="text-base">
-                                No device ecosystem, no OS, no cross-subsidy
-                                capacity.
+                                No devices, no operating systems, and no ability
+                                to cross-subsidise.
                             </p>
                         </div>
                     </div>
@@ -3837,33 +3832,31 @@
                         "
                     >
                         <div class="pillar-cell">
-                            <div class="pill red" style="margin-bottom: 10px">
-                                WEAK
+                            <div class="pill amber" style="margin-bottom: 10px">
+                                IMPROVING
                             </div>
-                            <h4>Appropriability</h4>
+                            <h4>Multi-level Platforms</h4>
                             <p class="text-base">
-                                Non-proprietary tech, licensed catalogue,
-                                instantly imitable.
-                            </p>
-                        </div>
-                        <div class="pillar-cell">
-                            <div class="pill green" style="margin-bottom: 10px">
-                                ESTABLISHED
-                            </div>
-                            <h4>Dominant Design</h4>
-                            <p class="text-base">
-                                Spotify set the standard. Competition shifts to
-                                assets.
+                                Addressing competition by challenging Apple on
+                                their App Store fees.
                             </p>
                         </div>
                         <div class="pillar-cell">
                             <div class="pill red" style="margin-bottom: 10px">
-                                DEFICIENT
+                                Weak
                             </div>
-                            <h4>Complementary Assets</h4>
+                            <h4>Modularity</h4>
                             <p class="text-base">
-                                No device ecosystem, no OS, no cross-subsidy
-                                capacity.
+                                Streaming module has become commodotised.
+                            </p>
+                        </div>
+                        <div class="pillar-cell">
+                            <div class="pill amber" style="margin-bottom: 10px">
+                                IMPROVING
+                            </div>
+                            <h4>Business Model Configuration</h4>
+                            <p class="text-base">
+                                Shifting business model from music to audio.
                             </p>
                         </div>
                     </div>
@@ -3890,16 +3883,18 @@
                 data-notes="Appropriability weak on every dimension. ~70 cents per dollar to labels. Big Three control 68% of recorded music. Bright spot: algorithmic discovery — tacit knowledge, hard to replicate, insufficient alone."
             >
                 <div class="slide-inner-centered">
-                    <div class="chip a1">Appropriability</div>
+                    <div class="chip red a1">Appropriability</div>
                     <h2 class="med a2">
                         The <span style="color: var(--red)">Royalty</span> Trap
                     </h2>
                     <div class="row" style="margin-top: 20px; gap: 40px">
                         <div class="col a3">
                             <p class="bod text-md" style="max-width: none">
-                                Every dimension is weak. Technology
-                                non-proprietary, catalogue licensed, model
-                                replicated by Apple within months.
+                                Spotify doesn't own content rights to the music
+                                it streams. Artists and major labels must
+                                licence Spotify to stream the content, they
+                                don't do so exclusively, and they drive a hard
+                                bargain for royalty fees.
                             </p>
                             <div style="margin-top: 20px">
                                 <div class="stat">
@@ -3956,7 +3951,7 @@
                 data-notes="Three phases. Fluid 2001-2011: multiple architectures competing. Transition 2011-2015: streaming displaces downloads. Specific/post-design 2015+: streaming is the standard, Apple and Amazon enter directly. Competition shifts to complementary assets."
             >
                 <div class="slide-inner">
-                    <div class="chip red a1">Dominant Design</div>
+                    <div class="chip a1">Dominant Design</div>
                     <h2 class="med a2">Three Phases of <em>Evolution</em></h2>
                     <p
                         class="bod a2"
@@ -4019,7 +4014,7 @@
                 data-notes="Teece's three asset types: Generic — freely available, no advantage. Specialised — unilaterally dependent, harder to replicate. Co-specialised — bilaterally dependent, the strongest moats and primary value capture mechanism."
             >
                 <div class="slide-inner">
-                    <div class="chip a1">Asset Types</div>
+                    <div class="chip a1">Complementary Assets</div>
                     <h2 class="med a2">
                         Teece's Types of <em>Complementarity</em>
                     </h2>
@@ -4276,7 +4271,7 @@
                 data-notes="Core diagnosis. Spotify has data, users, brand — but no device ecosystem, no OS integration, no cross-subsidy. Apple and Amazon hold the bottleneck assets."
             >
                 <div class="slide-inner">
-                    <div class="chip a1">Asset Comparison</div>
+                    <div class="chip a1">Asset Competition</div>
                     <h2 class="med a2">The <em>Asset Gap</em></h2>
                     <div class="row a3" style="gap: 8px; margin-top: 20px">
                         <div class="compare-card spotify">
@@ -4323,7 +4318,9 @@
                             text-align: center;
                         "
                     >
-                        "Profits will go to the bottleneck assets."
+                        "Profits are made and lost at many layers in the system.
+                        PFI predicts that the bottleneck assets, if any, will
+                        earn the lion's share of the rents."
                         <span style="font-style: normal; font-size: 10px"
                             >— Teece (2018)</span
                         >
@@ -4339,7 +4336,7 @@
                 data-notes="30% iOS commission on Spotify subs. 0% for Apple Music. 54% of Spotify's base on iOS. EU antitrust complaint filed March 2019."
             >
                 <div class="slide-inner-centered">
-                    <div class="chip red a1">Bottleneck</div>
+                    <div class="chip red a1">Platform Competition</div>
                     <h2 class="med a2">
                         The App Store <span style="color: var(--red)">Tax</span>
                     </h2>
@@ -4351,13 +4348,13 @@
                             </div>
                         </div>
                         <div class="stat">
-                            <div class="stat-num green stat-num-lg">0%</div>
+                            <div class="stat-num stat-num-lg">0</div>
                             <div class="stat-label">
-                                Commission Apple Music pays itself
+                                App Store fee for Apple Music
                             </div>
                         </div>
                         <div class="stat">
-                            <div class="stat-num stat-num-lg">54%</div>
+                            <div class="stat-num green stat-num-lg">54%</div>
                             <div class="stat-label">
                                 Spotify's subscriber base on iOS
                             </div>
@@ -4366,10 +4363,13 @@
                     <div class="card red a4" style="max-width: 540px">
                         <div class="card-label red">PFI Lens</div>
                         <p>
-                            The App Store and iOS are co-specialised — each
-                            makes the other more valuable. Spotify cannot
-                            commercialise streaming without iOS access, giving
-                            Apple ongoing leverage.
+                            The App Store and iOS are textbook bottlenecks, and
+                            they're co-specialised — each makes the other more
+                            valuable. Spotify cannot commercialise streaming
+                            without iOS access, giving Apple ongoing leverage,
+                            and causing them to fight two types of platform
+                            competition identified by Teece: partner-to-platform
+                            and partner-to-partner.
                         </p>
                     </div>
                 </div>
