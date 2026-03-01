@@ -1965,7 +1965,7 @@
             }
             .compare-name {
                 font-family: "JetBrains Mono", monospace;
-                font-size: 9px;
+                font-weight: 600;
                 letter-spacing: 2px;
                 margin-bottom: 10px;
                 text-transform: uppercase;
@@ -1980,15 +1980,20 @@
                 color: #ff9900;
             }
             .compare-card li {
-                font-size: 12px;
                 color: var(--light-muted);
                 line-height: 2;
                 list-style: none;
             }
             .compare-card li::before {
-                content: "·";
+                content: "+";
                 margin-right: 8px;
-                opacity: 0.4;
+                color: var(--green);
+                opacity: 0.7;
+            }
+            .compare-card li.neg::before {
+                content: "-";
+                color: var(--red);
+                opacity: 0.7;
             }
             .compare-card li.neg {
                 color: var(--red);
@@ -2022,13 +2027,12 @@
                 font-weight: 600;
             }
             .phase-card p {
-                font-size: 12px;
                 color: var(--light-muted);
                 line-height: 1.6;
             }
             .phase-card .phase-yr {
                 font-family: "JetBrains Mono", monospace;
-                font-size: 10px;
+                font-size: 12px;
                 color: var(--green-dark);
                 margin-top: 10px;
             }
@@ -3124,7 +3128,7 @@
                                     border: 4px solid var(--green);
                                     padding: 12px 16px;
                                     border-radius: 8px;
-                                    margin: 8px 12px;
+                                    margin: 20px 0;
                                     background-color: var(--light-border);
                                 "
                             >
@@ -3166,10 +3170,10 @@
                             <div
                                 class="a4"
                                 style="
-                                    margin-top: 20px;
+                                    margin-top: 32px;
                                     display: flex;
                                     flex-direction: column;
-                                    gap: 14px;
+                                    gap: 4px;
                                 "
                             >
                                 <h2 class="sml a2">The Competition</h2>
@@ -3238,7 +3242,13 @@
                         </div>
 
                         <div style="width: 52%">
-                            <p class="bod a3" style="color: var(--light-muted)">
+                            <p
+                                class="bod a3"
+                                style="
+                                    color: var(--light-muted);
+                                    text-align: center;
+                                "
+                            >
                                 Global recorded music revenue, 2015–2020 (US$
                                 billions)
                             </p>
@@ -3255,9 +3265,9 @@
                                 "
                             >
                                 <svg
-                                    viewBox="0 0 460 255"
                                     style="width: 100%; display: block"
                                     xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 460 260"
                                 >
                                     <!-- Y-axis grid -->
                                     <line
@@ -3268,7 +3278,7 @@
                                         stroke="#1a1a1a"
                                         stroke-width="1"
                                         stroke-opacity="0.06"
-                                    />
+                                    ></line>
                                     <text
                                         x="44"
                                         y="191.0"
@@ -3287,7 +3297,7 @@
                                         stroke="#1a1a1a"
                                         stroke-width="1"
                                         stroke-opacity="0.06"
-                                    />
+                                    ></line>
                                     <text
                                         x="44"
                                         y="148.0"
@@ -3306,7 +3316,7 @@
                                         stroke="#1a1a1a"
                                         stroke-width="1"
                                         stroke-opacity="0.06"
-                                    />
+                                    ></line>
                                     <text
                                         x="44"
                                         y="105.0"
@@ -3325,7 +3335,7 @@
                                         stroke="#1a1a1a"
                                         stroke-width="1"
                                         stroke-opacity="0.06"
-                                    />
+                                    ></line>
                                     <text
                                         x="44"
                                         y="62.0"
@@ -3344,7 +3354,7 @@
                                         stroke="#1a1a1a"
                                         stroke-width="1"
                                         stroke-opacity="0.06"
-                                    />
+                                    ></line>
                                     <text
                                         x="44"
                                         y="19.0"
@@ -3362,28 +3372,28 @@
                                         points="52.0,188.0 130.4,189.7 208.8,192.3 287.2,196.6 365.6,199.2 444.0,200.0 444.0,231.0 365.6,231.0 287.2,231.0 208.8,231.0 130.4,231.0 52.0,231.0"
                                         fill="#e91429"
                                         fill-opacity="0.82"
-                                    />
+                                    ></polygon>
                                     <!-- Streaming (GREEN) -->
                                     <polygon
                                         shape-rendering="geometricPrecision"
                                         points="52.0,165.6 130.4,151.0 208.8,135.5 287.2,121.8 365.6,108.0 444.0,91.7 444.0,200.0 365.6,199.2 287.2,196.6 208.8,192.3 130.4,189.7 52.0,188.0"
                                         fill="#1db954"
                                         fill-opacity="0.9"
-                                    />
+                                    ></polygon>
                                     <!-- Downloads (AMBER) -->
                                     <polygon
                                         shape-rendering="geometricPrecision"
                                         points="52.0,134.7 130.4,130.4 208.8,121.8 287.2,108.0 365.6,96.0 444.0,83.1 444.0,91.7 365.6,108.0 287.2,121.8 208.8,135.5 130.4,151.0 52.0,165.6"
                                         fill="#f59e0b"
                                         fill-opacity="0.85"
-                                    />
+                                    ></polygon>
                                     <!-- Performance Rights (INDIGO) -->
                                     <polygon
                                         shape-rendering="geometricPrecision"
                                         points="52.0,116.6 130.4,106.3 208.8,96.8 287.2,83.1 365.6,71.9 444.0,60.7 444.0,83.1 365.6,96.0 287.2,108.0 208.8,121.8 130.4,130.4 52.0,134.7"
                                         fill="#6366f1"
                                         fill-opacity="0.8"
-                                    />
+                                    ></polygon>
 
                                     <!-- Baseline -->
                                     <line
@@ -3394,7 +3404,7 @@
                                         stroke="#1a1a1a"
                                         stroke-width="1.5"
                                         stroke-opacity="0.12"
-                                    />
+                                    ></line>
 
                                     <!-- X-axis ticks & labels -->
                                     <line
@@ -3405,7 +3415,7 @@
                                         stroke="#1a1a1a"
                                         stroke-width="1"
                                         stroke-opacity="0.2"
-                                    />
+                                    ></line>
                                     <text
                                         x="52.0"
                                         y="246"
@@ -3424,7 +3434,7 @@
                                         stroke="#1a1a1a"
                                         stroke-width="1"
                                         stroke-opacity="0.2"
-                                    />
+                                    ></line>
                                     <text
                                         x="130.4"
                                         y="246"
@@ -3443,7 +3453,7 @@
                                         stroke="#1a1a1a"
                                         stroke-width="1"
                                         stroke-opacity="0.2"
-                                    />
+                                    ></line>
                                     <text
                                         x="208.8"
                                         y="246"
@@ -3462,7 +3472,7 @@
                                         stroke="#1a1a1a"
                                         stroke-width="1"
                                         stroke-opacity="0.2"
-                                    />
+                                    ></line>
                                     <text
                                         x="287.2"
                                         y="246"
@@ -3481,7 +3491,7 @@
                                         stroke="#1a1a1a"
                                         stroke-width="1"
                                         stroke-opacity="0.2"
-                                    />
+                                    ></line>
                                     <text
                                         x="365.6"
                                         y="246"
@@ -3500,7 +3510,7 @@
                                         stroke="#1a1a1a"
                                         stroke-width="1"
                                         stroke-opacity="0.2"
-                                    />
+                                    ></line>
                                     <text
                                         x="444.0"
                                         y="246"
@@ -3899,10 +3909,10 @@
                             <div style="margin-top: 20px">
                                 <div class="stat">
                                     <div class="stat-num red stat-num-xl">
-                                        70%
+                                        > 70%
                                     </div>
                                     <div class="stat-label">
-                                        of every dollar → rights holders
+                                        of revenue → rights holders
                                     </div>
                                 </div>
                             </div>
@@ -3957,11 +3967,11 @@
                         class="bod a2"
                         style="margin-bottom: 20px; font-size: 14px"
                     >
-                        Before dominant design, competition centres on
-                        technology. After, it shifts to process and
+                        Before reaching a dominant design, competition centres
+                        on technology. After, it shifts to process and
                         complementary assets.
                     </p>
-                    <div class="row a3" style="gap: 12px">
+                    <div class="row a3" style="gap: 12px; margin: 60px 0">
                         <div class="phase-card">
                             <div class="phase-lbl">Phase 1 · Fluid</div>
                             <h4>Pre-Design</h4>
@@ -3970,7 +3980,7 @@
                                 uncertainty. First-mover advantage is real but
                                 temporary.
                             </p>
-                            <div class="phase-yr">2001 – 2011</div>
+                            <div class="phase-yr">1999 – 2011</div>
                         </div>
                         <div class="phase-card">
                             <div class="phase-lbl">Phase 2 · Transition</div>
@@ -3994,13 +4004,16 @@
                     </div>
                     <div
                         class="card red a4"
-                        style="max-width: 600px; margin-top: 12px"
+                        style="max-width: 600px; margin: 12px auto"
                     >
+                        <div class="card-label red">Critical</div>
                         <p>
-                            <strong style="color: var(--red)">Critical:</strong>
-                            Apple Music replicated Spotify's design within
-                            months and reached 10M subscribers in six weeks via
-                            iOS pre-installation. Teece's prediction in action.
+                            Apple Music launched in 2015, taking notes from
+                            Spotify's user experience and gaining quick momentum
+                            in the market due to iOS pre-installation. Execution
+                            and assets are on full display here, with Apple
+                            Music now the second largest music streaming service
+                            and gaining on Spotify.
                         </p>
                     </div>
                 </div>
@@ -4293,16 +4306,19 @@
                                 <li>App Store owned</li>
                                 <li>No 30% self-tax</li>
                                 <li>Siri integration</li>
-                                <li>10M subs in 6 weeks</li>
+                                <li>Rapid adoption</li>
                             </ul>
                         </div>
                         <div class="compare-card amazon">
                             <div class="compare-name">Amazon Music</div>
                             <ul>
                                 <li>200M+ Prime homes</li>
-                                <li>Bundled free</li>
+                                <li>Bundled for free</li>
                                 <li>Alexa / Echo</li>
-                                <li>AWS infrastructure</li>
+                                <li>
+                                    Amazon Web Services (AWS) cloud
+                                    infrastructure
+                                </li>
                                 <li>Vast cross-subsidy</li>
                                 <li>Fastest growing</li>
                             </ul>
@@ -4383,8 +4399,8 @@
                 data-notes="~1 billion invested 2019-2021 in podcasts. Owned content carries no per-stream royalty. Strategy migrates from weak appropriability toward stronger appropriability."
             >
                 <div class="slide-inner">
-                    <div class="chip a1">Strategic Response</div>
-                    <h2 class="med a2">The Podcast <em>Pivot</em></h2>
+                    <div class="chip a1">Business Model</div>
+                    <h2 class="med a2">To Podcasts... <em>and Beyond?</em></h2>
                     <div class="row" style="margin-top: 20px; gap: 24px">
                         <div class="col a3">
                             <div class="card red mt-0">
