@@ -2064,6 +2064,71 @@
             .impl-row:last-child {
                 border-bottom: none;
             }
+
+            /* ═══ PRINT / PDF ═══ */
+            @media print {
+                /* Hide all UI chrome */
+                #progress,
+                #counter,
+                #notes,
+                .nav,
+                body::after {
+                    display: none !important;
+                }
+
+                /* Hide decorative background elements */
+                .bg-layer,
+                .vinyl-container,
+                .cassette-container,
+                .cd-container,
+                .ipod-container,
+                .eq-container,
+                .soundwave-bg,
+                .music-notes {
+                    display: none !important;
+                }
+
+                /* Let the page scroll through all slides */
+                html,
+                body {
+                    width: 100%;
+                    height: auto !important;
+                    overflow: visible !important;
+                    background: none;
+                }
+
+                /* Stack slides vertically */
+                .deck {
+                    position: static !important;
+                    height: auto !important;
+                    width: 100% !important;
+                }
+
+                /* Every slide fills one printed page */
+                .s {
+                    position: relative !important;
+                    inset: auto !important;
+                    opacity: 1 !important;
+                    display: block !important;
+                    width: 100% !important;
+                    height: 100vh !important;
+                    page-break-after: always;
+                    break-after: page;
+                    overflow: hidden;
+                }
+
+                /* Disable entrance animations so all content is visible */
+                .s .a1,
+                .s .a2,
+                .s .a3,
+                .s .a4,
+                .s .a5,
+                .s .a6 {
+                    animation: none !important;
+                    opacity: 1 !important;
+                    transform: none !important;
+                }
+            }
         </style>
     </head>
     <body>
